@@ -6,7 +6,7 @@ import Authentication from './Authentication';
 const MainMenu = () => (
   <nav>
     <ul>
-      {/* <li><Authentication /></li> */}
+      <li><Authentication /></li>
       <li><Link to="/">What is DevCon.London</Link></li>
       <li><Link to="/terms">Terms</Link></li>
       {/* shown when not authenticated or authenticated and not a member */}

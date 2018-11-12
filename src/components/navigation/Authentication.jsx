@@ -1,14 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+
+import { connect } from 'react-redux';
+import { userLogout, userLogin } from '../../state/actions/user';
 
 class Authentication extends React.Component {
   constructor(props) {
-    // TODO: hook everything and connect with redux store
     super(props);
     const { firebase } = window;
     const { auth } = firebase;
     this.auth = auth();
-    this.ghProvider = firebase.auth.GithubAuthProvider();
-    // might need to add scope for org? e.g. provider.addScope('user');
   }
 
   componentDidMount() {
@@ -17,9 +19,9 @@ class Authentication extends React.Component {
     auth.onAuthStateChanged((user) => {
       if (user) {
         // User is signed in.
-        console.log('+++ firebase +++ user signed in');
-        // redux dispatch + store update
-        props.onLogin(user);
+        console.log('+++ firebase +++ user signed in', user);
+        // TODO: how to get the access token from here?
+        props.onLogin({ user });
       } else {
         // User signed out.
         console.log('+++ firebase +++ user not signed in');
@@ -29,10 +31,12 @@ class Authentication extends React.Component {
   }
 
   authSuccess = (result) => {
+    const { props } = this;
+    console.log('auth success', result);
+    const { user } = result;
     // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-    // var token = result.credential.accessToken;
-    // The signed-in user info.
-    // var user = result.user;
+    const token = result.credential.accessToken;
+    props.onLogin({ user, token });
   }
 
   authError = (error) => {
@@ -43,12 +47,17 @@ class Authentication extends React.Component {
     // var email = error.email;
     // The firebase.auth.AuthCredential type that was used.
     // var credential = error.credential;
+    console.log('auth error', error);
   }
 
-  signIn = () => {
-    const { auth, ghProvider } = this;
-    auth()
-      .signInWithPopup(ghProvider)
+  ghSignIn = () => {
+    const { auth } = this;
+    const { firebase } = window;
+    const provider = new firebase.auth.GithubAuthProvider();
+    // https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/
+    provider.addScope('read:org');
+    auth
+      .signInWithPopup(provider)
       .then(this.authSuccess)
       .catch(this.authError);
   }
@@ -58,11 +67,49 @@ class Authentication extends React.Component {
   }
 
   render() {
-    // check if we're logged in and render accordingly
+    const { user } = this.props;
+    const { displayName } = user;
     return (
-      <button type="button">Trigger stuff</button>
+      <span>
+        { displayName
+          ? (
+            <button
+              onClick={this.signOut}
+              type="button"
+            >
+              SignOut
+            </button>
+          ) : (
+            <button
+              onClick={this.ghSignIn}
+              type="button"
+            >
+              Github SignIn
+            </button>
+          )
+        }
+      </span>
     );
   }
 }
 
-export default Authentication;
+Authentication.propTypes = {
+  user: PropTypes.object.isRequired,
+};
+
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+  };
+}
+
+function mapDispathToProps(dispatch) {
+  return {
+    onLogin: (user) => { dispatch(userLogin(user)); },
+    onLogout: () => { dispatch(userLogout()); },
+  };
+}
+
+const AuthenticationContainer = connect(mapStateToProps, mapDispathToProps)(Authentication);
+
+export default AuthenticationContainer;
