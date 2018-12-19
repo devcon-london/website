@@ -20,12 +20,13 @@ class Authentication extends React.Component {
       if (user) {
         // User is signed in.
         console.log('+++ firebase +++ user signed in', user);
-        // TODO: how to get the access token from here?
+        // TODO: if we need to call the GH api, it would be nice to retrieve a gh token from the
+        // user object here to avoid authenticating all the time, not sure it's possible though
         props.onLogin({ user });
       } else {
         // User signed out.
         console.log('+++ firebase +++ user not signed in');
-        props.onLogout();
+        // props.onLogout();
       }
     });
   }
