@@ -1,34 +1,74 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, Text, TextArea } from 'informed';
 
+import './SubscriptionForm.css';
+
+const { db } = window;
+
 class SubscriptionForm extends React.Component {
+  state = {
+    submitted: false,
+  }
+
   setFormApi = (formApi) => {
     this.formApi = formApi;
   }
 
   submitForm = () => {
-    console.log('here goes', this.formApi.getState());
+    const { props } = this;
+    const { user } = props;
+    const formState = this.formApi.getState();
+    if (!formState.invalid) {
+      db.collection('submissions').doc(user.uid)
+        .set(formState.values)
+        .then(() => {
+          this.setState({ submitted: true });
+        })
+        .catch((error) => {
+          console.log('error writing submission', error);
+        });
+    }
   }
 
+  validate = value => (value ? null : 'enter value for field')
+
   render() {
-    return (
-      <Form id="subscription-form" getApi={this.setFormApi} onSubmit={this.submitForm}>
-        <label htmlFor="name">Name</label>
-        <Text field="name" id="name" />
-        <label htmlFor="referrer">Introduced by (who told you about this)</label>
-        <Text field="referrer" id="referrer" />
-        <label htmlFor="twitter">Twitter handle</label>
-        <Text field="twitter" id="twitter" />
-        <label htmlFor="linkedin">LinkedIn URL</label>
-        <Text field="linkedin" id="linkedin" />
-        <label htmlFor="role">Role</label>
-        <Text field="role" id="role" />
-        <label htmlFor="role">Short Bio</label>
-        <TextArea field="role" id="role" />
-        <button type="submit">Submit</button>
-      </Form>
-    );
+    const { state } = this;
+    let content = null;
+
+    if (state.submitted) {
+      content = (<p>Thank you!</p>);
+    } else {
+      content = (
+        <Form
+          className="SubscriptionForm"
+          id="subscription-form"
+          getApi={this.setFormApi}
+          onSubmit={this.submitForm}
+        >
+          <label htmlFor="name">Name</label>
+          <Text field="name" id="name" validate={this.validate} />
+          <label htmlFor="referrer">Introduced by (who told you about this)</label>
+          <Text field="referrer" id="referrer" validate={this.validate} />
+          <label htmlFor="twitter">Twitter handle</label>
+          <Text field="twitter" id="twitter" validate={this.validate} />
+          <label htmlFor="linkedin">LinkedIn URL</label>
+          <Text field="linkedin" id="linkedin" validate={this.validate} />
+          <label htmlFor="role">Role</label>
+          <Text field="role" id="role" validate={this.validate} />
+          <label htmlFor="role">Short Bio</label>
+          <TextArea field="bio" id="bio" validate={this.validate} />
+          <button type="submit">Submit</button>
+        </Form>
+      );
+    }
+    return content;
   }
 }
+
+SubscriptionForm.propTypes = {
+  user: PropTypes.object.isRequired,
+};
 
 export default SubscriptionForm;
