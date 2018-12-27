@@ -18,6 +18,8 @@ class SubscriptionForm extends React.Component {
   submitForm = () => {
     const { props } = this;
     const { user } = props;
+    this.formApi.setValue('uid', user.uid);
+    this.formApi.setValue('date', new Date());
     const formState = this.formApi.getState();
     if (!formState.invalid) {
       db.collection('submissions').doc(user.uid)
@@ -47,6 +49,8 @@ class SubscriptionForm extends React.Component {
           getApi={this.setFormApi}
           onSubmit={this.submitForm}
         >
+          <Text field="uid" id="uid" hidden />
+          <Text field="date" id="date" hidden />
           <label htmlFor="name">Name</label>
           <Text field="name" id="name" validate={this.validate} />
           <label htmlFor="referrer">Introduced by (who told you about this)</label>
@@ -57,7 +61,7 @@ class SubscriptionForm extends React.Component {
           <Text field="linkedin" id="linkedin" validate={this.validate} />
           <label htmlFor="role">Role</label>
           <Text field="role" id="role" validate={this.validate} />
-          <label htmlFor="role">Short Bio</label>
+          <label htmlFor="bio">Short Bio</label>
           <TextArea field="bio" id="bio" validate={this.validate} />
           <button type="submit">Submit</button>
         </Form>

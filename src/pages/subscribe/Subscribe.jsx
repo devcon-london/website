@@ -23,30 +23,27 @@ class Subscribe extends React.Component {
   componentDidUpdate(prevProps) {
     const { props } = this;
     const { user } = props;
-    console.log('subscribe component updated', user.uid);
     if (user.uid !== prevProps.user.uid && user.uid !== null) {
       this.retrieveData(user.uid);
     }
   }
 
+  // TODO: not sure how to set permissions for members on firebase
   fetchUserMembership = uid => db.collection('members').doc(uid).get();
 
+  // TODO: set permissions on firebase so doc access is allowed on a per uid basis
   fetchUserSubmission = uid => db.collection('submissions').doc(uid).get();
 
   retrieveData = (uid) => {
-    console.log('fetching membership');
     this.fetchUserMembership(uid)
       .then((doc) => {
-        console.log('membership received');
         if (doc.exists) {
           this.setState({
             membership: doc.data(),
           });
         } else {
-          console.log('fetching submission');
           this.fetchUserSubmission(uid)
             .then((sub) => {
-              console.log('submission received', sub);
               if (sub.exists) {
                 this.setState({
                   submission: sub.data(),
@@ -96,11 +93,7 @@ Subscribe.propTypes = {
   user: PropTypes.object.isRequired,
 };
 
-function mapStateToProps(state) {
-  return {
-    user: state.user,
-  };
-}
+const mapStateToProps = state => ({ user: state.user });
 
 const SubscribeContainer = connect(mapStateToProps)(Subscribe);
 export default SubscribeContainer;
