@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Text, TextArea } from 'informed';
-
+import { DBCollections } from '../../../constants';
 import './SubscriptionForm.css';
 
 const { db } = window;
@@ -22,7 +22,7 @@ class SubscriptionForm extends React.Component {
     this.formApi.setValue('date', new Date());
     const formState = this.formApi.getState();
     if (!formState.invalid) {
-      db.collection('submissions').doc(user.uid)
+      db.collection(DBCollections.submissions).doc(user.uid)
         .set(formState.values)
         .then(() => {
           this.setState({ submitted: true });
@@ -55,7 +55,9 @@ class SubscriptionForm extends React.Component {
           <Text field="name" id="name" validate={this.validate} />
           <label htmlFor="referrer">Introduced by (who told you about this)</label>
           <Text field="referrer" id="referrer" validate={this.validate} />
-          <label htmlFor="twitter">Twitter handle</label>
+          <label htmlFor="github">Github URL</label>
+          <Text field="github" id="github" validate={this.validate} />
+          <label htmlFor="twitter">Twitter URL</label>
           <Text field="twitter" id="twitter" validate={this.validate} />
           <label htmlFor="linkedin">LinkedIn URL</label>
           <Text field="linkedin" id="linkedin" validate={this.validate} />

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SubscriptionForm from './components/SubscriptionForm';
+import { DBCollections } from '../../constants';
 
 const { db } = window;
 
@@ -29,10 +30,10 @@ class Subscribe extends React.Component {
   }
 
   // TODO: not sure how to set permissions for members on firebase
-  fetchUserMembership = uid => db.collection('members').doc(uid).get();
+  fetchUserMembership = uid => db.collection(DBCollections.members).doc(uid).get();
 
   // TODO: set permissions on firebase so doc access is allowed on a per uid basis
-  fetchUserSubmission = uid => db.collection('submissions').doc(uid).get();
+  fetchUserSubmission = uid => db.collection(DBCollections.submissions).doc(uid).get();
 
   retrieveData = (uid) => {
     this.fetchUserMembership(uid)

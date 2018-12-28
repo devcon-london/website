@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { DBCollections } from '../../constants';
 
 const { db } = window;
 
@@ -14,8 +15,7 @@ class Submissions extends React.Component {
     const { props: user } = this;
     if (user.uid !== null) {
       // TODO: set permissions on firebase so access to collection is allowed to a set of admins
-      this.submissionsUnsubscribe = db
-        .collection('submissions')
+      this.submissionsUnsubscribe = db.collection(DBCollections.submissions)
         .onSnapshot((snapshot) => {
           const submissions = [];
           snapshot.forEach((doc) => {
@@ -44,21 +44,22 @@ class Submissions extends React.Component {
     console.log('handle', uid, 'approve', approval);
     const { props } = this;
     const { user } = props;
-    db.collection('submissions').doc(uid).get()
+    db.collection(DBCollections.submissions).doc(uid).get()
       .then((doc) => {
+        // inject current user id and date so we know who approved/rejected
         const data = Object.assign({
           adminUid: user.uid,
           adminDate: new Date(),
         }, doc.data());
-        let collection = 'rejects';
+        let collection = DBCollections.rejects;
         if (approval) {
-          collection = 'members';
+          collection = DBCollections.members;
         }
         db.collection(collection).doc(uid).set(data)
           .then(() => {
-            db.collection('submissions').doc(uid).delete()
+            db.collection(DBCollections.submissions).doc(uid).delete()
               .then(() => {
-                console.log('it is always sunny in california');
+                console.log('it is always sunny in California');
               })
               .catch((error) => {
                 console.log('error deleting submission', error);
