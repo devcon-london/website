@@ -22,7 +22,8 @@ class SubscriptionForm extends React.Component {
     this.formApi.setValue('date', new Date());
     const formState = this.formApi.getState();
     if (!formState.invalid) {
-      db.collection(DBCollections.submissions).doc(user.uid)
+      db.collection(DBCollections.submissions)
+        .doc(user.uid)
         .set(formState.values)
         .then(() => {
           this.setState({ submitted: true });

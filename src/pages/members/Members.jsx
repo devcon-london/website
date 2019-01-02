@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Form, Text, TextArea } from 'informed';
 import { DBCollections } from '../../constants';
 
 const { db } = window;
@@ -20,10 +21,7 @@ class Members extends React.Component {
         .onSnapshot((snapshot) => {
           const members = [];
           snapshot.forEach((doc) => {
-            // meh, bit shit but...
-            const d = doc.data();
-            d.adminDate = (new Date(1000 * d.adminDate.seconds)).toISOString();
-            members.push(d);
+            members.push(doc.data());
           });
           this.setState({ members });
         });
@@ -35,6 +33,68 @@ class Members extends React.Component {
       this.membersUnsubscribe();
     }
   }
+
+  setFormApi = (formApi) => {
+    console.log('set form api', formApi);
+    this.formApi = formApi;
+  }
+
+  validate = value => (value ? null : 'enter value for field')
+
+  submitForm = () => {
+    const formState = this.formApi.getState();
+    if (!formState.invalid) {
+      db.collection(DBCollections.members)
+        .doc(formState.values.uid)
+        .get()
+        .then((doc) => {
+          const updatedData = Object.assign(
+            {},
+            doc.data(),
+            formState.values,
+          );
+          db.collection(DBCollections.members)
+            .doc(updatedData.uid)
+            .set(updatedData)
+            .then(() => {
+              console.log('it is always sunny in California');
+            })
+            .error((error) => {
+              console.log('error storing data', error);
+            });
+        })
+        .catch((error) => {
+          console.log('error fetching document', error);
+        });
+    }
+    // TODO: let user know if form is invalid and we haven't updated
+    this.setState({ editing: false });
+  }
+
+  getUserForm = member => (
+    <Form
+      className="SubscriptionForm"
+      id="subscription-form"
+      getApi={this.setFormApi}
+      initialValues={member}
+      key={member.uid}
+    >
+      <Text field="uid" id="uid" hidden />
+      <label htmlFor="name">Name</label>
+      <Text field="name" id="name" validate={this.validate} />
+      <label htmlFor="github">Github URL</label>
+      <Text field="github" id="github" validate={this.validate} />
+      <label htmlFor="twitter">Twitter URL</label>
+      <Text field="twitter" id="twitter" validate={this.validate} />
+      <label htmlFor="linkedin">LinkedIn URL</label>
+      <Text field="linkedin" id="linkedin" validate={this.validate} />
+      <label htmlFor="role">Role</label>
+      <Text field="role" id="role" validate={this.validate} />
+      <label htmlFor="bio">Short Bio</label>
+      <TextArea field="bio" id="bio" validate={this.validate} />
+      <button type="button" onClick={this.submitForm}>Submit</button>
+    </Form>
+  )
 
   getUserCard = member => (
     <div>
@@ -51,19 +111,6 @@ class Members extends React.Component {
         onClick={() => this.setState({ editing: true })}
       >
         edit
-      </button>
-    </div>
-  )
-
-  getUserForm = member => (
-    <div>
-      <h2>{member.name}, {member.role}</h2>
-      <p>TODO: here goes the form</p>
-      <button
-        type="button"
-        onClick={() => this.setState({ editing: false })}
-      >
-        save
       </button>
     </div>
   )

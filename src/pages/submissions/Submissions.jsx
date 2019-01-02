@@ -44,20 +44,26 @@ class Submissions extends React.Component {
     console.log('handle', uid, 'approve', approval);
     const { props } = this;
     const { user } = props;
-    db.collection(DBCollections.submissions).doc(uid).get()
+    db.collection(DBCollections.submissions)
+      .doc(uid)
+      .get()
       .then((doc) => {
         // inject current user id and date so we know who approved/rejected
         const data = Object.assign({
           adminUid: user.uid,
-          adminDate: new Date(),
+          adminDate: (new Date()).toISOString(),
         }, doc.data());
         let collection = DBCollections.rejects;
         if (approval) {
           collection = DBCollections.members;
         }
-        db.collection(collection).doc(uid).set(data)
+        db.collection(collection)
+          .doc(uid)
+          .set(data)
           .then(() => {
-            db.collection(DBCollections.submissions).doc(uid).delete()
+            db.collection(DBCollections.submissions)
+              .doc(uid)
+              .delete()
               .then(() => {
                 console.log('it is always sunny in California');
               })
