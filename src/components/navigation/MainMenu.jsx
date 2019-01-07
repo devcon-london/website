@@ -1,31 +1,42 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import ToolBar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button';
 
 import Authentication from './Authentication';
 
-const MainMenu = () => (
+const styles = {
+  grow: {
+    flexGrow: 1,
+  },
+};
+
+const MainMenu = ({ classes }) => (
   <AppBar>
     <ToolBar>
-      <IconButton aria-label="Open drawer" color="inherit">
-        <MenuIcon />
-      </IconButton>
-      <Typography variant="h6" color="inherit">
-        <Link to="/">DevCon.London</Link>
+      <Typography
+        variant="h6"
+        color="inherit"
+        className={classes.grow}
+      >
+        <Button component={Link} to="/">DevCon.London</Button>
       </Typography>
-      <Button><Link to="/terms">Terms</Link></Button>
-      <Button><Link to="/subscribe">Subscribe</Link></Button>
-      <Button><Link to="/events">Events</Link></Button>
-      <Button><Link to="/members">Members</Link></Button>
-      <Button><Link to="/submissions">Submissions</Link></Button>
+      <Button component={Link} to="/terms">Terms</Button>
+      <Button component={Link} to="/subscribe">Subscribe</Button>
+      <Button component={Link} to="/events">Events</Button>
+      <Button component={Link} to="/members">Members</Button>
+      <Button component={Link} to="/submissions">Submissions</Button>
       <Authentication />
     </ToolBar>
   </AppBar>
 );
 
-export default MainMenu;
+MainMenu.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(MainMenu);

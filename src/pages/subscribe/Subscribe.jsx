@@ -14,16 +14,14 @@ class Subscribe extends React.Component {
   }
 
   componentDidMount() {
-    const { props } = this;
-    const { user } = props;
+    const { user } = this.props;
     if (user.uid !== null) {
       this.retrieveData(user.uid);
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { props } = this;
-    const { user } = props;
+    const { user } = this.props;
     if (user.uid !== prevProps.user.uid && user.uid !== null) {
       this.retrieveData(user.uid);
     }
@@ -62,9 +60,8 @@ class Subscribe extends React.Component {
   }
 
   render() {
-    const { props, state } = this;
-    const { user } = props;
-    const { membership, submission } = state;
+    const { user } = this.props;
+    const { membership, submission } = this.state;
     let content = null;
 
     if (user.uid === null) {

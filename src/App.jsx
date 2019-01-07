@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
+import CssBaseline from '@material-ui/core/CssBaseline';
+
 import MainMenu from './components/navigation/MainMenu';
 
 import Home from './pages/home/Home';
@@ -17,6 +19,7 @@ import './App.css';
 
 const App = () => (
   <Provider store={store}>
+    <CssBaseline />
     <Router>
       <div className="App">
         <MainMenu />

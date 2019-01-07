@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
 import { DBCollections } from '../../constants';
 
 const { db } = window;
@@ -12,7 +13,7 @@ class Submissions extends React.Component {
   }
 
   componentDidMount() {
-    const { props: user } = this;
+    const { user } = this.props;
     if (user.uid !== null) {
       // TODO: set permissions on firebase so access to collection is allowed to a set of admins
       this.submissionsUnsubscribe = db.collection(DBCollections.submissions)
@@ -42,8 +43,7 @@ class Submissions extends React.Component {
 
   handleSubmission = (uid, approval) => {
     console.log('handle', uid, 'approve', approval);
-    const { props } = this;
-    const { user } = props;
+    const { user } = this.props;
     db.collection(DBCollections.submissions)
       .doc(uid)
       .get()
@@ -81,9 +81,8 @@ class Submissions extends React.Component {
   }
 
   render() {
-    const { props, state } = this;
-    const { user } = props;
-    const { submissions } = state;
+    const { user } = this.props;
+    const { submissions } = this.state;
     let content = null;
 
     if (user.uid === null) {
@@ -97,20 +96,18 @@ class Submissions extends React.Component {
               <p>{i.name} introduced by {i.referrer} on {i.date}</p>
               <p>role: {i.role} bio: {i.bio}</p>
               <p><a href={i.linkedin}>linkedin</a>, <a href={i.twitter}>twitter</a></p>
-              <button
+              <Button
                 data-uid={i.uid}
                 onClick={this.approveSubmission}
-                type="button"
               >
                 accept
-              </button>
-              <button
+              </Button>
+              <Button
                 data-uid={i.uid}
                 onClick={this.rejectSubmission}
-                type="button"
               >
                 reject
-              </button>
+              </Button>
             </div>
           ))}
         </div>

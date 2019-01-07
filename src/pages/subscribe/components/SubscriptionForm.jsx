@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Text, TextArea } from 'informed';
+import Button from '@material-ui/core/Button';
+import { Form, Text } from 'informed';
+import InformedTextInput from '../../../components/form/InformedTextInput';
 import { DBCollections } from '../../../constants';
 import './SubscriptionForm.css';
 
@@ -16,8 +18,7 @@ class SubscriptionForm extends React.Component {
   }
 
   submitForm = () => {
-    const { props } = this;
-    const { user } = props;
+    const { user } = this.props;
     this.formApi.setValue('uid', user.uid);
     this.formApi.setValue('date', new Date());
     const formState = this.formApi.getState();
@@ -52,21 +53,58 @@ class SubscriptionForm extends React.Component {
         >
           <Text field="uid" id="uid" hidden />
           <Text field="date" id="date" hidden />
-          <label htmlFor="name">Name</label>
-          <Text field="name" id="name" validate={this.validate} />
-          <label htmlFor="referrer">Introduced by (who told you about this)</label>
-          <Text field="referrer" id="referrer" validate={this.validate} />
-          <label htmlFor="github">Github URL</label>
-          <Text field="github" id="github" validate={this.validate} />
-          <label htmlFor="twitter">Twitter URL</label>
-          <Text field="twitter" id="twitter" validate={this.validate} />
-          <label htmlFor="linkedin">LinkedIn URL</label>
-          <Text field="linkedin" id="linkedin" validate={this.validate} />
-          <label htmlFor="role">Role</label>
-          <Text field="role" id="role" validate={this.validate} />
-          <label htmlFor="bio">Short Bio</label>
-          <TextArea field="bio" id="bio" validate={this.validate} />
-          <button type="submit">Submit</button>
+          <InformedTextInput
+            field="name"
+            id="name"
+            label="Name"
+            fullWidth
+            validate={this.validate}
+          />
+          <InformedTextInput
+            field="referrer"
+            id="referrer"
+            label="Introduced by (who told you about this)"
+            fullWidth
+            validate={this.validate}
+          />
+          <InformedTextInput
+            field="github"
+            id="github"
+            label="Github URL"
+            fullWidth
+            validate={this.validate}
+          />
+          <InformedTextInput
+            field="twitter"
+            id="twitter"
+            label="Twitter URL"
+            fullWidth
+            validate={this.validate}
+          />
+          <InformedTextInput
+            field="linkedin"
+            id="linkedin"
+            label="LinkedIn URL"
+            fullWidth
+            validate={this.validate}
+          />
+          <InformedTextInput
+            field="role"
+            id="role"
+            label="Role"
+            fullWidth
+            validate={this.validate}
+          />
+          <InformedTextInput
+            field="bio"
+            id="bio"
+            label="Short Bio"
+            fullWidth
+            multiline
+            rows="4"
+            validate={this.validate}
+          />
+          <Button onClick={this.submitForm}>Submit</Button>
         </Form>
       );
     }

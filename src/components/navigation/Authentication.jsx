@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import Button from '@material-ui/core/Button';
 
 import { connect } from 'react-redux';
 import { userLogout, userLogin } from '../../state/actions/user';
@@ -69,25 +69,23 @@ class Authentication extends React.Component {
     const { user } = this.props;
     const { displayName } = user;
     return (
-      <span>
+      <React.Fragment>
         { displayName
           ? (
-            <button
+            <Button
               onClick={this.signOut}
-              type="button"
             >
               SignOut
-            </button>
+            </Button>
           ) : (
-            <button
+            <Button
               onClick={this.ghSignIn}
-              type="button"
             >
               Github SignIn
-            </button>
+            </Button>
           )
         }
-      </span>
+      </React.Fragment>
     );
   }
 }

@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Form, Text, TextArea } from 'informed';
+
+import Button from '@material-ui/core/Button';
+import { Form, Text } from 'informed';
+import InformedTextInput from '../../components/form/InformedTextInput';
 import { DBCollections } from '../../constants';
 
 const { db } = window;
@@ -14,7 +17,7 @@ class Members extends React.Component {
   }
 
   componentDidMount() {
-    const { props: user } = this;
+    const { user } = this.props;
     if (user.uid !== null) {
       // TODO: set permissions on firebase so access to collection is allowed only to member
       this.membersUnsubscribe = db.collection(DBCollections.members)
@@ -59,7 +62,7 @@ class Members extends React.Component {
             .then(() => {
               console.log('it is always sunny in California');
             })
-            .error((error) => {
+            .catch((error) => {
               console.log('error storing data', error);
             });
         })
@@ -80,19 +83,51 @@ class Members extends React.Component {
       key={member.uid}
     >
       <Text field="uid" id="uid" hidden />
-      <label htmlFor="name">Name</label>
-      <Text field="name" id="name" validate={this.validate} />
-      <label htmlFor="github">Github URL</label>
-      <Text field="github" id="github" validate={this.validate} />
-      <label htmlFor="twitter">Twitter URL</label>
-      <Text field="twitter" id="twitter" validate={this.validate} />
-      <label htmlFor="linkedin">LinkedIn URL</label>
-      <Text field="linkedin" id="linkedin" validate={this.validate} />
-      <label htmlFor="role">Role</label>
-      <Text field="role" id="role" validate={this.validate} />
-      <label htmlFor="bio">Short Bio</label>
-      <TextArea field="bio" id="bio" validate={this.validate} />
-      <button type="button" onClick={this.submitForm}>Submit</button>
+      <InformedTextInput
+        field="name"
+        id="name"
+        label="Name"
+        fullWidth
+        validate={this.validate}
+      />
+      <InformedTextInput
+        field="github"
+        id="github"
+        label="Github URL"
+        fullWidth
+        validate={this.validate}
+      />
+      <InformedTextInput
+        field="twitter"
+        id="twitter"
+        label="Twitter URL"
+        fullWidth
+        validate={this.validate}
+      />
+      <InformedTextInput
+        field="linkedin"
+        id="linkedin"
+        label="LinkedIn URL"
+        fullWidth
+        validate={this.validate}
+      />
+      <InformedTextInput
+        field="role"
+        id="role"
+        label="Role"
+        fullWidth
+        validate={this.validate}
+      />
+      <InformedTextInput
+        field="bio"
+        id="bio"
+        label="Short bio"
+        fullWidth
+        multiline
+        rows="4"
+        validate={this.validate}
+      />
+      <Button onClick={this.submitForm}>Submit</Button>
     </Form>
   )
 
