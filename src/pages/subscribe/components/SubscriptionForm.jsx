@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import { Form, Text } from 'informed';
 import InformedTextInput from '../../../components/form/InformedTextInput';
+import MemberFields from '../../../components/form/MemberFields';
 import { DBCollections } from '../../../constants';
 import './SubscriptionForm.css';
 
@@ -51,15 +52,7 @@ class SubscriptionForm extends React.Component {
           getApi={this.setFormApi}
           onSubmit={this.submitForm}
         >
-          <Text field="uid" id="uid" hidden />
           <Text field="date" id="date" hidden />
-          <InformedTextInput
-            field="name"
-            id="name"
-            label="Name"
-            fullWidth
-            validate={this.validate}
-          />
           <InformedTextInput
             field="referrer"
             id="referrer"
@@ -67,43 +60,7 @@ class SubscriptionForm extends React.Component {
             fullWidth
             validate={this.validate}
           />
-          <InformedTextInput
-            field="github"
-            id="github"
-            label="Github URL"
-            fullWidth
-            validate={this.validate}
-          />
-          <InformedTextInput
-            field="twitter"
-            id="twitter"
-            label="Twitter URL"
-            fullWidth
-            validate={this.validate}
-          />
-          <InformedTextInput
-            field="linkedin"
-            id="linkedin"
-            label="LinkedIn URL"
-            fullWidth
-            validate={this.validate}
-          />
-          <InformedTextInput
-            field="role"
-            id="role"
-            label="Role"
-            fullWidth
-            validate={this.validate}
-          />
-          <InformedTextInput
-            field="bio"
-            id="bio"
-            label="Short Bio"
-            fullWidth
-            multiline
-            rows="4"
-            validate={this.validate}
-          />
+          <MemberFields />
           <Button onClick={this.submitForm}>Submit</Button>
         </Form>
       );

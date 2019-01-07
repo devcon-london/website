@@ -4,8 +4,8 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Button from '@material-ui/core/Button';
-import { Form, Text } from 'informed';
-import InformedTextInput from '../../components/form/InformedTextInput';
+import { Form } from 'informed';
+import MemberFields from '../../components/form/MemberFields';
 import { DBCollections } from '../../constants';
 
 const { db } = window;
@@ -82,51 +82,7 @@ class Members extends React.Component {
       initialValues={member}
       key={member.uid}
     >
-      <Text field="uid" id="uid" hidden />
-      <InformedTextInput
-        field="name"
-        id="name"
-        label="Name"
-        fullWidth
-        validate={this.validate}
-      />
-      <InformedTextInput
-        field="github"
-        id="github"
-        label="Github URL"
-        fullWidth
-        validate={this.validate}
-      />
-      <InformedTextInput
-        field="twitter"
-        id="twitter"
-        label="Twitter URL"
-        fullWidth
-        validate={this.validate}
-      />
-      <InformedTextInput
-        field="linkedin"
-        id="linkedin"
-        label="LinkedIn URL"
-        fullWidth
-        validate={this.validate}
-      />
-      <InformedTextInput
-        field="role"
-        id="role"
-        label="Role"
-        fullWidth
-        validate={this.validate}
-      />
-      <InformedTextInput
-        field="bio"
-        id="bio"
-        label="Short bio"
-        fullWidth
-        multiline
-        rows="4"
-        validate={this.validate}
-      />
+      <MemberFields />
       <Button onClick={this.submitForm}>Submit</Button>
     </Form>
   )
