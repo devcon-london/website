@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { Form } from 'informed';
 import MemberFields from '../../components/form/MemberFields';
-import { DBCollections } from '../../constants';
+import { DBCollections, Errors } from '../../constants';
 
 const { db } = window;
 
@@ -14,20 +14,32 @@ class Members extends React.Component {
   state = {
     members: [],
     editing: false,
+    error: null,
   }
 
   componentDidMount() {
     const { user } = this.props;
     if (user.uid !== null) {
-      // TODO: set permissions on firebase so access to collection is allowed only to member
       this.membersUnsubscribe = db.collection(DBCollections.members)
-        .onSnapshot((snapshot) => {
-          const members = [];
-          snapshot.forEach((doc) => {
-            members.push(doc.data());
-          });
-          this.setState({ members });
-        });
+        .onSnapshot(
+          (snapshot) => {
+            const members = [];
+            snapshot.forEach((doc) => {
+              members.push(doc.data());
+            });
+            this.setState({
+              members,
+              error: null,
+            });
+          },
+          (error) => {
+            // console.log('error reading from live db', error);
+            this.setState({
+              members: [],
+              error: Errors.sectionPermission,
+            });
+          },
+        );
     }
   }
 
@@ -38,11 +50,10 @@ class Members extends React.Component {
   }
 
   setFormApi = (formApi) => {
-    console.log('set form api', formApi);
     this.formApi = formApi;
   }
 
-  validate = value => (value ? null : 'enter value for field')
+  validate = value => (value ? null : 'Enter value for field')
 
   submitForm = () => {
     const formState = this.formApi.getState();
@@ -60,17 +71,20 @@ class Members extends React.Component {
             .doc(updatedData.uid)
             .set(updatedData)
             .then(() => {
-              console.log('it is always sunny in California');
+              // console.log('it is always sunny in California');
+              this.setState({ error: null });
             })
             .catch((error) => {
-              console.log('error storing data', error);
+              // console.log('error storing data', error);
+              this.setState({ error: 'Error storing data' });
             });
         })
         .catch((error) => {
-          console.log('error fetching document', error);
+          // console.log('error fetching document', error);
+          this.setState({ error: 'Error fetching your personal data' });
         });
     }
-    // TODO: let user know if form is invalid and we haven't updated
+    // TODO: setting state multiple times? bad dog!
     this.setState({ editing: false });
   }
 
@@ -135,6 +149,8 @@ class Members extends React.Component {
           })}
         </div>
       );
+    } else if (state.error !== null) {
+      content = (<p>{state.error}</p>);
     } else {
       content = (<p>these are not the droids you are looking for!</p>);
     }

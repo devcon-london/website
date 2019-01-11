@@ -1,0 +1,24 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // not sure this function is useful?
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    function isAdmin() {
+      return true == get(/databases/$(database)/documents/roles/$(request.auth.uid)).data.admin;
+    }
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+    match /submissions/{userId} {
+      allow read, write: if isOwner(userId) || isAdmin();
+    }
+    match /members/{userId} {
+      allow read: if exists(/databases/$(database)/documents/members/$(request.auth.uid));
+      allow write: if isOwner(userId) || isAdmin();
+    }
+    match /rejects/{userId} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

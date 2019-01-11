@@ -3,27 +3,34 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
-import { DBCollections } from '../../constants';
+import { DBCollections, Errors } from '../../constants';
 
 const { db } = window;
 
 class Submissions extends React.Component {
   state = {
     submissions: [],
+    error: null,
   }
 
   componentDidMount() {
     const { user } = this.props;
     if (user.uid !== null) {
-      // TODO: set permissions on firebase so access to collection is allowed to a set of admins
       this.submissionsUnsubscribe = db.collection(DBCollections.submissions)
-        .onSnapshot((snapshot) => {
-          const submissions = [];
-          snapshot.forEach((doc) => {
-            submissions.push(doc.data());
+        .onSnapshot(
+          (snapshot) => {
+            const submissions = [];
+            snapshot.forEach((doc) => {
+              submissions.push(doc.data());
+            });
+            this.setState({ submissions, error: null });
+          },
+          (error) => {
+            this.setState({
+              submissions: [],
+              error: Errors.sectionPermission,
+            });
           });
-          this.setState({ submissions });
-        });
     }
   }
 
@@ -41,8 +48,13 @@ class Submissions extends React.Component {
     this.handleSubmission(e.target.dataset.uid, false);
   }
 
+  getClickHandler = (uid, approval) => {
+    const f = () => this.handleSubmission(uid, approval);
+    return f;
+  }
+
   handleSubmission = (uid, approval) => {
-    console.log('handle', uid, 'approve', approval);
+    // console.log('handle', uid, 'approve', approval);
     const { user } = this.props;
     db.collection(DBCollections.submissions)
       .doc(uid)
@@ -65,24 +77,28 @@ class Submissions extends React.Component {
               .doc(uid)
               .delete()
               .then(() => {
-                console.log('it is always sunny in California');
+                // console.log('it is always sunny in California');
+                this.setState({ error: null });
               })
               .catch((error) => {
                 console.log('error deleting submission', error);
+                this.setState({ error: 'error deleting submission' });
               });
           })
           .catch((error) => {
             console.log('error setting submission', collection, error);
+            this.setState({ error: 'error setting submission' });
           });
       })
       .catch((error) => {
         console.log('error retrieving submission', uid, error);
+        this.setState({ error: 'error retrieving submission' });
       });
   }
 
   render() {
     const { user } = this.props;
-    const { submissions } = this.state;
+    const { submissions, error } = this.state;
     let content = null;
 
     if (user.uid === null) {
@@ -96,15 +112,16 @@ class Submissions extends React.Component {
               <p>{i.name} introduced by {i.referrer} on {i.date}</p>
               <p>role: {i.role} bio: {i.bio}</p>
               <p><a href={i.linkedin}>linkedin</a>, <a href={i.twitter}>twitter</a></p>
+              {/* material-ui Button doesn't like data-* attributes, hence the getClickHandler */}
               <Button
                 data-uid={i.uid}
-                onClick={this.approveSubmission}
+                onClick={this.getClickHandler(i.uid, true)}
               >
                 accept
               </Button>
               <Button
                 data-uid={i.uid}
-                onClick={this.rejectSubmission}
+                onClick={this.getClickHandler(i.uid, false)}
               >
                 reject
               </Button>
@@ -112,6 +129,8 @@ class Submissions extends React.Component {
           ))}
         </div>
       );
+    } else if (error) {
+      content = (<p>{error}</p>);
     } else {
       content = (<p>no pending submissions!</p>);
     }

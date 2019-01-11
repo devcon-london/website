@@ -27,10 +27,8 @@ class Subscribe extends React.Component {
     }
   }
 
-  // TODO: not sure how to set permissions for members on firebase
   fetchUserMembership = uid => db.collection(DBCollections.members).doc(uid).get();
 
-  // TODO: set permissions on firebase so doc access is allowed on a per uid basis
   fetchUserSubmission = uid => db.collection(DBCollections.submissions).doc(uid).get();
 
   retrieveData = (uid) => {
@@ -40,22 +38,23 @@ class Subscribe extends React.Component {
           this.setState({
             membership: doc.data(),
           });
-        } else {
-          this.fetchUserSubmission(uid)
-            .then((sub) => {
-              if (sub.exists) {
-                this.setState({
-                  submission: sub.data(),
-                });
-              }
-            })
-            .catch((error) => {
-              console.log('error fetching submission', error);
-            });
         }
+        // 'else' should not happen: if not a member it will throw due to permissions
       })
       .catch((error) => {
-        console.log('error fetching membership', error);
+        // console.log('error fetching membership', error);
+        // ok, see if there's a pending submission
+        this.fetchUserSubmission(uid)
+          .then((sub) => {
+            if (sub.exists) {
+              this.setState({
+                submission: sub.data(),
+              });
+            }
+          })
+          .catch((subError) => {
+            console.log('error fetching submission', subError);
+          });
       });
   }
 
