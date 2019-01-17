@@ -98,6 +98,7 @@ class Members extends React.Component {
     >
       <MemberFields />
       <Button onClick={this.submitForm}>Submit</Button>
+      <Button onClick={() => { this.setState({ editing: false }); }}>Cancel</Button>
     </Form>
   )
 

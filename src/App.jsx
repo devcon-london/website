@@ -7,7 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import {
   MuiThemeProvider,
   createMuiTheme,
-  withStyles
+  withStyles,
 } from '@material-ui/core/styles';
 
 import MainMenu from './components/navigation/MainMenu';
@@ -24,6 +24,9 @@ import store from './state/store';
 import './App.css';
 
 const appTheme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
   palette: {
     type: 'dark',
     primary: {
@@ -41,7 +44,11 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
+    paddingTop: '64px',
+    color: '#fff',
+    backgroundColor: '#333',
+    paddingLeft: theme.spacing.unit * 3,
+    paddingRight: theme.spacing.unit * 3,
     height: '100vh',
     overflow: 'auto',
   },

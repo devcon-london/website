@@ -20,14 +20,14 @@ const MainMenu = ({ classes }) => (
     <ToolBar>
       <Typography
         variant="h6"
-        color="inherit"
         className={classes.grow}
       >
         <Button component={Link} to="/">DevCon.London</Button>
       </Typography>
       <Button component={Link} to="/terms">Terms</Button>
       <Button component={Link} to="/subscribe">Subscribe</Button>
-      <Button component={Link} to="/events">Events</Button>
+      {/* nothing here yet! */}
+      {/* <Button component={Link} to="/events">Events</Button> */}
       <Button component={Link} to="/members">Members</Button>
       <Button component={Link} to="/submissions">Submissions</Button>
       <Authentication />
