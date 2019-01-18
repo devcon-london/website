@@ -9,6 +9,7 @@ const { db } = window;
 
 class Subscribe extends React.Component {
   state = {
+    loading: true,
     membership: null,
     submission: null,
   }
@@ -32,10 +33,12 @@ class Subscribe extends React.Component {
   fetchUserSubmission = uid => db.collection(DBCollections.submissions).doc(uid).get();
 
   retrieveData = (uid) => {
+    this.setState({ loading: true });
     this.fetchUserMembership(uid)
       .then((doc) => {
         if (doc.exists) {
           this.setState({
+            loading: false,
             membership: doc.data(),
           });
         }
@@ -43,29 +46,33 @@ class Subscribe extends React.Component {
       })
       .catch((error) => {
         // console.log('error fetching membership', error);
-        // ok, see if there's a pending submission
+        // ok, you're not a member see if there's a pending submission
         this.fetchUserSubmission(uid)
           .then((sub) => {
             if (sub.exists) {
               this.setState({
+                loading: false,
                 submission: sub.data(),
               });
             }
           })
           .catch((subError) => {
             console.log('error fetching submission', subError);
+            this.setState({ loading: false });
           });
       });
   }
 
   render() {
     const { user } = this.props;
-    const { membership, submission } = this.state;
+    const { membership, submission, loading } = this.state;
     let content = null;
 
     if (user.uid === null) {
       // user not logged in
       content = (<Redirect to="/" />);
+    } else if (loading === true) {
+      content = (<p>loading...</p>);
     } else if (membership === null) {
       // logged in but no member, check if already submitted
       if (submission === null) {
