@@ -37,6 +37,7 @@ class Subscribe extends React.Component {
     this.fetchUserMembership(uid)
       .then((doc) => {
         if (doc.exists) {
+          console.log('yoohoo you are a member!', doc.data());
           this.setState({
             loading: false,
             membership: doc.data(),
@@ -45,15 +46,20 @@ class Subscribe extends React.Component {
         // 'else' should not happen: if not a member it will throw due to permissions
       })
       .catch((error) => {
-        // console.log('error fetching membership', error);
+        console.log('error fetching membership', error);
         // ok, you're not a member see if there's a pending submission
         this.fetchUserSubmission(uid)
           .then((sub) => {
             if (sub.exists) {
+              console.log('you have a pending submission', sub.data());
               this.setState({
                 loading: false,
                 submission: sub.data(),
               });
+            } else {
+              // TODO: mh, maybe permissons should be checked? this should not happen and go straight to error
+              console.log('no pending submission');
+              this.setState({ loading: false });
             }
           })
           .catch((subError) => {
