@@ -1,6 +1,7 @@
 export const DBCollections = {
   submissions: 'submissions',
   members: 'members',
+  advertisers: 'advertisers',
   rejects: 'rejects',
   roles: 'roles',
 };

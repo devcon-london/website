@@ -57,7 +57,8 @@ class Subscribe extends React.Component {
                 submission: sub.data(),
               });
             } else {
-              // TODO: mh, maybe permissons should be checked? this should not happen and go straight to error
+              // TODO: mh, maybe permissons should be checked?
+              // this should not happen and go straight to error
               console.log('no pending submission');
               this.setState({ loading: false });
             }
@@ -88,6 +89,8 @@ class Subscribe extends React.Component {
       }
     } else {
       content = (<p>You are already a Devcon member, do not need to subscribe again</p>);
+      // for debug, uncomment the following to always enable submissions
+      // content = (<SubscriptionForm user={user} />);
     }
 
     return (
