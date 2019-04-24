@@ -88,8 +88,9 @@ class Subscribe extends React.Component {
         content = (<p>You have a pending submission, good things come to those who wait.</p>);
       }
     } else {
-      content = (<SubscriptionForm user={user} />);
-      // content = (<p>You are already a Devcon member, do not need to subscribe again</p>);
+      content = (<p>You are already a Devcon member, do not need to subscribe again</p>);
+      // for debug, uncomment the following to always enable submissions
+      // content = (<SubscriptionForm user={user} />);
     }
 
     return (

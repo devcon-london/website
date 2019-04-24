@@ -17,6 +17,7 @@ import Terms from './pages/terms/Terms';
 import Subscribe from './pages/subscribe/Subscribe';
 import Events from './pages/events/Events';
 import Members from './pages/members/Members';
+import Advertisers from './pages/advertisers/Advertisers';
 import Submissions from './pages/submissions/Submissions';
 
 import store from './state/store';
@@ -63,6 +64,7 @@ const Routes = () => (
     {/* shown when authenticated and member */}
     <Route path="/events" component={Events} />
     <Route path="/members" component={Members} />
+    <Route path="/advertisers" component={Advertisers} />
     {/* shown when authenticated, member and admin */}
     <Route path="/submissions" component={Submissions} />
   </React.Fragment>

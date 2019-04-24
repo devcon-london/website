@@ -29,6 +29,7 @@ const MainMenu = ({ classes }) => (
       {/* nothing here yet! */}
       {/* <Button component={Link} to="/events">Events</Button> */}
       <Button component={Link} to="/members">Members</Button>
+      <Button component={Link} to="/advertisers">Advertisers</Button>
       <Button component={Link} to="/submissions">Submissions</Button>
       <Authentication />
     </ToolBar>

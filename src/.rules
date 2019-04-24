@@ -18,7 +18,7 @@ service cloud.firestore {
       allow write: if isOwner(userId) || isAdmin();
     }
     match /advertisers/{userId} {
-      allow read, write: if isOwner(userId) || isAdmin();
+      allow read, write: if isAdmin();
     }
     match /rejects/{userId} {
       allow read, write: if isAdmin();
