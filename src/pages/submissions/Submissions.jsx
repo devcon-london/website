@@ -30,7 +30,8 @@ class Submissions extends React.Component {
               submissions: [],
               error: Errors.sectionPermission,
             });
-          });
+          },
+        );
     }
   }
 
@@ -67,7 +68,9 @@ class Submissions extends React.Component {
         }, doc.data());
         let collection = DBCollections.rejects;
         if (approval) {
-          collection = DBCollections.members;
+          // determine the right collection depending on applicant value
+          // can be either members or advertisers, set by SubcscriptionForm
+          collection = DBCollections[data.applicant];
         }
         db.collection(collection)
           .doc(uid)
@@ -96,6 +99,24 @@ class Submissions extends React.Component {
       });
   }
 
+  getFields = (submission) => {
+    const showFields = {
+      members: (<React.Fragment>
+        <h5>Community Membership for {submission.name}</h5>
+        <p>introduced by {submission.referrer} on {submission.date}</p>
+        <p>role: {submission.role} bio: {submission.bio}</p>
+        <p><a href={submission.linkedin}>linkedin</a>, <a href={submission.twitter}>twitter</a></p>
+      </React.Fragment>),
+      advertisers: (<React.Fragment>
+        <h5>Advertising Membership for {submission.name}</h5>
+        <p>introduced by {submission.referrer} on {submission.date}</p>
+        <p>role: {submission.role} company: {submission.company}</p>
+        <p><a href={submission.linkedin}>linkedin</a>, email: {submission.email}</p>
+      </React.Fragment>),
+    };
+    return showFields[submission.applicant];
+  }
+
   render() {
     const { user } = this.props;
     const { submissions, error } = this.state;
@@ -109,22 +130,22 @@ class Submissions extends React.Component {
         <div>
           {submissions.map(i => (
             <div key={i.uid}>
-              <p>{i.name} introduced by {i.referrer} on {i.date}</p>
-              <p>role: {i.role} bio: {i.bio}</p>
-              <p><a href={i.linkedin}>linkedin</a>, <a href={i.twitter}>twitter</a></p>
+              {this.getFields(i)}
               {/* material-ui Button doesn't like data-* attributes, hence the getClickHandler */}
-              <Button
-                data-uid={i.uid}
-                onClick={this.getClickHandler(i.uid, true)}
-              >
-                accept
-              </Button>
-              <Button
-                data-uid={i.uid}
-                onClick={this.getClickHandler(i.uid, false)}
-              >
-                reject
-              </Button>
+              {
+                [
+                  { label: 'Accept', approval: true },
+                  { label: 'Reject', approval: false },
+                ].map(v => (
+                  <Button
+                    key={v.label}
+                    data-uid={i.uid}
+                    onClick={this.getClickHandler(i.uid, v.approval)}
+                  >
+                    {v.label}
+                  </Button>
+                ))
+              }
             </div>
           ))}
         </div>

@@ -57,7 +57,8 @@ class Subscribe extends React.Component {
                 submission: sub.data(),
               });
             } else {
-              // TODO: mh, maybe permissons should be checked? this should not happen and go straight to error
+              // TODO: mh, maybe permissons should be checked?
+              // this should not happen and go straight to error
               console.log('no pending submission');
               this.setState({ loading: false });
             }
@@ -87,7 +88,8 @@ class Subscribe extends React.Component {
         content = (<p>You have a pending submission, good things come to those who wait.</p>);
       }
     } else {
-      content = (<p>You are already a Devcon member, do not need to subscribe again</p>);
+      content = (<SubscriptionForm user={user} />);
+      // content = (<p>You are already a Devcon member, do not need to subscribe again</p>);
     }
 
     return (
