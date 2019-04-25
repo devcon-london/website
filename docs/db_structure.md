@@ -2,7 +2,7 @@
 
 check the following:
 
-- [firebase rules](../src/.rules) stored in a `.rules` file here are presently uploaded manually via firebase console
+- [firebase rules](../firebase.rules) are presently deployed using firebase-cli
 - [firebase collections](../src/constants.js) defined in a constants file
 
 ## submission flow
@@ -11,6 +11,10 @@ if you are logged in and you are not a member or don't have a pending submission
 
 the request will be saved in the `submissions` collection of firebase
 
-an admin will then either approve (i.e. make it go in the `members` collection) or reject (i.e. make it go to the `rejects` collection) the submission
+an admin will then either approve or reject, causing the following:
+
+- if the submission is rejected it'll be saved in the `rejects` collection
+- if approved and the application is for community membership, it'll be saved in the `members` collection
+- if approved and the application is for avertiser membership, it'll be saved in the `avertisers` collection
 
 to either approve or reject the sumbission, you must be defined as an admin, i.e. there must be a matching id in the `roles` collection with a field defined `isAdmin: true`
