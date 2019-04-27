@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+
 import { DBCollections, Errors } from '../../constants';
 
 const { db } = window;
@@ -158,7 +160,9 @@ class Submissions extends React.Component {
 
     return (
       <div>
-        <h1>Submissions</h1>
+        <Typography variant="h4" gutterBottom>
+          Submissions.
+        </Typography>
         {content}
       </div>
     );

@@ -1,15 +1,22 @@
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
 
 const Terms = () => (
   <div>
-    <h4>Privacy</h4>
+    <Typography variant="h4" gutterBottom>
+      Privacy.
+    </Typography>
     <p>
       All data is stored on Firebase, and only authenticated users can access it.
       Only members can see all other members' data.
     </p>
     <p>Also, we only use cookies for the Google Analytics tracker.</p>
-    <h4>Code of conduct</h4>
-    <p></p>
+    <Typography variant="h4" gutterBottom>
+      Code of conduct.
+    </Typography>
+    <p>
+      Please refer to the guidelines received when you joined the group.
+    </p>
   </div>
 );
 

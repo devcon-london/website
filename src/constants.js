@@ -6,6 +6,10 @@ export const DBCollections = {
   roles: 'roles',
 };
 
+export const Sizes = {
+  drawerWidth: 240,
+};
+
 export const Errors = {
   sectionPermission: 'You do not have enough rights to access this section',
 };

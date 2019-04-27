@@ -19,7 +19,6 @@ const styles = theme => ({
   },
   paper: {
     padding: theme.spacing.unit * 2,
-    color: theme.palette.text.secondary,
   },
 });
 
@@ -70,7 +69,7 @@ class Advertisers extends React.Component {
         <div>
           <Grid container spacing={24}>
             {advertisers.map(i => (
-              <Grid item xs={6} key={i.uid}>
+              <Grid item xs={12} sm={6} key={i.uid}>
                 <Paper className={classes.paper}>
                   <Typography variant="h5">
                     {`${i.name}, ${i.role} at ${i.company}`}
@@ -93,7 +92,9 @@ class Advertisers extends React.Component {
 
     return (
       <div>
-        <h1>Advertisers</h1>
+        <Typography variant="h4" gutterBottom>
+          Advertisers.
+        </Typography>
         {content}
       </div>
     );

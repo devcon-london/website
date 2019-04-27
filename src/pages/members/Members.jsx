@@ -21,7 +21,6 @@ const styles = theme => ({
   },
   paper: {
     padding: theme.spacing.unit * 2,
-    color: theme.palette.text.secondary,
   },
 });
 
@@ -197,7 +196,7 @@ class Members extends React.Component {
               }
 
               return (
-                <Grid item xs={6} key={member.uid}>
+                <Grid item xs={12} sm={6} key={member.uid}>
                   <Paper className={classes.paper}>
                     {memberContent}
                   </Paper>
@@ -213,7 +212,9 @@ class Members extends React.Component {
 
     return (
       <div>
-        <h1>Members</h1>
+        <Typography variant="h4" gutterBottom>
+          Members.
+        </Typography>
         {content}
       </div>
     );

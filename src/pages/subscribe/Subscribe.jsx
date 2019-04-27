@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Typography from '@material-ui/core/Typography';
+
 import SubscriptionForm from './components/SubscriptionForm';
 import { DBCollections } from '../../constants';
 
@@ -95,7 +97,9 @@ class Subscribe extends React.Component {
 
     return (
       <div>
-        <h1>Subscribe</h1>
+        <Typography variant="h4" gutterBottom>
+          Subscribe.
+        </Typography>
         {content}
       </div>
     );
