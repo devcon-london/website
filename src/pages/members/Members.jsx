@@ -19,6 +19,9 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
   },
+  linkButton: {
+    marginRight: '5px',
+  },
   paper: {
     padding: theme.spacing.unit * 2,
   },
@@ -86,8 +89,6 @@ class Members extends React.Component {
     this.formApi = formApi;
   }
 
-  validate = value => (value ? null : 'Enter value for field')
-
   submitForm = () => {
     const formState = this.formApi.getState();
     if (!formState.invalid) {
@@ -105,20 +106,27 @@ class Members extends React.Component {
             .set(updatedData)
             .then(() => {
               // console.log('it is always sunny in California');
-              this.setState({ error: null });
+              this.setState({
+                error: null,
+                editing: false,
+              });
             })
             .catch((error) => {
               // console.log('error storing data', error);
-              this.setState({ error: 'Error storing data' });
+              this.setState({
+                error: 'Error storing data',
+                editing: false,
+              });
             });
         })
         .catch((error) => {
           // console.log('error fetching document', error);
-          this.setState({ error: 'Error fetching your personal data' });
+          this.setState({
+            error: 'Error fetching your personal data',
+            editing: false,
+          });
         });
     }
-    // TODO: setting state multiple times? bad dog!
-    this.setState({ editing: false });
   }
 
   getUserForm = member => (
@@ -135,21 +143,24 @@ class Members extends React.Component {
     </Form>
   )
 
-  getUserCard = (member, editable) => (
+  getUserCard = (member, editable, classes) => (
     <div>
       <Typography variant="h5">
         {`${member.name}, ${member.role}`}
       </Typography>
-      <Typography variant="body1">
-        {member.bio}
+      <Typography variant="body1" gutterBottom>
+        {`member since ${member.adminDate}`}
       </Typography>
-      <Typography variant="body1">
-        {`joined ${member.adminDate}`}
+      <Typography variant="body1" gutterBottom>
+        {member.bio}
       </Typography>
       <Typography variant="body1">
         { editable
           ? (
             <Button
+              className={classes.linkButton}
+              variant="contained"
+              color="primary"
               onClick={() => this.setState({ editing: true })}
             >
               edit
@@ -157,9 +168,9 @@ class Members extends React.Component {
           )
           : ''
         }
-        <Button href={member.github}>github</Button>
-        <Button href={member.linkedin}>linkedin</Button>
-        <Button href={member.twitter}>twitter</Button>
+        <Button className={classes.linkButton} variant="contained" href={member.github}>Github</Button>
+        <Button className={classes.linkButton} variant="contained" href={member.linkedin}>LinkedIn</Button>
+        <Button className={classes.linkButton} variant="contained" href={member.twitter}>Twitter</Button>
       </Typography>
     </div>
   )
@@ -192,7 +203,7 @@ class Members extends React.Component {
                 memberContent = this.getUserForm(member);
               } else {
                 const editable = member.uid === user.uid;
-                memberContent = this.getUserCard(member, editable);
+                memberContent = this.getUserCard(member, editable, classes);
               }
 
               return (
