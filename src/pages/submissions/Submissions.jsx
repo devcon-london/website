@@ -102,19 +102,43 @@ class Submissions extends React.Component {
   }
 
   getFields = (submission) => {
+    const intro = (
+      <Typography variant="body1" gutterBottom>
+        {`introduced by ${submission.referrer} on ${submission.date}`}
+      </Typography>
+    );
     const showFields = {
-      members: (<React.Fragment>
-        <h5>Community Membership for {submission.name}</h5>
-        <p>introduced by {submission.referrer} on {submission.date}</p>
-        <p>role: {submission.role} bio: {submission.bio}</p>
-        <p><a href={submission.linkedin}>linkedin</a>, <a href={submission.twitter}>twitter</a></p>
-      </React.Fragment>),
-      advertisers: (<React.Fragment>
-        <h5>Advertising Membership for {submission.name}</h5>
-        <p>introduced by {submission.referrer} on {submission.date}</p>
-        <p>role: {submission.role} company: {submission.company}</p>
-        <p><a href={submission.linkedin}>linkedin</a>, email: {submission.email}</p>
-      </React.Fragment>),
+      members: (
+        <React.Fragment>
+          <Typography variant="h5">
+            {`Community Membership for ${submission.name}, ${submission.role}`}
+          </Typography>
+          {intro}
+          <Typography variant="body1" gutterBottom>
+            {`Bio: ${submission.bio}`}
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            <Button href={submission.github}>Github</Button>
+            <Button href={submission.linkedin}>LinkedIn</Button>
+            <Button href={submission.twitter}>Twitter</Button>
+          </Typography>
+        </React.Fragment>
+      ),
+      advertisers: (
+        <React.Fragment>
+          <Typography variant="h5">
+            {`Advertising Membership for ${submission.name}`}
+          </Typography>
+          {intro}
+          <Typography variant="body1" gutterBottom>
+            {`Role ${submission.role}. Company: ${submission.company}`}
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            <Button href={submission.linkedin}>LinkedIn</Button>
+            <Button href={`mailto:${submission.email}`}>{submission.email}</Button>
+          </Typography>
+        </React.Fragment>
+      ),
     };
     return showFields[submission.applicant];
   }

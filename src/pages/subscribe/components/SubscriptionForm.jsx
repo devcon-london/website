@@ -7,6 +7,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import { Form, Text } from 'informed';
+import Validation from '../../../components/form/validation';
 import InformedTextInput from '../../../components/form/InformedTextInput';
 import MemberFields from '../../../components/form/MemberFields';
 import AdvertiserFields from '../../../components/form/AdvertiserFields';
@@ -26,14 +27,20 @@ class SubscriptionForm extends React.Component {
   }
 
   submitForm = () => {
-    const { user } = this.props;
-    const { applicant } = this.state;
-    this.formApi.setValue('uid', user.uid);
-    this.formApi.setValue('date', new Date());
-    // setting this value manually, informed would need workaround for radio with material-ui
-    this.formApi.setValue('applicant', applicant);
     const formState = this.formApi.getState();
-    if (!formState.invalid) {
+    // require at least these fields common to both forms
+    const touched = ['referrer', 'name', 'role', 'linkedin'].reduce(
+      (acc, cur) => (acc && formState.touched[cur]),
+      true,
+    );
+    if (!formState.invalid && !formState.pristine && touched) {
+      const { user } = this.props;
+      const { applicant } = this.state;
+      // add values for hidden fields
+      this.formApi.setValue('uid', user.uid);
+      this.formApi.setValue('date', new Date());
+      // setting this value manually, informed would need workaround for radio with material-ui
+      this.formApi.setValue('applicant', applicant);
       db.collection(DBCollections.submissions)
         .doc(user.uid)
         .set(formState.values)
@@ -45,8 +52,6 @@ class SubscriptionForm extends React.Component {
         });
     }
   }
-
-  validate = value => (value ? null : 'enter value for field')
 
   setApplicant = e => this.setState({ applicant: e.target.value });
 
@@ -96,7 +101,8 @@ class SubscriptionForm extends React.Component {
             id="referrer"
             label="Introduced by (who told you about this)"
             fullWidth
-            validate={this.validate}
+            validateOnChange
+            validate={Validation.validName}
           />
           {showForm[state.applicant]}
           <Button onClick={this.submitForm}>Submit</Button>
