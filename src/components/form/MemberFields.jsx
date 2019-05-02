@@ -41,6 +41,14 @@ const MemberFields = () => (
       validate={Validation.validLinkedIn}
     />
     <InformedTextInput
+      field="email"
+      id="email"
+      label="Email"
+      fullWidth
+      validateOnChange
+      validate={Validation.validEmail}
+    />
+    <InformedTextInput
       field="role"
       id="role"
       label="Role"

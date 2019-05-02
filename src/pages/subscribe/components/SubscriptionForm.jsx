@@ -29,7 +29,7 @@ class SubscriptionForm extends React.Component {
   submitForm = () => {
     const formState = this.formApi.getState();
     // require at least these fields common to both forms
-    const touched = ['referrer', 'name', 'role', 'linkedin'].reduce(
+    const touched = ['referrer', 'name', 'role', 'email', 'linkedin'].reduce(
       (acc, cur) => (acc && formState.touched[cur]),
       true,
     );
