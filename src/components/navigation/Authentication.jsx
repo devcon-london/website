@@ -19,11 +19,11 @@ class Authentication extends React.Component {
     auth.onAuthStateChanged((user) => {
       if (user) {
         // User is signed in.
-        console.log('+++ firebase +++ user signed in', user);
+        // console.log('+++ firebase +++ user signed in', user);
         props.onLogin({ user });
       } else {
         // User signed out.
-        console.log('+++ firebase +++ user not signed in');
+        // console.log('+++ firebase +++ user not signed in');
         props.onLogout();
       }
     });

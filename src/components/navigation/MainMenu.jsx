@@ -9,7 +9,7 @@ import ToolBar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import ButtonBase from '@material-ui/core/ButtonBase';
 
 import { Sizes } from '../../constants';
 import Authentication from './Authentication';
@@ -47,6 +47,12 @@ const styles = theme => ({
       paddingRight: theme.spacing.unit * 3,
     },
   },
+  devconLogo: {
+    backgroundImage: `url('${process.env.PUBLIC_URL}/img/devcon.london.png')`,
+    width: '48px',
+    height: '48px',
+    backgroundRepeat: 'no-repeat',
+  },
 });
 
 const MainMenu = ({ classes, drawerOpen, handleDrawer }) => (
@@ -68,7 +74,9 @@ const MainMenu = ({ classes, drawerOpen, handleDrawer }) => (
         >
           <MenuIcon />
         </IconButton>
-        <Button component={Link} to="/">DevCon.London</Button>
+        <ButtonBase component={Link} to="/">
+          <span className={classes.devconLogo} />
+        </ButtonBase>
       </Typography>
       <Authentication />
     </ToolBar>
