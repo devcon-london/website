@@ -3,8 +3,10 @@ const Validation = {
     const re = /[\w]+[ ][\w]+/;
     return re.exec(value) ? undefined : 'enter a valid name + surname without special characters';
   },
-  validCompany: value => (value && value.length > 2 ? undefined : 'at least 3 characters for a valid company name'),
-  validRole: value => (value && value.length > 2 ? undefined : 'at least 3 characters for a valid role'),
+  validCompany: (value) =>
+    value && value.length > 2 ? undefined : 'at least 3 characters for a valid company name',
+  validRole: (value) =>
+    value && value.length > 2 ? undefined : 'at least 3 characters for a valid role',
   validBio: (value) => {
     const minLength = 100;
     const counter = value ? minLength - value.length : minLength;
@@ -13,16 +15,16 @@ const Validation = {
     return value && counter < 1 ? undefined : msg;
   },
   validGithub: (value) => {
-    const re = /https:\/\/github\.com\/[A-z0-9_-]+\//;
-    return re.exec(value) ? undefined : 'valid Github url: https://github.com/username/';
+    const re = /https:\/\/github\.com\/[A-z0-9_-]+\/?/;
+    return re.exec(value) ? undefined : 'valid Github url: https://github.com/username';
   },
   validTwitter: (value) => {
-    const re = /https:\/\/twitter\.com\/[A-z0-9_]+\//;
-    return re.exec(value) ? undefined : 'valid Twitter url: https://twitter.com/username/';
+    const re = /https:\/\/twitter\.com\/[A-z0-9_]+\/?/;
+    return re.exec(value) ? undefined : 'valid Twitter url: https://twitter.com/username';
   },
   validLinkedIn: (value) => {
-    const re = /https:\/\/www\.linkedin\.com\/in\/[A-z0-9_-]+\//;
-    return re.exec(value) ? undefined : 'valid LinkedIn url: https://www.linkedin.com/in/username/';
+    const re = /https:\/\/www\.linkedin\.com\/in\/[A-z0-9_-]+\/?/;
+    return re.exec(value) ? undefined : 'valid LinkedIn url: https://www.linkedin.com/in/username';
   },
   validEmail: (value) => {
     // found somewhere online
