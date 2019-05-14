@@ -33,4 +33,5 @@ export const NavItems = [{
 export const Errors = {
   loginFirst: 'You need to login to access this section',
   sectionPermission: 'You do not have enough rights to access this section',
+  notAMember: 'If you are looking for a community membership, you should apply first. Check the "Subscribe" section!',
 };

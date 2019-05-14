@@ -69,11 +69,10 @@ class Members extends React.Component {
             });
           },
           (error) => {
-            // console.log('error reading from live db', error);
             this.setState({
               members: [],
               loading: false,
-              error: Errors.sectionPermission,
+              error: Errors.notAMember,
             });
           },
         );
@@ -106,14 +105,12 @@ class Members extends React.Component {
             .doc(updatedData.uid)
             .set(updatedData)
             .then(() => {
-              // console.log('it is always sunny in California');
               this.setState({
                 error: null,
                 editing: false,
               });
             })
             .catch((error) => {
-              // console.log('error storing data', error);
               this.setState({
                 error: 'Error storing data',
                 editing: false,
@@ -121,7 +118,6 @@ class Members extends React.Component {
             });
         })
         .catch((error) => {
-          // console.log('error fetching document', error);
           this.setState({
             error: 'Error fetching your personal data',
             editing: false,
