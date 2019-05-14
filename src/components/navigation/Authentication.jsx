@@ -31,7 +31,7 @@ class Authentication extends React.Component {
 
   authSuccess = (result) => {
     const { props } = this;
-    console.log('auth success', result);
+    // console.log('auth success', result);
     const { user } = result;
     // This gives you a GitHub Access Token. You can use it to access the GitHub API.
     const token = result.credential.accessToken;
@@ -46,7 +46,7 @@ class Authentication extends React.Component {
     // var email = error.email;
     // The firebase.auth.AuthCredential type that was used.
     // var credential = error.credential;
-    console.log('auth error', error);
+    // console.log('auth error', error);
   }
 
   ghSignIn = () => {
