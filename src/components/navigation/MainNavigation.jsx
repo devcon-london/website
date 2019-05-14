@@ -12,7 +12,9 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Sizes } from '../../constants';
+
+import SnackBar from '../notification/SnackBar';
+import { Sizes, NavItems } from '../../constants';
 
 import MainMenu from './MainMenu';
 import Routes from './Routes';
@@ -100,22 +102,7 @@ class MainNavigation extends React.Component {
           </div>
           <Divider />
           <List>
-            {[{
-              to: '/terms',
-              text: 'Terms',
-            }, {
-              to: '/subscribe',
-              text: 'Subscribe',
-            }, {
-              to: '/members',
-              text: 'Members',
-            }, {
-              to: '/advertisers',
-              text: 'Advertisers',
-            }, {
-              to: '/submissions',
-              text: 'Submissions',
-            }].map(item => (
+            {NavItems.map(item => (
               <ListItem
                 button
                 key={item.text}
@@ -134,6 +121,7 @@ class MainNavigation extends React.Component {
           })}
         >
           <Routes />
+          <SnackBar />
         </main>
       </div>
     );

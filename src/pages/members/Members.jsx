@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 
 import { Form } from 'informed';
 import MemberFields from '../../components/form/MemberFields';
+import { openSnackbar } from '../../components/notification/SnackBar';
 import { DBCollections, Errors } from '../../constants';
 
 const { db } = window;
@@ -144,7 +145,7 @@ class Members extends React.Component {
   )
 
   getUserCard = (member, editable, classes) => (
-    <div>
+    <React.Fragment>
       <Typography variant="h5">
         {`${member.name}, ${member.role}`}
       </Typography>
@@ -172,7 +173,7 @@ class Members extends React.Component {
         <Button className={classes.linkButton} variant="contained" href={member.linkedin}>LinkedIn</Button>
         <Button className={classes.linkButton} variant="contained" href={member.twitter}>Twitter</Button>
       </Typography>
-    </div>
+    </React.Fragment>
   )
 
   render() {
@@ -188,6 +189,7 @@ class Members extends React.Component {
 
     if (user.uid === null) {
       // user not logged in
+      openSnackbar(Errors.loginFirst);
       content = (<Redirect to="/" />);
     } else if (loading) {
       content = (<p>loading...</p>);

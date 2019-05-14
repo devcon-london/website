@@ -9,6 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
+import { openSnackbar } from '../../components/notification/SnackBar';
 import { DBCollections, Errors } from '../../constants';
 
 const { db } = window;
@@ -63,6 +64,7 @@ class Advertisers extends React.Component {
 
     if (user.uid === null) {
       // user not logged in
+      openSnackbar(Errors.loginFirst);
       content = (<Redirect to="/" />);
     } else if (advertisers.length) {
       content = (

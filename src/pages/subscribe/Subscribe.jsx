@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 
 import SubscriptionForm from './components/SubscriptionForm';
-import { DBCollections } from '../../constants';
+import { openSnackbar } from '../../components/notification/SnackBar';
+import { DBCollections, Errors } from '../../constants';
 
 const { db } = window;
 
@@ -79,6 +80,7 @@ class Subscribe extends React.Component {
 
     if (user.uid === null) {
       // user not logged in
+      openSnackbar(Errors.loginFirst);
       content = (<Redirect to="/" />);
     } else if (loading === true) {
       content = (<p>loading...</p>);

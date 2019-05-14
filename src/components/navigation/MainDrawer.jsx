@@ -13,7 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import { withStyles } from '@material-ui/core';
 
-import { Sizes } from '../../constants';
+import { Sizes, NavItems } from '../../constants';
 
 const styles = theme => ({
   drawer: {
@@ -51,22 +51,7 @@ const MainDrawer = ({
     </div>
     <Divider />
     <List>
-      {[{
-        to: '/terms',
-        text: 'Terms',
-      }, {
-        to: '/subscribe',
-        text: 'Subscribe',
-      }, {
-        to: '/members',
-        text: 'Members',
-      }, {
-        to: '/advertisers',
-        text: 'Advertisers',
-      }, {
-        to: '/submissions',
-        text: 'Submissions',
-      }].map(item => (
+      {NavItems.map(item => (
         <ListItem button key={item.text} component={Link} to={item.to}>
           <ListItemText primary={item.text} />
         </ListItem>

@@ -2,12 +2,29 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+import { openSnackbar } from '../../components/notification/SnackBar';
 import { DBCollections, Errors } from '../../constants';
 
 const { db } = window;
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  linkButton: {
+    marginRight: '5px',
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+  },
+});
 
 class Submissions extends React.Component {
   state = {
@@ -101,7 +118,7 @@ class Submissions extends React.Component {
       });
   }
 
-  getFields = (submission) => {
+  getFields = (submission, classes) => {
     const intro = (
       <Typography variant="body1" gutterBottom>
         {`introduced by ${submission.referrer} on ${submission.date}`}
@@ -118,9 +135,10 @@ class Submissions extends React.Component {
             {`Bio: ${submission.bio}`}
           </Typography>
           <Typography variant="body1" gutterBottom>
-            <Button href={submission.github}>Github</Button>
-            <Button href={submission.linkedin}>LinkedIn</Button>
-            <Button href={submission.twitter}>Twitter</Button>
+            <Button className={classes.linkButton} variant="contained" href={submission.github}>Github</Button>
+            <Button className={classes.linkButton} variant="contained" href={`mailto:${submission.email}`}>Email</Button>
+            <Button className={classes.linkButton} variant="contained" href={submission.linkedin}>LinkedIn</Button>
+            <Button className={classes.linkButton} variant="contained" href={submission.twitter}>Twitter</Button>
           </Typography>
         </React.Fragment>
       ),
@@ -134,8 +152,8 @@ class Submissions extends React.Component {
             {`Role ${submission.role}. Company: ${submission.company}`}
           </Typography>
           <Typography variant="body1" gutterBottom>
-            <Button href={submission.linkedin}>LinkedIn</Button>
-            <Button href={`mailto:${submission.email}`}>{submission.email}</Button>
+            <Button className={classes.linkButton} variant="contained" href={submission.linkedin}>LinkedIn</Button>
+            <Button className={classes.linkButton} variant="contained" href={`mailto:${submission.email}`}>Email</Button>
           </Typography>
         </React.Fragment>
       ),
@@ -144,36 +162,44 @@ class Submissions extends React.Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { user, classes } = this.props;
     const { submissions, error } = this.state;
     let content = null;
 
     if (user.uid === null) {
       // user not logged in
+      openSnackbar(Errors.loginFirst);
       content = (<Redirect to="/" />);
     } else if (submissions.length) {
       content = (
-        <div>
-          {submissions.map(i => (
-            <div key={i.uid}>
-              {this.getFields(i)}
-              {/* material-ui Button doesn't like data-* attributes, hence the getClickHandler */}
-              {
-                [
-                  { label: 'Accept', approval: true },
-                  { label: 'Reject', approval: false },
-                ].map(v => (
-                  <Button
-                    key={v.label}
-                    data-uid={i.uid}
-                    onClick={this.getClickHandler(i.uid, v.approval)}
-                  >
-                    {v.label}
-                  </Button>
-                ))
-              }
-            </div>
-          ))}
+        <div className={classes.root}>
+          <Grid container spacing={24}>
+            {submissions.map(i => (
+              <Grid item xs={12} sm={6} key={i.uid}>
+                <Paper className={classes.paper}>
+                  {this.getFields(i, classes)}
+                  {/* material-ui Button doesn't like data-* attributes, hence the getClickHandler */}
+                  {
+                    [
+                      { label: 'Accept', approval: true },
+                      { label: 'Reject', approval: false },
+                    ].map(v => (
+                      <Button
+                        className={classes.linkButton}
+                        variant="contained"
+                        color={v.approval ? 'primary' : 'secondary'}
+                        key={v.label}
+                        data-uid={i.uid}
+                        onClick={this.getClickHandler(i.uid, v.approval)}
+                      >
+                        {v.label}
+                      </Button>
+                    ))
+                  }
+                </Paper>
+              </Grid>
+            ))}
+          </Grid>
         </div>
       );
     } else if (error) {
@@ -195,9 +221,12 @@ class Submissions extends React.Component {
 
 Submissions.propTypes = {
   user: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({ user: state.user });
 
-const SubmissionsContainer = connect(mapStateToProps)(Submissions);
+const StyledSubmissions = withStyles(styles)(Submissions);
+const SubmissionsContainer = connect(mapStateToProps)(StyledSubmissions);
+
 export default SubmissionsContainer;
