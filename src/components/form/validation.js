@@ -3,10 +3,14 @@ const Validation = {
     const re = /[\w]+[ ][\w]+/;
     return re.exec(value) ? undefined : 'enter a valid name + surname without special characters';
   },
-  validCompany: (value) =>
-    value && value.length > 2 ? undefined : 'at least 3 characters for a valid company name',
-  validRole: (value) =>
-    value && value.length > 2 ? undefined : 'at least 3 characters for a valid role',
+  validCompany: (value) => {
+    const out = value && value.length > 2 ? undefined : 'at least 3 characters for a valid company name';
+    return out;
+  },
+  validRole: (value) => {
+    const out = value && value.length > 2 ? undefined : 'at least 3 characters for a valid role';
+    return out;
+  },
   validBio: (value) => {
     const minLength = 100;
     const counter = value ? minLength - value.length : minLength;
