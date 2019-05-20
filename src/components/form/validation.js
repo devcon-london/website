@@ -19,15 +19,15 @@ const Validation = {
     return value && counter < 1 ? undefined : msg;
   },
   validGithub: (value) => {
-    const re = /https:\/\/github\.com\/[A-z0-9_-]+\/?/;
+    const re = /https:\/\/(www\.)?github\.com\/[A-z0-9_-]+\/?/;
     return re.exec(value) ? undefined : 'valid Github url: https://github.com/username';
   },
   validTwitter: (value) => {
-    const re = /https:\/\/twitter\.com\/[A-z0-9_]+\/?/;
+    const re = /https:\/\/(www\.)?twitter\.com\/[A-z0-9_]+\/?/;
     return re.exec(value) ? undefined : 'valid Twitter url: https://twitter.com/username';
   },
   validLinkedIn: (value) => {
-    const re = /https:\/\/www\.linkedin\.com\/in\/[A-z0-9_-]+\/?/;
+    const re = /https:\/\/(www\.)?linkedin\.com\/in\/[A-z0-9_-]+\/?/;
     return re.exec(value) ? undefined : 'valid LinkedIn url: https://www.linkedin.com/in/username';
   },
   validEmail: (value) => {
