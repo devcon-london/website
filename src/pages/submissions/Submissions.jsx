@@ -44,7 +44,7 @@ class Submissions extends React.Component {
             });
             this.setState({ submissions, error: null });
           },
-          (error) => {
+          () => {
             this.setState({
               submissions: [],
               error: Errors.sectionPermission,
@@ -178,7 +178,8 @@ class Submissions extends React.Component {
               <Grid item xs={12} sm={6} key={i.uid}>
                 <Paper className={classes.paper}>
                   {this.getFields(i, classes)}
-                  {/* material-ui Button doesn't like data-* attributes, hence the getClickHandler */}
+                  {/* material-ui Button doesn't
+                  like data-* attributes, hence the getClickHandler */}
                   {
                     [
                       { label: 'Accept', approval: true },
