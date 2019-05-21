@@ -35,8 +35,8 @@ jobs:
       # run tests!
       # - run: npm test
 
-      - run: npm run build
       - run: touch .env && echo SKIP_PREFLIGHT_CHECK=true > .env
+      - run: npm run build
     deploy:
         docker:
           - image: circleci/node:latest
