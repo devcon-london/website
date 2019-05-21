@@ -4,14 +4,9 @@
 #
 version: 2
 jobs:
-  build:
+  deploy:
     docker:
       - image: circleci/node:latest
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
 
     working_directory: ~/devcon
 
@@ -37,14 +32,11 @@ jobs:
 
       - run: touch .env && echo SKIP_PREFLIGHT_CHECK=true > .env
       - run: npm run build
-  deploy:
-      docker:
-        - image: circleci/node:latest
-      working_directory: ~/devcon
-      steps:
-        - run:
-            name: Deploy to Firebase
-            command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN
+
+      - run:
+        name: Deploy to Firebase
+        command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN
+        
 
 workflows:
   version: 2
@@ -52,9 +44,6 @@ workflows:
   deploy:
     jobs:
       - build
-      - deploy:
-          requires:
-            - build
-          # filters:
-          #   branches:
-          #     only: feature/circle
+        # filters:
+        #   branches:
+        #     only: feature/circle
