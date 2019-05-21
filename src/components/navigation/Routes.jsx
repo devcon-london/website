@@ -1,15 +1,14 @@
-import React from 'react';
+import React from 'react'
 
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router-dom'
 
-import Home from '../../pages/home/Home';
-import Terms from '../../pages/terms/Terms';
-import Subscribe from '../../pages/subscribe/Subscribe';
-import Events from '../../pages/events/Events';
-import Members from '../../pages/members/Members';
-import Advertisers from '../../pages/advertisers/Advertisers';
-import Submissions from '../../pages/submissions/Submissions';
-
+import Home from '../../pages/home/Home'
+import Terms from '../../pages/terms/Terms'
+import Subscribe from '../../pages/subscribe/Subscribe'
+import Events from '../../pages/events/Events'
+import Members from '../../pages/members/Members'
+import Advertisers from '../../pages/advertisers/Advertisers'
+import Submissions from '../../pages/submissions/Submissions'
 
 const Routes = () => (
   <React.Fragment>
@@ -24,6 +23,6 @@ const Routes = () => (
     {/* shown when authenticated, member and admin */}
     <Route path="/submissions" component={Submissions} />
   </React.Fragment>
-);
+)
 
-export default Routes;
+export default Routes

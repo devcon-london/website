@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
+import { withStyles } from '@material-ui/core/styles'
+import { Link } from 'react-router-dom'
 
-import AppBar from '@material-ui/core/AppBar';
-import ToolBar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import Typography from '@material-ui/core/Typography';
-import ButtonBase from '@material-ui/core/ButtonBase';
+import AppBar from '@material-ui/core/AppBar'
+import ToolBar from '@material-ui/core/Toolbar'
+import IconButton from '@material-ui/core/IconButton'
+import MenuIcon from '@material-ui/icons/Menu'
+import Typography from '@material-ui/core/Typography'
+import ButtonBase from '@material-ui/core/ButtonBase'
 
-import { Sizes } from '../../constants';
-import Authentication from './Authentication';
+import { Sizes } from '../../constants'
+import Authentication from './Authentication'
 
 const styles = theme => ({
   grow: {
@@ -53,7 +53,7 @@ const styles = theme => ({
     height: '48px',
     backgroundRepeat: 'no-repeat',
   },
-});
+})
 
 const MainMenu = ({ classes, drawerOpen, handleDrawer }) => (
   <AppBar
@@ -63,10 +63,7 @@ const MainMenu = ({ classes, drawerOpen, handleDrawer }) => (
     })}
   >
     <ToolBar disableGutters={!drawerOpen} className={classes.content}>
-      <Typography
-        variant="h6"
-        className={classes.grow}
-      >
+      <Typography variant="h6" className={classes.grow}>
         <IconButton
           aria-label="Open drawer"
           onClick={handleDrawer}
@@ -81,12 +78,12 @@ const MainMenu = ({ classes, drawerOpen, handleDrawer }) => (
       <Authentication />
     </ToolBar>
   </AppBar>
-);
+)
 
 MainMenu.propTypes = {
   classes: PropTypes.object.isRequired,
   drawerOpen: PropTypes.bool.isRequired,
   handleDrawer: PropTypes.func.isRequired,
-};
+}
 
-export default withStyles(styles, { withTheme: true })(MainMenu);
+export default withStyles(styles, { withTheme: true })(MainMenu)

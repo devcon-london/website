@@ -1,9 +1,8 @@
-import React from 'react';
-import { Text } from 'informed';
-import InformedTextInput from './InformedTextInput';
+import React from 'react'
+import { Text } from 'informed'
+import InformedTextInput from './InformedTextInput'
 
-import Validation from './validation';
-
+import Validation from './validation'
 
 const MemberFields = () => (
   <React.Fragment>
@@ -67,6 +66,6 @@ const MemberFields = () => (
       validate={Validation.validBio}
     />
   </React.Fragment>
-);
+)
 
-export default MemberFields;
+export default MemberFields

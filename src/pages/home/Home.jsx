@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 
-import Typography from '@material-ui/core/Typography';
+import Typography from '@material-ui/core/Typography'
 
 const Home = () => (
   <div>
@@ -24,18 +24,20 @@ const Home = () => (
       Q: Why is this community so private?
     </Typography>
     <Typography variant="body1" gutterBottom>
-      A: Because we believe that keeping strong relationships between our members is healthy
-      and granting access on an invite-basis is a way of doing so. Also, we can guarantee privacy
-      for our members and avoid unsolicited contacts from people who are not interested in the community.
+      A: Because we believe that keeping strong relationships between our
+      members is healthy and granting access on an invite-basis is a way of
+      doing so. Also, we can guarantee privacy for our members and avoid
+      unsolicited contacts from people who are not interested in the community.
     </Typography>
     <Typography variant="h6" gutterBottom>
       Q: OK, I have an invite, how do I get in now?
     </Typography>
     <Typography variant="body1" gutterBottom>
-      A: Login using your Github account, then head to the subscribe page and fill the form.
-      One of the admins will review your submission and let you in.
+      A: Login using your Github account, then head to the subscribe page and
+      fill the form. One of the admins will review your submission and let you
+      in.
     </Typography>
   </div>
-);
+)
 
-export default Home;
+export default Home

@@ -1,23 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
+import { Link } from 'react-router-dom'
 
-import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import { withStyles } from '@material-ui/core/styles'
+import Drawer from '@material-ui/core/Drawer'
+import List from '@material-ui/core/List'
+import Divider from '@material-ui/core/Divider'
+import IconButton from '@material-ui/core/IconButton'
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
 
-import SnackBar from '../notification/SnackBar';
-import { Sizes, NavItems } from '../../constants';
+import SnackBar from '../notification/SnackBar'
+import { Sizes, NavItems } from '../../constants'
 
-import MainMenu from './MainMenu';
-import Routes from './Routes';
+import MainMenu from './MainMenu'
+import Routes from './Routes'
 
 const styles = theme => ({
   root: {
@@ -63,24 +63,24 @@ const styles = theme => ({
     }),
     marginLeft: 0,
   },
-});
+})
 
 class MainNavigation extends React.Component {
   state = {
     open: false,
-  };
+  }
 
   handleDrawerOpen = () => {
-    this.setState({ open: true });
-  };
+    this.setState({ open: true })
+  }
 
   handleDrawerClose = () => {
-    this.setState({ open: false });
-  };
+    this.setState({ open: false })
+  }
 
   render() {
-    const { classes, theme } = this.props;
-    const { open } = this.state;
+    const { classes, theme } = this.props
+    const { open } = this.state
 
     return (
       <div className={classes.root}>
@@ -97,7 +97,11 @@ class MainNavigation extends React.Component {
         >
           <div className={classes.drawerHeader}>
             <IconButton onClick={this.handleDrawerClose}>
-              {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+              {theme.direction === 'ltr' ? (
+                <ChevronLeftIcon />
+              ) : (
+                <ChevronRightIcon />
+              )}
             </IconButton>
           </div>
           <Divider />
@@ -107,7 +111,9 @@ class MainNavigation extends React.Component {
                 button
                 key={item.text}
                 component={Link}
-                onClick={() => { this.handleDrawerClose(); }}
+                onClick={() => {
+                  this.handleDrawerClose()
+                }}
                 to={item.to}
               >
                 <ListItemText primary={item.text} />
@@ -124,13 +130,13 @@ class MainNavigation extends React.Component {
           <SnackBar />
         </main>
       </div>
-    );
+    )
   }
 }
 
 MainNavigation.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
-};
+}
 
-export default withStyles(styles, { withTheme: true })(MainNavigation);
+export default withStyles(styles, { withTheme: true })(MainNavigation)

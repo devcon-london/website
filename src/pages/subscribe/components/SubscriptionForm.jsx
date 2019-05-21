@@ -1,20 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import { Form, Text } from 'informed';
-import Validation from '../../../components/form/validation';
-import InformedTextInput from '../../../components/form/InformedTextInput';
-import MemberFields from '../../../components/form/MemberFields';
-import AdvertiserFields from '../../../components/form/AdvertiserFields';
-import { DBCollections } from '../../../constants';
-import './SubscriptionForm.css';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Button from '@material-ui/core/Button'
+import Radio from '@material-ui/core/Radio'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormControl from '@material-ui/core/FormControl'
+import FormLabel from '@material-ui/core/FormLabel'
+import { Form, Text } from 'informed'
+import Validation from '../../../components/form/validation'
+import InformedTextInput from '../../../components/form/InformedTextInput'
+import MemberFields from '../../../components/form/MemberFields'
+import AdvertiserFields from '../../../components/form/AdvertiserFields'
+import { DBCollections } from '../../../constants'
+import './SubscriptionForm.css'
 
-const { db } = window;
+const { db } = window
 
 class SubscriptionForm extends React.Component {
   state = {
@@ -22,50 +22,50 @@ class SubscriptionForm extends React.Component {
     applicant: DBCollections.members,
   }
 
-  setFormApi = (formApi) => {
-    this.formApi = formApi;
+  setFormApi = formApi => {
+    this.formApi = formApi
   }
 
   submitForm = () => {
-    const formState = this.formApi.getState();
+    const formState = this.formApi.getState()
     // require at least these fields common to both forms
     const touched = ['referrer', 'name', 'role', 'email', 'linkedin'].reduce(
-      (acc, cur) => (acc && formState.touched[cur]),
-      true,
-    );
+      (acc, cur) => acc && formState.touched[cur],
+      true
+    )
     if (!formState.invalid && !formState.pristine && touched) {
-      const { user } = this.props;
-      const { applicant } = this.state;
+      const { user } = this.props
+      const { applicant } = this.state
       // add values for hidden fields
-      this.formApi.setValue('uid', user.uid);
-      this.formApi.setValue('date', new Date());
+      this.formApi.setValue('uid', user.uid)
+      this.formApi.setValue('date', new Date())
       // setting this value manually, informed would need workaround for radio with material-ui
-      this.formApi.setValue('applicant', applicant);
+      this.formApi.setValue('applicant', applicant)
       db.collection(DBCollections.submissions)
         .doc(user.uid)
         .set(formState.values)
         .then(() => {
-          this.setState({ submitted: true });
+          this.setState({ submitted: true })
         })
-        .catch((error) => {
-          console.log('error writing submission', error);
-        });
+        .catch(error => {
+          console.log('error writing submission', error)
+        })
     }
   }
 
-  setApplicant = e => this.setState({ applicant: e.target.value });
+  setApplicant = e => this.setState({ applicant: e.target.value })
 
   render() {
-    const { state } = this;
-    let content = null;
+    const { state } = this
+    let content = null
 
     if (state.submitted) {
-      content = (<p>Thank you!</p>);
+      content = <p>Thank you!</p>
     } else {
       const showForm = {
         members: <MemberFields />,
         advertisers: <AdvertiserFields />,
-      };
+      }
       content = (
         <Form
           className="SubscriptionForm"
@@ -107,14 +107,14 @@ class SubscriptionForm extends React.Component {
           {showForm[state.applicant]}
           <Button onClick={this.submitForm}>Submit</Button>
         </Form>
-      );
+      )
     }
-    return content;
+    return content
   }
 }
 
 SubscriptionForm.propTypes = {
   user: PropTypes.object.isRequired,
-};
+}
 
-export default SubscriptionForm;
+export default SubscriptionForm

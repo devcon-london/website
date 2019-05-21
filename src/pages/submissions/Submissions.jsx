@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
+import Paper from '@material-ui/core/Paper'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
 
-import { openSnackbar } from '../../components/notification/SnackBar';
-import { DBCollections, Errors } from '../../constants';
+import { DBCollections, Errors } from '../../constants'
+import { showNotifications } from '../../state/actions/notifications'
 
-const { db } = window;
+const { db } = window
 
 const styles = theme => ({
   root: {
@@ -24,7 +24,7 @@ const styles = theme => ({
   paper: {
     padding: theme.spacing.unit * 2,
   },
-});
+})
 
 class Submissions extends React.Component {
   state = {
@@ -33,63 +33,67 @@ class Submissions extends React.Component {
   }
 
   componentDidMount() {
-    const { user } = this.props;
+    const { user } = this.props
     if (user.uid !== null) {
-      this.submissionsUnsubscribe = db.collection(DBCollections.submissions)
+      this.submissionsUnsubscribe = db
+        .collection(DBCollections.submissions)
         .onSnapshot(
-          (snapshot) => {
-            const submissions = [];
-            snapshot.forEach((doc) => {
-              submissions.push(doc.data());
-            });
-            this.setState({ submissions, error: null });
+          snapshot => {
+            const submissions = []
+            snapshot.forEach(doc => {
+              submissions.push(doc.data())
+            })
+            this.setState({ submissions, error: null })
           },
-          (error) => {
+          error => {
             this.setState({
               submissions: [],
               error: Errors.sectionPermission,
-            });
-          },
-        );
+            })
+          }
+        )
     }
   }
 
   componentWillUnmount() {
     if (this.submissionsUnsubscribe) {
-      this.submissionsUnsubscribe();
+      this.submissionsUnsubscribe()
     }
   }
 
-  approveSubmission = (e) => {
-    this.handleSubmission(e.target.dataset.uid, true);
+  approveSubmission = e => {
+    this.handleSubmission(e.target.dataset.uid, true)
   }
 
-  rejectSubmission = (e) => {
-    this.handleSubmission(e.target.dataset.uid, false);
+  rejectSubmission = e => {
+    this.handleSubmission(e.target.dataset.uid, false)
   }
 
   getClickHandler = (uid, approval) => {
-    const f = () => this.handleSubmission(uid, approval);
-    return f;
+    const f = () => this.handleSubmission(uid, approval)
+    return f
   }
 
   handleSubmission = (uid, approval) => {
     // console.log('handle', uid, 'approve', approval);
-    const { user } = this.props;
+    const { user } = this.props
     db.collection(DBCollections.submissions)
       .doc(uid)
       .get()
-      .then((doc) => {
+      .then(doc => {
         // inject current user id and date so we know who approved/rejected
-        const data = Object.assign({
-          adminUid: user.uid,
-          adminDate: (new Date()).toISOString(),
-        }, doc.data());
-        let collection = DBCollections.rejects;
+        const data = Object.assign(
+          {
+            adminUid: user.uid,
+            adminDate: new Date().toISOString(),
+          },
+          doc.data()
+        )
+        let collection = DBCollections.rejects
         if (approval) {
           // determine the right collection depending on applicant value
           // can be either members or advertisers, set by SubcscriptionForm
-          collection = DBCollections[data.applicant];
+          collection = DBCollections[data.applicant]
         }
         db.collection(collection)
           .doc(uid)
@@ -100,22 +104,22 @@ class Submissions extends React.Component {
               .delete()
               .then(() => {
                 // console.log('it is always sunny in California');
-                this.setState({ error: null });
+                this.setState({ error: null })
               })
-              .catch((error) => {
-                console.log('error deleting submission', error);
-                this.setState({ error: 'error deleting submission' });
-              });
+              .catch(error => {
+                console.log('error deleting submission', error)
+                this.setState({ error: 'error deleting submission' })
+              })
           })
-          .catch((error) => {
-            console.log('error setting submission', collection, error);
-            this.setState({ error: 'error setting submission' });
-          });
+          .catch(error => {
+            console.log('error setting submission', collection, error)
+            this.setState({ error: 'error setting submission' })
+          })
       })
-      .catch((error) => {
-        console.log('error retrieving submission', uid, error);
-        this.setState({ error: 'error retrieving submission' });
-      });
+      .catch(error => {
+        console.log('error retrieving submission', uid, error)
+        this.setState({ error: 'error retrieving submission' })
+      })
   }
 
   getFields = (submission, classes) => {
@@ -123,7 +127,7 @@ class Submissions extends React.Component {
       <Typography variant="body1" gutterBottom>
         {`introduced by ${submission.referrer} on ${submission.date}`}
       </Typography>
-    );
+    )
     const showFields = {
       members: (
         <React.Fragment>
@@ -135,10 +139,34 @@ class Submissions extends React.Component {
             {`Bio: ${submission.bio}`}
           </Typography>
           <Typography variant="body1" gutterBottom>
-            <Button className={classes.linkButton} variant="contained" href={submission.github}>Github</Button>
-            <Button className={classes.linkButton} variant="contained" href={`mailto:${submission.email}`}>Email</Button>
-            <Button className={classes.linkButton} variant="contained" href={submission.linkedin}>LinkedIn</Button>
-            <Button className={classes.linkButton} variant="contained" href={submission.twitter}>Twitter</Button>
+            <Button
+              className={classes.linkButton}
+              variant="contained"
+              href={submission.github}
+            >
+              Github
+            </Button>
+            <Button
+              className={classes.linkButton}
+              variant="contained"
+              href={`mailto:${submission.email}`}
+            >
+              Email
+            </Button>
+            <Button
+              className={classes.linkButton}
+              variant="contained"
+              href={submission.linkedin}
+            >
+              LinkedIn
+            </Button>
+            <Button
+              className={classes.linkButton}
+              variant="contained"
+              href={submission.twitter}
+            >
+              Twitter
+            </Button>
           </Typography>
         </React.Fragment>
       ),
@@ -152,24 +180,36 @@ class Submissions extends React.Component {
             {`Role ${submission.role}. Company: ${submission.company}`}
           </Typography>
           <Typography variant="body1" gutterBottom>
-            <Button className={classes.linkButton} variant="contained" href={submission.linkedin}>LinkedIn</Button>
-            <Button className={classes.linkButton} variant="contained" href={`mailto:${submission.email}`}>Email</Button>
+            <Button
+              className={classes.linkButton}
+              variant="contained"
+              href={submission.linkedin}
+            >
+              LinkedIn
+            </Button>
+            <Button
+              className={classes.linkButton}
+              variant="contained"
+              href={`mailto:${submission.email}`}
+            >
+              Email
+            </Button>
           </Typography>
         </React.Fragment>
       ),
-    };
-    return showFields[submission.applicant];
+    }
+    return showFields[submission.applicant]
   }
 
   render() {
-    const { user, classes } = this.props;
-    const { submissions, error } = this.state;
-    let content = null;
+    const { user, classes, showNotifications } = this.props
+    const { submissions, error } = this.state
+    let content = null
 
     if (user.uid === null) {
       // user not logged in
-      openSnackbar(Errors.loginFirst);
-      content = (<Redirect to="/" />);
+      showNotifications(Errors.loginFirst)
+      content = <Redirect to="/" />
     } else if (submissions.length) {
       content = (
         <div className={classes.root}>
@@ -179,33 +219,31 @@ class Submissions extends React.Component {
                 <Paper className={classes.paper}>
                   {this.getFields(i, classes)}
                   {/* material-ui Button doesn't like data-* attributes, hence the getClickHandler */}
-                  {
-                    [
-                      { label: 'Accept', approval: true },
-                      { label: 'Reject', approval: false },
-                    ].map(v => (
-                      <Button
-                        className={classes.linkButton}
-                        variant="contained"
-                        color={v.approval ? 'primary' : 'secondary'}
-                        key={v.label}
-                        data-uid={i.uid}
-                        onClick={this.getClickHandler(i.uid, v.approval)}
-                      >
-                        {v.label}
-                      </Button>
-                    ))
-                  }
+                  {[
+                    { label: 'Accept', approval: true },
+                    { label: 'Reject', approval: false },
+                  ].map(v => (
+                    <Button
+                      className={classes.linkButton}
+                      variant="contained"
+                      color={v.approval ? 'primary' : 'secondary'}
+                      key={v.label}
+                      data-uid={i.uid}
+                      onClick={this.getClickHandler(i.uid, v.approval)}
+                    >
+                      {v.label}
+                    </Button>
+                  ))}
                 </Paper>
               </Grid>
             ))}
           </Grid>
         </div>
-      );
+      )
     } else if (error) {
-      content = (<p>{error}</p>);
+      content = <p>{error}</p>
     } else {
-      content = (<p>no pending submissions!</p>);
+      content = <p>no pending submissions!</p>
     }
 
     return (
@@ -215,18 +253,24 @@ class Submissions extends React.Component {
         </Typography>
         {content}
       </div>
-    );
+    )
   }
 }
 
 Submissions.propTypes = {
   user: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
-};
+  showNotifications: PropTypes.func.isRequired,
+}
 
-const mapStateToProps = state => ({ user: state.user });
+const mapStateToProps = state => ({ user: state.user })
 
-const StyledSubmissions = withStyles(styles)(Submissions);
-const SubmissionsContainer = connect(mapStateToProps)(StyledSubmissions);
+const StyledSubmissions = withStyles(styles)(Submissions)
+const SubmissionsContainer = connect(
+  mapStateToProps,
+  {
+    showNotifications,
+  }
+)(StyledSubmissions)
 
-export default SubmissionsContainer;
+export default SubmissionsContainer

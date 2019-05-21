@@ -1,8 +1,8 @@
-import React from 'react';
-import { Text } from 'informed';
-import InformedTextInput from './InformedTextInput';
+import React from 'react'
+import { Text } from 'informed'
+import InformedTextInput from './InformedTextInput'
 
-import Validation from './validation';
+import Validation from './validation'
 
 const AdvertiserFields = () => (
   <React.Fragment>
@@ -48,6 +48,6 @@ const AdvertiserFields = () => (
       validate={Validation.validLinkedIn}
     />
   </React.Fragment>
-);
+)
 
-export default AdvertiserFields;
+export default AdvertiserFields

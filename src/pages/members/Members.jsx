@@ -1,20 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
+import Paper from '@material-ui/core/Paper'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
 
-import { Form } from 'informed';
-import MemberFields from '../../components/form/MemberFields';
-import { openSnackbar } from '../../components/notification/SnackBar';
-import { DBCollections, Errors } from '../../constants';
+import { Form } from 'informed'
+import MemberFields from '../../components/form/MemberFields'
+import { DBCollections, Errors } from '../../constants'
+import { showNotifications } from '../../state/actions/notifications'
 
-const { db } = window;
+const { db } = window
 
 const styles = theme => ({
   root: {
@@ -26,7 +26,7 @@ const styles = theme => ({
   paper: {
     padding: theme.spacing.unit * 2,
   },
-});
+})
 
 /**
  * this might be helpful for debug
@@ -53,54 +53,49 @@ class Members extends React.Component {
   }
 
   componentDidMount() {
-    const { user } = this.props;
+    const { user } = this.props
     if (user.uid !== null) {
-      this.membersUnsubscribe = db.collection(DBCollections.members)
-        .onSnapshot(
-          (snapshot) => {
-            const members = [];
-            snapshot.forEach((doc) => {
-              members.push(doc.data());
-            });
-            this.setState({
-              members,
-              loading: false,
-              error: null,
-            });
-          },
-          (error) => {
-            this.setState({
-              members: [],
-              loading: false,
-              error: Errors.notAMember,
-            });
-          },
-        );
+      this.membersUnsubscribe = db.collection(DBCollections.members).onSnapshot(
+        snapshot => {
+          const members = []
+          snapshot.forEach(doc => {
+            members.push(doc.data())
+          })
+          this.setState({
+            members,
+            loading: false,
+            error: null,
+          })
+        },
+        error => {
+          this.setState({
+            members: [],
+            loading: false,
+            error: Errors.notAMember,
+          })
+        }
+      )
     }
   }
 
   componentWillUnmount() {
     if (this.membersUnsubscribe) {
-      this.membersUnsubscribe();
+      this.membersUnsubscribe()
     }
   }
 
-  setFormApi = (formApi) => {
-    this.formApi = formApi;
+  setFormApi = formApi => {
+    this.formApi = formApi
   }
 
   submitForm = () => {
-    const formState = this.formApi.getState();
+    const formState = this.formApi.getState()
     if (!formState.invalid) {
       db.collection(DBCollections.members)
         .doc(formState.values.uid)
         .get()
-        .then((doc) => {
-          const updatedData = Object.assign(
-            {},
-            doc.data(),
-            formState.values,
-          );
+        .then(doc => {
+          const updatedData = Object.assign({}, doc.data(), formState.values)
           db.collection(DBCollections.members)
             .doc(updatedData.uid)
             .set(updatedData)
@@ -108,21 +103,21 @@ class Members extends React.Component {
               this.setState({
                 error: null,
                 editing: false,
-              });
+              })
             })
-            .catch((error) => {
+            .catch(error => {
               this.setState({
                 error: 'Error storing data',
                 editing: false,
-              });
-            });
+              })
+            })
         })
-        .catch((error) => {
+        .catch(error => {
           this.setState({
             error: 'Error fetching your personal data',
             editing: false,
-          });
-        });
+          })
+        })
     }
   }
 
@@ -136,15 +131,19 @@ class Members extends React.Component {
     >
       <MemberFields />
       <Button onClick={this.submitForm}>Submit</Button>
-      <Button onClick={() => { this.setState({ editing: false }); }}>Cancel</Button>
+      <Button
+        onClick={() => {
+          this.setState({ editing: false })
+        }}
+      >
+        Cancel
+      </Button>
     </Form>
   )
 
   getUserCard = (member, editable, classes) => (
     <React.Fragment>
-      <Typography variant="h5">
-        {`${member.name}, ${member.role}`}
-      </Typography>
+      <Typography variant="h5">{`${member.name}, ${member.role}`}</Typography>
       <Typography variant="body1" gutterBottom>
         {`member since ${member.adminDate}`}
       </Typography>
@@ -152,71 +151,81 @@ class Members extends React.Component {
         {member.bio}
       </Typography>
       <Typography variant="body1">
-        { editable
-          ? (
-            <Button
-              className={classes.linkButton}
-              variant="contained"
-              color="primary"
-              onClick={() => this.setState({ editing: true })}
-            >
-              edit
-            </Button>
-          )
-          : ''
-        }
-        <Button className={classes.linkButton} variant="contained" href={member.github}>Github</Button>
-        <Button className={classes.linkButton} variant="contained" href={member.linkedin}>LinkedIn</Button>
-        <Button className={classes.linkButton} variant="contained" href={member.twitter}>Twitter</Button>
+        {editable ? (
+          <Button
+            className={classes.linkButton}
+            variant="contained"
+            color="primary"
+            onClick={() => this.setState({ editing: true })}
+          >
+            edit
+          </Button>
+        ) : (
+          ''
+        )}
+        <Button
+          className={classes.linkButton}
+          variant="contained"
+          href={member.github}
+        >
+          Github
+        </Button>
+        <Button
+          className={classes.linkButton}
+          variant="contained"
+          href={member.linkedin}
+        >
+          LinkedIn
+        </Button>
+        <Button
+          className={classes.linkButton}
+          variant="contained"
+          href={member.twitter}
+        >
+          Twitter
+        </Button>
       </Typography>
     </React.Fragment>
   )
 
   render() {
-    const { user, classes } = this.props;
-    const {
-      members,
-      loading,
-      editing,
-      error,
-    } = this.state;
+    const { user, classes, showNotifications } = this.props
+    const { members, loading, editing, error } = this.state
 
-    let content = null;
+    let content = null
 
     if (user.uid === null) {
       // user not logged in
-      openSnackbar(Errors.loginFirst);
-      content = (<Redirect to="/" />);
+      showNotifications(Errors.loginFirst)
+      content = <Redirect to="/" />
     } else if (loading) {
-      content = (<p>loading...</p>);
+      content = <p>loading...</p>
     } else if (error !== null) {
-      content = (<p>{error}</p>);
+      content = <p>{error}</p>
     } else if (members.length) {
       content = (
         <div className={classes.root}>
           <Grid container spacing={24}>
-            {members.map((member) => {
-              let memberContent = null;
+            {members.map(member => {
+              let memberContent = null
               if (editing === true && member.uid === user.uid) {
-                memberContent = this.getUserForm(member);
+                memberContent = this.getUserForm(member)
               } else {
-                const editable = member.uid === user.uid;
-                memberContent = this.getUserCard(member, editable, classes);
+                const editable = member.uid === user.uid
+                memberContent = this.getUserCard(member, editable, classes)
               }
 
               return (
                 <Grid item xs={12} sm={6} key={member.uid}>
-                  <Paper className={classes.paper}>
-                    {memberContent}
-                  </Paper>
+                  <Paper className={classes.paper}>{memberContent}</Paper>
                 </Grid>
-              );
+              )
             })}
           </Grid>
         </div>
-      );
+      )
     } else {
-      content = (<p>these are not the droids you are looking for!</p>);
+      content = <p>these are not the droids you are looking for!</p>
     }
 
     return (
@@ -226,18 +235,23 @@ class Members extends React.Component {
         </Typography>
         {content}
       </div>
-    );
+    )
   }
 }
 
 Members.propTypes = {
   user: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
-};
+}
 
-const mapStateToProps = state => ({ user: state.user });
+const mapStateToProps = state => ({ user: state.user })
 
-const StyledMembers = withStyles(styles)(Members);
-const MembersContainer = connect(mapStateToProps)(StyledMembers);
+const StyledMembers = withStyles(styles)(Members)
+const MembersContainer = connect(
+  mapStateToProps,
+  {
+    showNotifications,
+  }
+)(StyledMembers)
 
-export default MembersContainer;
+export default MembersContainer

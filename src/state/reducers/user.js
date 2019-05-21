@@ -1,4 +1,4 @@
-import actionTypes from '../actions/types';
+import actionTypes from '../actions/types'
 
 const emptyUser = {
   uid: null,
@@ -6,12 +6,12 @@ const emptyUser = {
   photoURL: null,
   token: null,
   userObj: null,
-};
+}
 
 const userReducer = (state = emptyUser, action) => {
   switch (action.type) {
     case actionTypes.UserLoggedIn:
-      console.log('reducer user loggedin', action.data);
+      console.log('reducer user loggedin', action.data)
       return Object.assign(
         {},
         {
@@ -20,18 +20,15 @@ const userReducer = (state = emptyUser, action) => {
           photoURL: action.data.user.photoURL,
           token: action.data.token,
           userObj: action.data.user,
-        },
-      );
+        }
+      )
 
     case actionTypes.UserLoggedOut:
-      return Object.assign(
-        {},
-        emptyUser,
-      );
+      return Object.assign({}, emptyUser)
 
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default userReducer;
+export default userReducer
