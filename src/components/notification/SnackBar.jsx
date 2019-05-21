@@ -20,7 +20,7 @@ class SimpleSnackbar extends React.Component {
     message: '',
   };
 
-  componentDidMount() {
+  componentWillMount() {
     openSnackbarFn = this.openSnackBar;
   }
 
