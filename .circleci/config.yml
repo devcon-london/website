@@ -37,14 +37,14 @@ jobs:
 
       - run: touch .env && echo SKIP_PREFLIGHT_CHECK=true > .env
       - run: npm run build
-    deploy:
-        docker:
-          - image: circleci/node:latest
-        working_directory: ~/devcon
-        steps:
-          - run:
-              name: Deploy to Firebase
-              command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN
+  deploy:
+      docker:
+        - image: circleci/node:latest
+      working_directory: ~/devcon
+      steps:
+        - run:
+            name: Deploy to Firebase
+            command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN
 
 workflows:
   version: 2
