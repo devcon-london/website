@@ -206,21 +206,29 @@ class Members extends React.Component {
       content = (
         <div className={classes.root}>
           <Grid container spacing={24}>
-            {members.map(member => {
-              let memberContent = null
-              if (editing === true && member.uid === user.uid) {
-                memberContent = this.getUserForm(member)
-              } else {
-                const editable = member.uid === user.uid
-                memberContent = this.getUserCard(member, editable, classes)
-              }
+            {members
+              .sort((a, b) => {
+                if (a.name < b.name) return -1;
+                if (a.name > b.name) return 1;
+                return 0;
+              })
+              .map((member) => {
+                let memberContent = null;
+                if (editing === true && member.uid === user.uid) {
+                  memberContent = this.getUserForm(member);
+                } else {
+                  const editable = member.uid === user.uid;
+                  memberContent = this.getUserCard(member, editable, classes);
+                }
 
-              return (
-                <Grid item xs={12} sm={6} key={member.uid}>
-                  <Paper className={classes.paper}>{memberContent}</Paper>
-                </Grid>
-              )
-            })}
+                return (
+                  <Grid item xs={12} sm={6} key={member.uid}>
+                    <Paper className={classes.paper}>
+                      {memberContent}
+                    </Paper>
+                  </Grid>
+                );
+              })}
           </Grid>
         </div>
       )
