@@ -6,7 +6,6 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
       - image: circleci/node:latest
 
       # Specify service dependencies here if necessary
@@ -37,4 +36,11 @@ jobs:
       # - run: npm test
 
       - run: npm build
-      - run: firebase deploy --only hosting
+    deploy:
+        docker:
+          - image: circleci/node:latest
+        working_directory: ~/devcon
+        steps:
+          - run:
+              name: Deploy to Firebase
+              command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN
