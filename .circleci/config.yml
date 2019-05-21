@@ -35,7 +35,7 @@ jobs:
       # run tests!
       # - run: npm test
 
-      - run: npm build
+      - run: npm run build
     deploy:
         docker:
           - image: circleci/node:latest
@@ -44,3 +44,16 @@ jobs:
           - run:
               name: Deploy to Firebase
               command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN
+
+workflows:
+  version: 2
+
+  -deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          # filters:
+          #   branches:
+          #     only: feature/circle
