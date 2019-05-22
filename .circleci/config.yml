@@ -8,8 +8,6 @@ jobs:
     docker:
       - image: circleci/node:latest
 
-    working_directory: ~/devcon
-
     steps:
       - checkout
 
@@ -19,21 +17,23 @@ jobs:
             - website-dependencies-{{ checksum "~/devcon/package.json" }}
             - website-dependencies-
 
-      - run: npm install
+      - run: 
+          working_directory: ~/devcon
+          command: npm install
 
       - save_cache:
           paths:
             - node_modules
           key: website-dependencies-{{ checksum "~/devcon/package.json" }}
 
-      - run: cd ~/devcon/functions
-
       - restore_cache:
           keys:
             - functions-dependencies-{{ checksum "~/devcon/functions/package.json" }}
             - functions-dependencies-
       
-      - run: npm install
+      - run:
+          working_directory: ~/devcon/functions
+          command: npm install
 
       - save_cache:
           paths:
@@ -45,11 +45,18 @@ jobs:
       # run tests!
       # - run: npm test
 
-      - run: touch .env && echo SKIP_PREFLIGHT_CHECK=true > .env
-      - run: npm run build
+      - run:
+          working_directory: ~/devcon
+          command: touch .env && echo SKIP_PREFLIGHT_CHECK=true > .env
+
+      - run: 
+          name: Build
+          working_directory: ~/devcon
+          command: npm run build
 
       - run:
           name: Deploy to Firebase
+          working_directory: ~/devcon
           command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN
         
 
