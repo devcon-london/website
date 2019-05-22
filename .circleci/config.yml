@@ -21,6 +21,7 @@ jobs:
             - v1-dependencies-
 
       - run: npm install
+      - run: cd functions && npm install --production && cd ..
 
       - save_cache:
           paths:
@@ -35,7 +36,7 @@ jobs:
 
       - run:
         name: Deploy to Firebase
-        command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN --only hosting
+        command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN
         
 
 workflows:
