@@ -1,0 +1,64 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  deploy:
+    docker:
+      - image: circleci/node:latest
+
+    working_directory: ~/devcon
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - website-deps-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - website-deps-
+
+      - run: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: website-deps-{{ checksum "package.json" }}
+
+      - restore_cache:
+          keys:
+            - functions-deps-{{ checksum "~/devcon/functions/package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - functions-deps-
+
+      - run: cd functions && npm install
+
+      - save_cache:
+          paths:
+            - ~/devcon/functions/node_modules
+          key: functions-deps-{{ checksum "~/devcon/functions/package.json" }}
+
+      - run: cd ~/devcon/
+
+      # run tests!
+      # - run: npm test
+
+      - run: touch .env && echo SKIP_PREFLIGHT_CHECK=true > .env
+      - run: npm run build
+
+      - run:
+          name: Deploy to Firebase
+          command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN
+
+
+workflows:
+  version: 2
+
+  deploy:
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only: master

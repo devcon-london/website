@@ -29,7 +29,7 @@ const notifySlack = (msg) => {
 
 exports.notifySubmission = functions.firestore
   .document('submissions/{userId}')
-  .onCreate((snap, context) => {
+  .onCreate((snap) => {
     const newSub = snap.data();
     const msg = `New submission! ${newSub.name} wants to join the Devcon ${newSub.applicant} community`;
     notifySlack(msg);
