@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 
 import { DBCollections, Errors } from '../../constants'
-import { showNotifications } from '../../state/actions/notifications'
+import { showNotifications } from '../../state/reducers/ui'
 
 const { db } = window
 

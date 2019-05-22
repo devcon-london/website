@@ -1,6 +1,6 @@
 import actionTypes from '../actions/types'
 
-const emptyUser = {
+const initialState = {
   uid: null,
   displayName: null,
   photoURL: null,
@@ -8,23 +8,23 @@ const emptyUser = {
   userObj: null,
 }
 
-const userReducer = (state = emptyUser, action) => {
+const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.UserLoggedIn:
       console.log('reducer user loggedin', action.data)
-      return Object.assign(
-        {},
-        {
+      return {
+        ...initialState,
           uid: action.data.user.uid,
           displayName: action.data.user.displayName,
           photoURL: action.data.user.photoURL,
           token: action.data.token,
           userObj: action.data.user,
         }
-      )
 
     case actionTypes.UserLoggedOut:
-      return Object.assign({}, emptyUser)
+      return {
+        ...initialState
+      }
 
     default:
       return state
