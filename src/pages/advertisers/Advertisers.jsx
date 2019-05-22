@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
+import Paper from '@material-ui/core/Paper'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
 
-import { openSnackbar } from '../../components/notification/SnackBar';
-import { DBCollections, Errors } from '../../constants';
+import { DBCollections, Errors } from '../../constants'
+import { showNotifications } from '../../state/actions/notifications'
 
-const { db } = window;
+const { db } = window
 
 const styles = theme => ({
   root: {
@@ -21,7 +21,7 @@ const styles = theme => ({
   paper: {
     padding: theme.spacing.unit * 2,
   },
-});
+})
 
 class Advertisers extends React.Component {
   state = {
@@ -30,42 +30,43 @@ class Advertisers extends React.Component {
   }
 
   componentDidMount() {
-    const { user } = this.props;
+    const { user } = this.props
     if (user.uid !== null) {
-      this.advertisersUnsubscribe = db.collection(DBCollections.advertisers)
+      this.advertisersUnsubscribe = db
+        .collection(DBCollections.advertisers)
         .onSnapshot(
-          (snapshot) => {
-            const advertisers = [];
-            snapshot.forEach((doc) => {
-              advertisers.push(doc.data());
-            });
-            this.setState({ advertisers, error: null });
+          snapshot => {
+            const advertisers = []
+            snapshot.forEach(doc => {
+              advertisers.push(doc.data())
+            })
+            this.setState({ advertisers, error: null })
           },
-          (error) => {
+          error => {
             this.setState({
               advertisers: [],
               error: Errors.sectionPermission,
-            });
-          },
-        );
+            })
+          }
+        )
     }
   }
 
   componentWillUnmount() {
     if (this.advertisersUnsubscribe) {
-      this.advertisersUnsubscribe();
+      this.advertisersUnsubscribe()
     }
   }
 
   render() {
-    const { user, classes } = this.props;
-    const { advertisers, error } = this.state;
-    let content = null;
+    const { user, showNotifications, classes } = this.props
+    const { advertisers, error } = this.state
+    let content = null
 
     if (user.uid === null) {
       // user not logged in
-      openSnackbar(Errors.loginFirst);
-      content = (<Redirect to="/" />);
+      showNotifications(Errors.loginFirst)
+      content = <Redirect to="/" />
     } else if (advertisers.length) {
       content = (
         <div>
@@ -85,11 +86,11 @@ class Advertisers extends React.Component {
             ))}
           </Grid>
         </div>
-      );
+      )
     } else if (error) {
-      content = (<p>{error}</p>);
+      content = <p>{error}</p>
     } else {
-      content = (<p>nobody here...</p>);
+      content = <p>nobody here...</p>
     }
 
     return (
@@ -99,18 +100,24 @@ class Advertisers extends React.Component {
         </Typography>
         {content}
       </div>
-    );
+    )
   }
 }
 
 Advertisers.propTypes = {
   user: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
-};
+  showNotifications: PropTypes.func.isRequired,
+}
 
-const mapStateToProps = state => ({ user: state.user });
+const mapStateToProps = state => ({ user: state.user })
 
-const StyledAdvertisers = withStyles(styles)(Advertisers);
-const AdvertisersContainer = connect(mapStateToProps)(StyledAdvertisers);
+const StyledAdvertisers = withStyles(styles)(Advertisers)
+const AdvertisersContainer = connect(
+  mapStateToProps,
+  {
+    showNotifications,
+  }
+)(StyledAdvertisers)
 
-export default AdvertisersContainer;
+export default AdvertisersContainer

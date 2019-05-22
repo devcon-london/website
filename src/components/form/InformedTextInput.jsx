@@ -1,6 +1,6 @@
-import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import { asField } from 'informed';
+import React from 'react'
+import TextField from '@material-ui/core/TextField'
+import { asField } from 'informed'
 
 /**
  * have a look at https://github.com/joepuzzo/informed/issues/114
@@ -8,31 +8,28 @@ import { asField } from 'informed';
 
 class InformedTextInput extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
-    const { props } = this;
-    if (
-      nextProps.fieldState === props.fieldState
-      && nextState === this.state
-    ) {
-      return false;
+    const { props } = this
+    if (nextProps.fieldState === props.fieldState && nextState === this.state) {
+      return false
     }
-    return true;
+    return true
   }
 
-  handleChange = (event) => {
-    const { props } = this;
-    props.fieldApi.setValue(event.target.value);
+  handleChange = event => {
+    const { props } = this
+    props.fieldApi.setValue(event.target.value)
     if (props.onChange) {
-      props.onChange(event);
+      props.onChange(event)
     }
-  };
+  }
 
-  handleBlur = (event) => {
-    const { props } = this;
-    props.fieldApi.setTouched(true);
+  handleBlur = event => {
+    const { props } = this
+    props.fieldApi.setTouched(true)
     if (props.onBlur) {
-      props.onBlur(event);
+      props.onBlur(event)
     }
-  };
+  }
 
   render() {
     const {
@@ -49,9 +46,9 @@ class InformedTextInput extends React.Component {
       InputProps,
       validate,
       ...rest
-    } = this.props;
+    } = this.props
 
-    const { value, error } = fieldState;
+    const { value, error } = fieldState
 
     return (
       <TextField
@@ -62,8 +59,8 @@ class InformedTextInput extends React.Component {
         error={!!error}
         helperText={error}
       />
-    );
+    )
   }
 }
 
-export default asField(InformedTextInput);
+export default asField(InformedTextInput)

@@ -1,19 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import Drawer from '@material-ui/core/Drawer'
+import List from '@material-ui/core/List'
+import Divider from '@material-ui/core/Divider'
+import IconButton from '@material-ui/core/IconButton'
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
 
-import { withStyles } from '@material-ui/core';
+import { withStyles } from '@material-ui/core'
 
-import { Sizes, NavItems } from '../../constants';
+import { Sizes, NavItems } from '../../constants'
 
 const styles = theme => ({
   drawer: {
@@ -30,11 +30,9 @@ const styles = theme => ({
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
   },
-});
+})
 
-const MainDrawer = ({
-  classes, theme, open, handleDrawerClose,
-}) => (
+const MainDrawer = ({ classes, theme, open, handleDrawerClose }) => (
   <Drawer
     className={classes.drawer}
     variant="persistent"
@@ -58,13 +56,13 @@ const MainDrawer = ({
       ))}
     </List>
   </Drawer>
-);
+)
 
 MainDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   handleDrawerClose: PropTypes.func.isRequired,
-};
+}
 
-export default withStyles(styles)(MainDrawer);
+export default withStyles(styles)(MainDrawer)

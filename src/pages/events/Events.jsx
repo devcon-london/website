@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const Events = () => (
   <div>
@@ -6,6 +6,6 @@ const Events = () => (
     <p>accessible to members only</p>
     <p>pull stuff from google calendar maybe?</p>
   </div>
-);
+)
 
-export default Events;
+export default Events
