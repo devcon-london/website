@@ -27,11 +27,11 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: cd functions
+      - run: cd ~/devcon/functions
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-{{ checksum "~/devcon/functions/package.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
       
@@ -39,10 +39,10 @@ jobs:
 
       - save_cache:
           paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+            - ~/devcon/functions/node_modules
+          key: v1-dependencies-{{ checksum "~/devcon/functions/package.json" }}
 
-      - run: cd ..
+      - run: cd ~/devcon/
 
       # run tests!
       # - run: npm test
