@@ -29,22 +29,6 @@ const styles = theme => ({
   },
 })
 
-/**
- * this might be helpful for debug
-const fakeMembers = () => (
-  [1, 2, 3, 4, 5, 6, 7, 8].map(v => ({
-    uid: v,
-    name: `Zungo ${v}`,
-    role: 'dev',
-    bio: 'crisps websites',
-    adminDate: (new Date()).toISOString(),
-    github: 'http://www.google.com/',
-    linkedin: 'http://www.google.com/',
-    twitter: 'http://www.google.com/',
-  }))
-);
- */
-
 class Members extends React.Component {
   state = {
     editing: false,
