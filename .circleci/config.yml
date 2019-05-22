@@ -16,7 +16,7 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - website-dependencies-{{ checksum "package.json" }}
+            - website-dependencies-{{ checksum "~/devcon/package.json" }}
             - website-dependencies-
 
       - run: npm install
@@ -24,7 +24,7 @@ jobs:
       - save_cache:
           paths:
             - node_modules
-          key: website-dependencies-{{ checksum "package.json" }}
+          key: website-dependencies-{{ checksum "~/devcon/package.json" }}
 
       - run: cd ~/devcon/functions
 
@@ -33,7 +33,7 @@ jobs:
             - functions-dependencies-{{ checksum "~/devcon/functions/package.json" }}
             - functions-dependencies-
       
-      - run: npm install --production
+      - run: npm install
 
       - save_cache:
           paths:
