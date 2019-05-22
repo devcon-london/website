@@ -35,8 +35,8 @@ jobs:
       - run: npm run build
 
       - run:
-        name: Deploy to Firebase
-        command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN
+          name: Deploy to Firebase
+          command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN
         
 
 workflows:
