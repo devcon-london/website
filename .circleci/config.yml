@@ -11,8 +11,8 @@ jobs:
     steps:
       - checkout
 
-      # Download and cache dependencies
       - restore_cache:
+          working_directory: ~/devcon
           keys:
             - website-dependencies-{{ checksum "~/devcon/package.json" }}
             - website-dependencies-
@@ -27,6 +27,7 @@ jobs:
           key: website-dependencies-{{ checksum "~/devcon/package.json" }}
 
       - restore_cache:
+          working_directory: ~/devcon/functions
           keys:
             - functions-dependencies-{{ checksum "~/devcon/functions/package.json" }}
             - functions-dependencies-
