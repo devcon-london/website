@@ -1,24 +1,22 @@
-import actionTypes from '../actions/types'
+import { createAction, createReducer } from 'redux-act'
 
-const ui = {
+const initialState = {
   notifications: null,
 }
 
-export default (state = ui, action) => {
-  switch (action.type) {
-    case actionTypes.SHOW_NOTIFICATIONS:
-      return {
-        ...state,
-        notifications: action.data,
-      }
+export const showNotifications = createAction('SHOW_NOTIFICATIOMS')
+export const hideNotifications = createAction('HIDE_NOTIFICATIOMS')
 
-    case actionTypes.HIDE_NOTIFICATIONS:
-      return {
-        ...state,
-        notifications: null,
-      }
-
-    default:
-      return state
-  }
-}
+export default createReducer(
+  {
+    [showNotifications]: (state, notifications) => ({
+      ...state,
+      notifications,
+    }),
+    [hideNotifications]: state => ({
+      ...state,
+      notifications: null,
+    }),
+  },
+  initialState
+)

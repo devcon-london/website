@@ -12,7 +12,8 @@ import Button from '@material-ui/core/Button'
 import { Form } from 'informed'
 import MemberFields from '../../components/form/MemberFields'
 import { DBCollections, Errors } from '../../constants'
-import { showNotifications } from '../../state/actions/notifications'
+import { showNotifications } from '../../state/reducers/ui'
+import { loadMembers } from '../../state/reducers/members'
 
 const { db } = window
 
@@ -46,41 +47,13 @@ const fakeMembers = () => (
 
 class Members extends React.Component {
   state = {
-    members: [],
-    loading: true,
     editing: false,
-    error: null,
   }
 
   componentDidMount() {
-    const { user } = this.props
+    const { user, loadMembers } = this.props
     if (user.uid !== null) {
-      this.membersUnsubscribe = db.collection(DBCollections.members).onSnapshot(
-        snapshot => {
-          const members = []
-          snapshot.forEach(doc => {
-            members.push(doc.data())
-          })
-          this.setState({
-            members,
-            loading: false,
-            error: null,
-          })
-        },
-        error => {
-          this.setState({
-            members: [],
-            loading: false,
-            error: Errors.notAMember,
-          })
-        }
-      )
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.membersUnsubscribe) {
-      this.membersUnsubscribe()
+      loadMembers()
     }
   }
 
@@ -163,37 +136,51 @@ class Members extends React.Component {
         ) : (
           ''
         )}
-        {member.github && <Button
-          className={classes.linkButton}
-          variant="contained"
-          href={member.github}
-          target="_blank"
-        >
-          Github
-        </Button>}
-        {member.linkedin && <Button
-          className={classes.linkButton}
-          variant="contained"
-          href={member.linkedin}
-          target="_blank"
-        >
-          LinkedIn
-        </Button>}
-        {member.twitter && <Button
-          className={classes.linkButton}
-          variant="contained"
-          href={member.twitter}
-          target="_blank"
-        >
-          Twitter
-        </Button>}
+        {member.github && (
+          <Button
+            className={classes.linkButton}
+            variant="contained"
+            href={member.github}
+            target="_blank"
+          >
+            Github
+          </Button>
+        )}
+        {member.linkedin && (
+          <Button
+            className={classes.linkButton}
+            variant="contained"
+            href={member.linkedin}
+            target="_blank"
+          >
+            LinkedIn
+          </Button>
+        )}
+        {member.twitter && (
+          <Button
+            className={classes.linkButton}
+            variant="contained"
+            href={member.twitter}
+            target="_blank"
+          >
+            Twitter
+          </Button>
+        )}
       </Typography>
     </React.Fragment>
   )
 
   render() {
-    const { user, classes, showNotifications } = this.props
-    const { members, loading, editing, error } = this.state
+    const {
+      error,
+      loading,
+      members,
+      user,
+      classes,
+      showNotifications,
+    } = this.props
+
+    const { editing } = this.state
 
     let content = null
 
@@ -253,13 +240,17 @@ Members.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = state => ({ user: state.user })
-
 const StyledMembers = withStyles(styles)(Members)
 const MembersContainer = connect(
-  mapStateToProps,
+  ({ user, members: { members, loading, error } }) => ({
+    user,
+    members,
+    loading,
+    error
+  }),
   {
     showNotifications,
+    loadMembers,
   }
 )(StyledMembers)
 
