@@ -16,31 +16,31 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - website-dependencies-{{ checksum "package.json" }}
+            - website-deps-{{ checksum "package.json" }}
             # fallback to using the latest cache if no exact match is found
-            - website-dependencies-
+            - website-deps-
 
       - run: npm install
 
       - save_cache:
           paths:
             - node_modules
-          key: website-dependencies-{{ checksum "package.json" }}
+          key: website-deps-{{ checksum "package.json" }}
 
       - run: cd functions
 
       - restore_cache:
           keys:
-            - functions-dependencies-{{ checksum "~/devcon/functions/package.json" }}
+            - functions-deps-{{ checksum "~/devcon/functions/package.json" }}
             # fallback to using the latest cache if no exact match is found
-            - functions-dependencies-
+            - functions-deps-
       
       - run: npm install
 
       - save_cache:
           paths:
             - ~/devcon/functions/node_modules
-          key: functions-dependencies-{{ checksum "~/devcon/functions/package.json" }}
+          key: functions-deps-{{ checksum "~/devcon/functions/package.json" }}
 
       - run: cd ~/devcon/
 
