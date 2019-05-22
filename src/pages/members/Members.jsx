@@ -163,27 +163,30 @@ class Members extends React.Component {
         ) : (
           ''
         )}
-        <Button
+        {member.github && <Button
           className={classes.linkButton}
           variant="contained"
           href={member.github}
+          target="_blank"
         >
           Github
-        </Button>
-        <Button
+        </Button>}
+        {member.linkedin && <Button
           className={classes.linkButton}
           variant="contained"
           href={member.linkedin}
+          target="_blank"
         >
           LinkedIn
-        </Button>
-        <Button
+        </Button>}
+        {member.twitter && <Button
           className={classes.linkButton}
           variant="contained"
           href={member.twitter}
+          target="_blank"
         >
           Twitter
-        </Button>
+        </Button>}
       </Typography>
     </React.Fragment>
   )
