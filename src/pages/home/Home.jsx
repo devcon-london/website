@@ -9,10 +9,10 @@ const Home = () => (
     </Typography>
 
     <Typography variant="h6" gutterBottom>
-      Q: What is Devcon.London?
+      Q: What is Devcon.Rocks?
     </Typography>
     <Typography variant="body1" gutterBottom>
-      A: Devcon.London is an invitation-only community of developers.
+      A: Devcon.Rocks is an invitation-only community of developers.
     </Typography>
     <Typography variant="h6" gutterBottom>
       Q: How do I get in?

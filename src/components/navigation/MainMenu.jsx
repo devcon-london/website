@@ -48,7 +48,7 @@ const styles = theme => ({
     },
   },
   devconLogo: {
-    backgroundImage: `url('${process.env.PUBLIC_URL}/img/devcon.london.png')`,
+    backgroundImage: `url('${process.env.PUBLIC_URL}/img/devcon.rocks.png')`,
     width: '48px',
     height: '48px',
     backgroundRepeat: 'no-repeat',
