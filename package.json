@@ -5,18 +5,18 @@
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
-    "@storybook/react": "^5.0.11",
+    "@storybook/react": "^5.1.11",
     "classnames": "^2.2.6",
-    "informed": "^2.6.14",
+    "informed": "^2.11.8",
     "prop-types": "^15.7.2",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-redux": "^7.0.3",
-    "react-router-dom": "^5.0.0",
-    "react-scripts": "^3.0.1",
-    "redux": "^4.0.1",
-    "redux-act": "^1.7.4",
-    "redux-promise-middleware": "^6.1.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-redux": "^7.1.0",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "^3.1.1",
+    "redux": "^4.0.4",
+    "redux-act": "^1.7.7",
+    "redux-promise-middleware": "^6.1.1",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
@@ -38,16 +38,16 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@babel/core": "^7.4.4",
-    "@storybook/addon-actions": "^5.0.11",
-    "@storybook/addon-links": "^5.0.11",
-    "@storybook/addons": "^5.0.11",
+    "@babel/core": "^7.5.5",
+    "@storybook/addon-actions": "^5.1.11",
+    "@storybook/addon-links": "^5.1.11",
+    "@storybook/addons": "^5.1.11",
     "babel-loader": "^8.0.6",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.17.2",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.13.0",
-    "firebase-tools": "^6.10.0",
-    "prettier": "^1.17.1"
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
+    "firebase-tools": "^6.12.0",
+    "prettier": "^1.18.2"
   }
 }
