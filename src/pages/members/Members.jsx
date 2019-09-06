@@ -8,6 +8,9 @@ import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
+import Fab from '@material-ui/core/Fab';
+import SortByAlphaIcon from '@material-ui/icons/SortByAlpha';
+import EventNoteIcon from '@material-ui/icons/EventNote';
 
 import { Form } from 'informed'
 import MemberFields from '../../components/form/MemberFields'
@@ -27,11 +30,15 @@ const styles = theme => ({
   paper: {
     padding: theme.spacing.unit * 2,
   },
+  margin: {
+    marginLeft: theme.spacing.unit,
+  },
 })
 
 class Members extends React.Component {
   state = {
     editing: false,
+    sorting: 'name',
   }
 
   componentDidMount() {
@@ -100,7 +107,8 @@ class Members extends React.Component {
 
   getUserCard = (member, editable, classes) => (
     <React.Fragment>
-      <Typography variant="h5">{`${member.name}, ${member.role}`}</Typography>
+      <Typography variant="h5">{`${member.name}`}</Typography>
+      <Typography variant="h6">{`${member.role}`}</Typography>
       <Typography variant="body1" gutterBottom>
         {`member since ${member.adminDate}`}
       </Typography>
@@ -154,6 +162,24 @@ class Members extends React.Component {
     </React.Fragment>
   )
 
+  getSortingFn = (sortingName) => {
+    const sortingParamsDict = {
+      'name': { 'field': 'name', 'mult': 1 },
+      '-name': { 'field': 'name', 'mult': -1 },
+      'date': { 'field': 'adminDate', 'mult': 1 },
+      '-date': { 'field': 'adminDate', 'mult': -1 },
+    }
+    const funGen = sortingParams => {
+      const fun = (a, b) => {
+        if (a[sortingParams.field] < b[sortingParams.field]) return -1 * sortingParams.mult
+        if (a[sortingParams.field] > b[sortingParams.field]) return 1 * sortingParams.mult
+        return 0
+      }
+      return fun
+    }
+    return funGen(sortingParamsDict[sortingName])
+  }
+
   render() {
     const {
       error,
@@ -164,7 +190,7 @@ class Members extends React.Component {
       showNotifications,
     } = this.props
 
-    const { editing } = this.state
+    const { editing, sorting } = this.state
 
     let content = null
 
@@ -181,11 +207,7 @@ class Members extends React.Component {
         <div className={classes.root}>
           <Grid container spacing={24}>
             {members
-              .sort((a, b) => {
-                if (a.name < b.name) return -1
-                if (a.name > b.name) return 1
-                return 0
-              })
+              .sort(this.getSortingFn(sorting))
               .map(member => {
                 let memberContent = null
                 if (editing === true && member.uid === user.uid) {
@@ -210,9 +232,40 @@ class Members extends React.Component {
 
     return (
       <div>
-        <Typography variant="h4" gutterBottom>
-          Members.
-        </Typography>
+        <Grid
+          justify="space-between"
+          container
+          spacing={24}
+        >
+          <Grid item>
+            <Typography variant="h4" gutterBottom>
+              Members.
+            </Typography>
+          </Grid>
+
+          <Grid item>
+            <div>
+              <Fab
+                size="small"
+                color="secondary"
+                aria-label="sort-by-alpha"
+                className={classes.margin}
+                onClick={() => sorting === 'name' ? this.setState({ sorting: '-name' }) : this.setState({ sorting: 'name' })}
+              >
+                <SortByAlphaIcon />
+              </Fab>
+              <Fab
+                size="small"
+                color="secondary"
+                aria-label="sort-by-date-joined"
+                className={classes.margin}
+                onClick={() => sorting === 'date' ? this.setState({ sorting: '-date' }) : this.setState({ sorting: 'date' })}
+              >
+                <EventNoteIcon />
+              </Fab>
+            </div>
+          </Grid>
+        </Grid>
         {content}
       </div>
     )
