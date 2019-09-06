@@ -76,7 +76,7 @@ class SubscriptionForm extends React.Component {
           <Text field="date" id="date" hidden />
           {/* setting this value manually, informed would need workaround for radio with material-ui */}
           <Text field="applicant" id="applicant" hidden />
-          <FormControl component="fieldset">
+          <FormControl component="fieldset" fullWidth>
             <FormLabel component="legend">Applicant Type</FormLabel>
             <RadioGroup
               aria-label="Applicant"
@@ -88,11 +88,13 @@ class SubscriptionForm extends React.Component {
                 value={DBCollections.members}
                 control={<Radio />}
                 label="Member"
+                labelPlacement="end"
               />
               <FormControlLabel
                 value={DBCollections.advertisers}
                 control={<Radio />}
                 label="Advertiser"
+                labelPlacement="end"
               />
             </RadioGroup>
           </FormControl>

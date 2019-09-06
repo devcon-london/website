@@ -29,7 +29,7 @@ const SimpleSnackbar = ({ classes, open, message, hideNotifications }) => (
     message={<span id="message-id">{message}</span>}
     action={[
       <Button
-        key="close"
+        key="close_button"
         color="secondary"
         size="small"
         onClick={hideNotifications}
@@ -37,7 +37,7 @@ const SimpleSnackbar = ({ classes, open, message, hideNotifications }) => (
         CLOSE
       </Button>,
       <IconButton
-        key="close"
+        key="close_icon"
         aria-label="Close"
         color="inherit"
         className={classes.close}
