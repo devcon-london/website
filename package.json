@@ -14,6 +14,7 @@
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "^3.1.1",
+    "react-social-icons": "^4.1.0",
     "redux": "^4.0.4",
     "redux-act": "^1.7.7",
     "redux-promise-middleware": "^6.1.1",
