@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
+import { SocialIcon } from 'react-social-icons';
 
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -25,10 +26,18 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
   },
-  linkButton: {
-    marginRight: '5px',
+  socialButton: {
+    marginRight: '10px',
+  },
+  editButton: {
+    margin: 'auto 0 auto auto'
+  },
+  buttonsContainer: {
+    marginTop: '10px',
+    display: 'flex',
   },
   paper: {
+    position: 'relative',
     padding: theme.spacing.unit * 2,
   },
   margin: {
@@ -107,7 +116,7 @@ class Members extends React.Component {
   )
 
   getUserCard = (member, editable, classes) => (
-    <React.Fragment>
+    <>
       <Typography variant="h5">{`${member.name}`}</Typography>
       <Typography variant="h6">{`${member.role}`}</Typography>
       <Typography variant="body1" gutterBottom>
@@ -116,51 +125,28 @@ class Members extends React.Component {
       <Typography variant="body1" gutterBottom>
         {member.bio}
       </Typography>
-      <Typography variant="body1">
-        {editable ? (
+      <Grid className={classes.buttonsContainer}>
+        {member.github && (
+          <SocialIcon className={classes.socialButton} url={member.github} bgColor="#212121" fgColor='#FFF' target="_blank" />
+        )}
+        {member.linkedin && (
+          <SocialIcon className={classes.socialButton} url={member.linkedin} bgColor="#212121" fgColor='#FFF' target="_blank" />
+        )}
+        {member.twitter && (
+          <SocialIcon className={classes.socialButton} url={member.twitter} bgColor="#212121" fgColor='#FFF' target="_blank" />
+        )}
+        {editable && (
           <Button
-            className={classes.linkButton}
+            className={classes.editButton}
             variant="contained"
             color="primary"
             onClick={() => this.setState({ editing: true })}
           >
             edit
           </Button>
-        ) : (
-          ''
         )}
-        {member.github && (
-          <Button
-            className={classes.linkButton}
-            variant="contained"
-            href={member.github}
-            target="_blank"
-          >
-            Github
-          </Button>
-        )}
-        {member.linkedin && (
-          <Button
-            className={classes.linkButton}
-            variant="contained"
-            href={member.linkedin}
-            target="_blank"
-          >
-            LinkedIn
-          </Button>
-        )}
-        {member.twitter && (
-          <Button
-            className={classes.linkButton}
-            variant="contained"
-            href={member.twitter}
-            target="_blank"
-          >
-            Twitter
-          </Button>
-        )}
-      </Typography>
-    </React.Fragment>
+      </Grid>
+    </>
   )
 
   getSortingFn = (sortingName) => {
