@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import moment from 'moment'
 
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -125,7 +126,7 @@ class Submissions extends React.Component {
   getFields = (submission, classes) => {
     const intro = (
       <Typography variant="body1" gutterBottom>
-        {`introduced by ${submission.referrer} on ${submission.date}`}
+        {`introduced by ${submission.referrer} on ${moment(submission.date).format('MMMM Do, YYYY')}`}
       </Typography>
     )
     const showFields = {
