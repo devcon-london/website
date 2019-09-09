@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import moment from 'moment'
 import { SocialIcon } from 'react-social-icons';
 
 import { withStyles } from '@material-ui/core/styles'
@@ -119,7 +120,7 @@ class Members extends React.Component {
       <Typography variant="h5">{`${member.name}`}</Typography>
       <Typography variant="h6">{`${member.role}`}</Typography>
       <Typography variant="body1" gutterBottom>
-        {`member since ${member.adminDate}`}
+        {`member since ${moment(member.adminDate).format('MMM Do, YYYY')}`}
       </Typography>
       <Typography variant="body1" gutterBottom>
         {member.bio}
