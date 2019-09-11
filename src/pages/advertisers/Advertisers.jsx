@@ -2,12 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import moment from 'moment'
+import { SocialIcon } from 'react-social-icons';
 
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
 
 import { DBCollections, Errors } from '../../constants'
 import { showNotifications } from '../../state/reducers/ui'
@@ -78,9 +79,9 @@ class Advertisers extends React.Component {
                     {`${i.name}, ${i.role} at ${i.company}`}
                   </Typography>
                   <Typography variant="body1">
-                    {`email: ${i.email}, joined ${i.adminDate}`}
+                    {`email: ${i.email}, joined ${moment(i.adminDate).format('MMM Do, YYYY')}`}
                   </Typography>
-                  <Button href={i.linkedin}>linkedin</Button>
+                  {i.linkedin && <SocialIcon className={classes.socialButton} url={i.linkedin} bgColor="#212121" fgColor='#FFF' target="_blank" />}
                 </Paper>
               </Grid>
             ))}
@@ -95,8 +96,8 @@ class Advertisers extends React.Component {
 
     return (
       <div>
-        <Typography variant="h4" gutterBottom>
-          Advertisers.
+        <Typography variant="h3" gutterBottom>
+          Advertisers
         </Typography>
         {content}
       </div>

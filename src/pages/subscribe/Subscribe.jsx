@@ -113,8 +113,8 @@ class Subscribe extends React.Component {
 
     return (
       <div>
-        <Typography variant="h4" gutterBottom>
-          Subscribe.
+        <Typography variant="h3" gutterBottom>
+          Subscribe
         </Typography>
         {content}
       </div>
