@@ -1,5 +1,6 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
+import Link from '@material-ui/core/Link';
 
 const Terms = () => (
   <div>
@@ -14,7 +15,7 @@ const Terms = () => (
     <Typography variant="h4" gutterBottom>
       Code of conduct.
     </Typography>
-    <p>Please refer to the guidelines received when you joined the group.</p>
+    <p>Please refer to Code of Conduct <Link href='https://github.com/devcon-london/Code-Of-Conduct' rel="noopener noreferrer" target='_blank'>Github repository.</Link></p>
   </div>
 )
 
