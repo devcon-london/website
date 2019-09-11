@@ -249,8 +249,8 @@ class Submissions extends React.Component {
 
     return (
       <div>
-        <Typography variant="h4" gutterBottom>
-          Submissions.
+        <Typography variant="h3" gutterBottom>
+          Submissions
         </Typography>
         {content}
       </div>

@@ -9,8 +9,6 @@ import MainNavigation from './components/navigation/MainNavigation'
 
 import store from './state/store'
 
-import './App.css'
-
 const appTheme = createMuiTheme({
   typography: {
     useNextVariants: true,

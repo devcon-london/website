@@ -225,8 +225,8 @@ class Members extends React.Component {
           spacing={24}
         >
           <Grid item>
-            <Typography variant="h4" gutterBottom>
-              Members.
+            <Typography variant="h3" gutterBottom>
+              Members
             </Typography>
           </Grid>
 
