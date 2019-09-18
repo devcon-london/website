@@ -5,8 +5,15 @@ import reducers from './reducers'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const middlewares = [thunk, promiseMiddleware]
-const store = createStore(reducers, composeEnhancers(
-  applyMiddleware(...middlewares)
-))
+let store = null
 
-export default store
+const getStore = () => {
+  if(store) return store
+  store = createStore(reducers, composeEnhancers(
+    applyMiddleware(...middlewares)
+  ))
+
+  return store
+}
+
+export default getStore()

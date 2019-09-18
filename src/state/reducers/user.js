@@ -1,4 +1,5 @@
-import actionTypes from '../actions/types'
+import { createAction, createReducer } from 'redux-act'
+// import store from '../store'
 
 const initialState = {
   uid: null,
@@ -6,29 +7,32 @@ const initialState = {
   photoURL: null,
   token: null,
   userObj: null,
+  membership: null,
 }
 
-const userReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case actionTypes.UserLoggedIn:
-      console.log('reducer user loggedin', action.data)
-      return {
-        ...initialState,
-          uid: action.data.user.uid,
-          displayName: action.data.user.displayName,
-          photoURL: action.data.user.photoURL,
-          token: action.data.token,
-          userObj: action.data.user,
-        }
+export const [userLogin, userLogout, userMembership] = [
+  'USER_LOGGED_IN',
+  'USER_LOGGED_OUT',
+  'USER_MEMBERSHIP',
+].map(createAction)
 
-    case actionTypes.UserLoggedOut:
-      return {
-        ...initialState
-      }
-
-    default:
-      return state
-  }
-}
-
-export default userReducer
+export default createReducer(
+  {
+    [`${userLogin}`]: (state, action) => ({
+      ...state,
+      uid: action.user.uid,
+      displayName: action.user.displayName,
+      photoURL: action.user.photoURL,
+      token: action.token,
+      userObj: action.user,
+    }),
+    [`${userMembership}`]: (state, action) => ({
+        ...state,
+        membership: action,
+      }),
+    [`${userLogout}`]: () => ({
+      ...initialState,
+    }),
+  },
+  initialState
+)

@@ -12,10 +12,11 @@ const initialState = {
   error: null,
 }
 
-export const loadMembers = createAction('LOAD_MEMBERS', () => ({
+export const loadMembers = createAction('LOAD_MEMBERS', (uid) => ({
   promise: new Promise((resolve, reject) => {
     db.collection(DBCollections.members).onSnapshot(({docs}) => {
-      resolve(docs.map(d => d.data()))
+      const members = docs.map(d => d.data())
+      resolve(members)
     }, reject)
   })
 }))

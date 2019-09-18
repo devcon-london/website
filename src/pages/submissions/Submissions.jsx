@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
+import { SocialIcon } from 'react-social-icons';
 
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -140,33 +141,21 @@ class Submissions extends React.Component {
             {`Bio: ${submission.bio}`}
           </Typography>
           <Typography variant="body1" gutterBottom>
-            <Button
-              className={classes.linkButton}
-              variant="contained"
-              href={submission.github}
-            >
-              Github
-            </Button>
+            {submission.github && (
+              <SocialIcon className={classes.socialButton} url={submission.github} bgColor="#212121" fgColor='#FFF' target="_blank" />
+            )}
+            {submission.linkedin && (
+              <SocialIcon className={classes.socialButton} url={submission.linkedin} bgColor="#212121" fgColor='#FFF' target="_blank" />
+            )}
+            {submission.twitter && (
+              <SocialIcon className={classes.socialButton} url={submission.twitter} bgColor="#212121" fgColor='#FFF' target="_blank" />
+            )}
             <Button
               className={classes.linkButton}
               variant="contained"
               href={`mailto:${submission.email}`}
             >
               Email
-            </Button>
-            <Button
-              className={classes.linkButton}
-              variant="contained"
-              href={submission.linkedin}
-            >
-              LinkedIn
-            </Button>
-            <Button
-              className={classes.linkButton}
-              variant="contained"
-              href={submission.twitter}
-            >
-              Twitter
             </Button>
           </Typography>
         </React.Fragment>

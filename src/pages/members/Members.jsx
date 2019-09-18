@@ -54,7 +54,7 @@ class Members extends React.Component {
   componentDidMount() {
     const { user, loadMembers } = this.props
     if (user.uid !== null) {
-      loadMembers()
+      loadMembers(user.uid)
     }
   }
 
