@@ -3,13 +3,11 @@ import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
-import { SocialIcon } from 'react-social-icons';
+import { SocialIcon } from 'react-social-icons'
 
 import { withStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
+import EmailIcon from '@material-ui/icons/Email'
+import { Input, Grid, Paper, Button, Typography, Fab } from '@material-ui/core'
 
 import { DBCollections, Errors } from '../../constants'
 import { showNotifications } from '../../state/reducers/ui'
@@ -25,6 +23,20 @@ const styles = theme => ({
   },
   paper: {
     padding: theme.spacing.unit * 2,
+  },
+  socialButton: {
+    marginRight: '10px',
+  },
+  buttonsContainer: {
+    marginTop: '20px',
+    display: 'flex',
+    marginBottom: '20px',
+  },
+  paperEmail: {
+    display: 'flex',
+    marginRight: '0',
+    marginLeft: 'auto',
+    alignItems: 'center',
   },
 })
 
@@ -125,9 +137,14 @@ class Submissions extends React.Component {
   }
 
   getFields = (submission, classes) => {
+    console.log('====================================')
+    console.log(submission)
+    console.log('====================================')
     const intro = (
       <Typography variant="body1" gutterBottom>
-        {`introduced by ${submission.referrer} on ${moment(submission.date).format('MMMM Do, YYYY')}`}
+        {`introduced by ${submission.referrer} on ${moment(
+          submission.date.seconds * 1000
+        ).format('MMMM Do, YYYY')}`}
       </Typography>
     )
     const showFields = {
@@ -140,24 +157,47 @@ class Submissions extends React.Component {
           <Typography variant="body1" gutterBottom>
             {`Bio: ${submission.bio}`}
           </Typography>
-          <Typography variant="body1" gutterBottom>
+          <Grid className={classes.buttonsContainer}>
             {submission.github && (
-              <SocialIcon className={classes.socialButton} url={submission.github} bgColor="#212121" fgColor='#FFF' target="_blank" />
+              <SocialIcon
+                className={classes.socialButton}
+                url={submission.github}
+                bgColor="#212121"
+                fgColor="#FFF"
+                target="_blank"
+              />
             )}
             {submission.linkedin && (
-              <SocialIcon className={classes.socialButton} url={submission.linkedin} bgColor="#212121" fgColor='#FFF' target="_blank" />
+              <SocialIcon
+                className={classes.socialButton}
+                url={submission.linkedin}
+                bgColor="#212121"
+                fgColor="#FFF"
+                target="_blank"
+              />
             )}
             {submission.twitter && (
-              <SocialIcon className={classes.socialButton} url={submission.twitter} bgColor="#212121" fgColor='#FFF' target="_blank" />
+              <SocialIcon
+                className={classes.socialButton}
+                url={submission.twitter}
+                bgColor="#212121"
+                fgColor="#FFF"
+                target="_blank"
+              />
             )}
-            <Button
-              className={classes.linkButton}
-              variant="contained"
-              href={`mailto:${submission.email}`}
-            >
-              Email
-            </Button>
-          </Typography>
+            <Grid className={classes.paperEmail}>
+              <Input
+                readOnly
+                value={submission.email}
+                onClick={e =>
+                  console.log('asdasd', e.target) || e.target.select()
+                }
+              />
+              <Fab size="small" color="primary" aria-label="mailto">
+                <EmailIcon />
+              </Fab>
+            </Grid>
+          </Grid>
         </React.Fragment>
       ),
       advertisers: (
