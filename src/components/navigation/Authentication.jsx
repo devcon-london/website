@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 
 import { connect } from 'react-redux'
-import { userLogout, userLogin } from '../../state/actions/user'
+import { userLogout, userLogin, userMembership } from '../../state/reducers/user'
+import { loadMembers } from '../../state/reducers/members'
 
 class Authentication extends React.Component {
   constructor(props) {
@@ -12,6 +13,8 @@ class Authentication extends React.Component {
     const { auth } = firebase
     this.auth = auth()
   }
+
+  state = {}
 
   componentDidMount() {
     const { auth, props } = this
@@ -49,6 +52,15 @@ class Authentication extends React.Component {
     // console.log('auth error', error);
   }
 
+  static getDerivedStateFromProps(props) {
+    const { members, user, onUserMembership } = props
+    if(members.length > 0 && user.membership === null) {
+      onUserMembership(!!members.find(a => a.uid === user.uid))
+    }
+
+    return null
+  }
+
   ghSignIn = () => {
     const { auth } = this
     const { firebase } = window
@@ -82,27 +94,24 @@ class Authentication extends React.Component {
 
 Authentication.propTypes = {
   user: PropTypes.object.isRequired,
-}
-
-function mapStateToProps(state) {
-  return {
-    user: state.user,
-  }
+  members: PropTypes.array.isRequired,
 }
 
 function mapDispathToProps(dispatch) {
   return {
-    onLogin: user => {
-      dispatch(userLogin(user))
+    onLogin: data => {
+      dispatch(userLogin(data))
+      dispatch(loadMembers(data.user.uid))
     },
     onLogout: () => {
       dispatch(userLogout())
     },
+    onUserMembership: (data) => dispatch(userMembership(data))
   }
 }
 
 const AuthenticationContainer = connect(
-  mapStateToProps,
+  ({ user, members: {members} }) => ({ user, members }),
   mapDispathToProps
 )(Authentication)
 

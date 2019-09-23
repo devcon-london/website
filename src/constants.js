@@ -10,30 +10,41 @@ export const Sizes = {
   drawerWidth: 240,
 }
 
+// visibility of links
+// 0: public
+// 1: private
+// 2: already a member, dont show
+
 export const NavItems = [
   {
     to: '/',
     text: 'Home',
+    visibility: 0,
   },
   {
     to: '/terms',
     text: 'Terms',
+    visibility: 0,
   },
   {
     to: '/subscribe',
     text: 'Subscribe',
+    visibility: 2,
   },
   {
     to: '/members',
     text: 'Members',
+    visibility: 1,
   },
   {
     to: '/advertisers',
     text: 'Advertisers',
+    visibility: 1,
   },
   {
     to: '/submissions',
     text: 'Submissions',
+    visibility: 1,
   },
 ]
 

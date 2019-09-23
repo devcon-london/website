@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { withStyles } from '@material-ui/core/styles'
@@ -79,7 +80,7 @@ class MainNavigation extends React.Component {
   }
 
   render() {
-    const { classes, theme } = this.props
+    const { classes, theme, loggedIn, membership } = this.props
     const { open } = this.state
 
     return (
@@ -106,7 +107,12 @@ class MainNavigation extends React.Component {
           </div>
           <Divider />
           <List>
-            {NavItems.map(item => (
+            {NavItems.filter(item =>
+              (item.visibility === 1 && !loggedIn) ||
+              (item.visibility === 2 && membership)
+                ? null
+                : item
+            ).map(item => (
               <ListItem
                 button
                 key={item.text}
@@ -137,6 +143,16 @@ class MainNavigation extends React.Component {
 MainNavigation.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
+  membership: PropTypes.bool,
 }
 
-export default withStyles(styles, { withTheme: true })(MainNavigation)
+const StyledMainNav = withStyles(styles, { withTheme: true })(MainNavigation)
+
+export default connect(
+  ({ user }) => ({
+    loggedIn: user ? !!user.uid : false,
+    membership: user ? user.membership : false,
+  }),
+  {}
+)(StyledMainNav)
