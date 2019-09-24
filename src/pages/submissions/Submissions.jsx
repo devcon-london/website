@@ -137,9 +137,6 @@ class Submissions extends React.Component {
   }
 
   getFields = (submission, classes) => {
-    console.log('====================================')
-    console.log(submission)
-    console.log('====================================')
     const intro = (
       <Typography variant="body1" gutterBottom>
         {`introduced by ${submission.referrer} on ${moment(
@@ -189,9 +186,7 @@ class Submissions extends React.Component {
               <Input
                 readOnly
                 value={submission.email}
-                onClick={e =>
-                  console.log('asdasd', e.target) || e.target.select()
-                }
+                onClick={e => e.target.select()}
               />
               <Fab size="small" color="primary" aria-label="mailto">
                 <EmailIcon />
