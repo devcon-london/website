@@ -174,7 +174,7 @@ class Members extends React.Component {
       '-date': { field: 'adminDate', mult: -1 },
     }
     const funGen = sortingParams => {
-      const fun = (a, b) => a[sortingParams.field].localeCompare(b[sortingParams.field])
+      const fun = (a, b) => sortingParams.mult * a[sortingParams.field].localeCompare(b[sortingParams.field])
       return fun
     }
     return funGen(sortingParamsDict[sortingName])
