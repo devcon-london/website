@@ -3,16 +3,12 @@ import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
-import { SocialIcon } from 'react-social-icons';
+import { SocialIcon } from 'react-social-icons'
 
 import { withStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Fab from '@material-ui/core/Fab';
-import SortByAlphaIcon from '@material-ui/icons/SortByAlpha';
-import EventNoteIcon from '@material-ui/icons/EventNote';
+import { Grid, Paper, Typography, Button, Fab } from '@material-ui/core/'
+import SortByAlphaIcon from '@material-ui/icons/SortByAlpha'
+import EventNoteIcon from '@material-ui/icons/EventNote'
 
 import { Form } from 'informed'
 import MemberFields from '../../components/form/MemberFields'
@@ -26,11 +22,14 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
   },
+  inline: {
+    display: 'inline'
+  },
   socialButton: {
     marginRight: '10px',
   },
   editButton: {
-    margin: 'auto 0 auto auto'
+    margin: 'auto 0 auto auto',
   },
   buttonsContainer: {
     marginTop: '10px',
@@ -127,13 +126,31 @@ class Members extends React.Component {
       </Typography>
       <Grid className={classes.buttonsContainer}>
         {member.github && (
-          <SocialIcon className={classes.socialButton} url={member.github} bgColor="#212121" fgColor='#FFF' target="_blank" />
+          <SocialIcon
+            className={classes.socialButton}
+            url={member.github}
+            bgColor="#212121"
+            fgColor="#FFF"
+            target="_blank"
+          />
         )}
         {member.linkedin && (
-          <SocialIcon className={classes.socialButton} url={member.linkedin} bgColor="#212121" fgColor='#FFF' target="_blank" />
+          <SocialIcon
+            className={classes.socialButton}
+            url={member.linkedin}
+            bgColor="#212121"
+            fgColor="#FFF"
+            target="_blank"
+          />
         )}
         {member.twitter && (
-          <SocialIcon className={classes.socialButton} url={member.twitter} bgColor="#212121" fgColor='#FFF' target="_blank" />
+          <SocialIcon
+            className={classes.socialButton}
+            url={member.twitter}
+            bgColor="#212121"
+            fgColor="#FFF"
+            target="_blank"
+          />
         )}
         {editable && (
           <Button
@@ -149,17 +166,19 @@ class Members extends React.Component {
     </>
   )
 
-  getSortingFn = (sortingName) => {
+  getSortingFn = sortingName => {
     const sortingParamsDict = {
-      'name': { 'field': 'name', 'mult': 1 },
-      '-name': { 'field': 'name', 'mult': -1 },
-      'date': { 'field': 'adminDate', 'mult': 1 },
-      '-date': { 'field': 'adminDate', 'mult': -1 },
+      name: { field: 'name', mult: 1 },
+      '-name': { field: 'name', mult: -1 },
+      date: { field: 'adminDate', mult: 1 },
+      '-date': { field: 'adminDate', mult: -1 },
     }
     const funGen = sortingParams => {
       const fun = (a, b) => {
-        if (a[sortingParams.field] < b[sortingParams.field]) return -1 * sortingParams.mult
-        if (a[sortingParams.field] > b[sortingParams.field]) return 1 * sortingParams.mult
+        if (a[sortingParams.field] < b[sortingParams.field])
+          return -1 * sortingParams.mult
+        if (a[sortingParams.field] > b[sortingParams.field])
+          return 1 * sortingParams.mult
         return 0
       }
       return fun
@@ -193,23 +212,21 @@ class Members extends React.Component {
       content = (
         <div className={classes.root}>
           <Grid container spacing={24}>
-            {members
-              .sort(this.getSortingFn(sorting))
-              .map(member => {
-                let memberContent = null
-                if (editing === true && member.uid === user.uid) {
-                  memberContent = this.getUserForm(member)
-                } else {
-                  const editable = member.uid === user.uid
-                  memberContent = this.getUserCard(member, editable, classes)
-                }
+            {members.sort(this.getSortingFn(sorting)).map(member => {
+              let memberContent = null
+              if (editing === true && member.uid === user.uid) {
+                memberContent = this.getUserForm(member)
+              } else {
+                const editable = member.uid === user.uid
+                memberContent = this.getUserCard(member, editable, classes)
+              }
 
-                return (
-                  <Grid item xs={12} sm={6} key={member.uid}>
-                    <Paper className={classes.paper}>{memberContent}</Paper>
-                  </Grid>
-                )
-              })}
+              return (
+                <Grid item xs={12} sm={6} key={member.uid}>
+                  <Paper className={classes.paper}>{memberContent}</Paper>
+                </Grid>
+              )
+            })}
           </Grid>
         </div>
       )
@@ -219,14 +236,13 @@ class Members extends React.Component {
 
     return (
       <div>
-        <Grid
-          justify="space-between"
-          container
-          spacing={24}
-        >
+        <Grid justify="space-between" container spacing={24}>
           <Grid item>
             <Typography variant="h3" gutterBottom>
-              Members
+              Members{' '}
+              <Typography className={classes.inline} component="span" variant="h6">
+                ({members.length})
+              </Typography>
             </Typography>
           </Grid>
 
@@ -237,7 +253,11 @@ class Members extends React.Component {
                 color="secondary"
                 aria-label="sort-by-alpha"
                 className={classes.margin}
-                onClick={() => sorting === 'name' ? this.setState({ sorting: '-name' }) : this.setState({ sorting: 'name' })}
+                onClick={() =>
+                  sorting === 'name'
+                    ? this.setState({ sorting: '-name' })
+                    : this.setState({ sorting: 'name' })
+                }
               >
                 <SortByAlphaIcon />
               </Fab>
@@ -246,7 +266,11 @@ class Members extends React.Component {
                 color="secondary"
                 aria-label="sort-by-date-joined"
                 className={classes.margin}
-                onClick={() => sorting === 'date' ? this.setState({ sorting: '-date' }) : this.setState({ sorting: 'date' })}
+                onClick={() =>
+                  sorting === 'date'
+                    ? this.setState({ sorting: '-date' })
+                    : this.setState({ sorting: 'date' })
+                }
               >
                 <EventNoteIcon />
               </Fab>
@@ -270,7 +294,7 @@ const MembersContainer = connect(
     user,
     members,
     loading,
-    error
+    error,
   }),
   {
     showNotifications,
