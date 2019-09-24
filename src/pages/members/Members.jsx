@@ -174,13 +174,7 @@ class Members extends React.Component {
       '-date': { field: 'adminDate', mult: -1 },
     }
     const funGen = sortingParams => {
-      const fun = (a, b) => {
-        if (a[sortingParams.field] < b[sortingParams.field])
-          return -1 * sortingParams.mult
-        if (a[sortingParams.field] > b[sortingParams.field])
-          return 1 * sortingParams.mult
-        return 0
-      }
+      const fun = (a, b) => a[sortingParams.field].localeCompare(b[sortingParams.field])
       return fun
     }
     return funGen(sortingParamsDict[sortingName])
