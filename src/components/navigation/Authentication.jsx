@@ -81,13 +81,13 @@ class Authentication extends React.Component {
     const { user } = this.props
     const { displayName } = user
     return (
-      <React.Fragment>
+      <>
         {displayName ? (
           <Button onClick={this.signOut}>SignOut</Button>
         ) : (
           <Button onClick={this.ghSignIn}>Github SignIn</Button>
         )}
-      </React.Fragment>
+      </>
     )
   }
 }

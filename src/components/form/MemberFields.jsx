@@ -5,7 +5,7 @@ import InformedTextInput from './InformedTextInput'
 import Validation from './validation'
 
 const MemberFields = () => (
-  <React.Fragment>
+  <>
     <Text field="uid" id="uid" hidden />
     <InformedTextInput
       field="name"
@@ -65,7 +65,7 @@ const MemberFields = () => (
       validateOnChange
       validate={Validation.validBio}
     />
-  </React.Fragment>
+  </>
 )
 
 export default MemberFields

@@ -146,7 +146,7 @@ class Submissions extends React.Component {
     )
     const showFields = {
       members: (
-        <React.Fragment>
+        <>
           <Typography variant="h5">
             {`Community Membership for ${submission.name}, ${submission.role}`}
           </Typography>
@@ -193,10 +193,10 @@ class Submissions extends React.Component {
               </Fab>
             </Grid>
           </Grid>
-        </React.Fragment>
+        </>
       ),
       advertisers: (
-        <React.Fragment>
+        <>
           <Typography variant="h5">
             {`Advertising Membership for ${submission.name}`}
           </Typography>
@@ -220,7 +220,7 @@ class Submissions extends React.Component {
               Email
             </Button>
           </Typography>
-        </React.Fragment>
+        </>
       ),
     }
     return showFields[submission.applicant]

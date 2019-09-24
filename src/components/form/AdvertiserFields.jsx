@@ -5,7 +5,7 @@ import InformedTextInput from './InformedTextInput'
 import Validation from './validation'
 
 const AdvertiserFields = () => (
-  <React.Fragment>
+  <>
     <Text field="uid" id="uid" hidden />
     <InformedTextInput
       field="name"
@@ -47,7 +47,7 @@ const AdvertiserFields = () => (
       validateOnChange
       validate={Validation.validLinkedIn}
     />
-  </React.Fragment>
+  </>
 )
 
 export default AdvertiserFields
