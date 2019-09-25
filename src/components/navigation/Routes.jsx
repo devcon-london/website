@@ -11,7 +11,7 @@ import Advertisers from '../../pages/advertisers/Advertisers'
 import Submissions from '../../pages/submissions/Submissions'
 
 const Routes = () => (
-  <t>
+  <>
     <Route path="/" exact component={Home} />
     <Route path="/terms" component={Terms} />
     {/* shown when not authenticated or authenticated and not a member */}
@@ -22,7 +22,7 @@ const Routes = () => (
     <Route path="/advertisers" component={Advertisers} />
     {/* shown when authenticated, member and admin */}
     <Route path="/submissions" component={Submissions} />
-  </t>
+  </>
 )
 
 export default Routes
