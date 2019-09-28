@@ -194,12 +194,12 @@ class Members extends React.Component {
 
     let content = null
 
-    if (user.uid === null) {
+    if (loading || user.loading) {
+      content = <p>loading...</p>
+    } else if (user.uid === null) {
       // user not logged in
       showNotifications(Errors.loginFirst)
       content = <Redirect to="/" />
-    } else if (loading) {
-      content = <p>loading...</p>
     } else if (error !== null) {
       content = <p>{error}</p>
     } else if (members.length) {

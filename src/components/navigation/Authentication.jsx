@@ -3,7 +3,13 @@ import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 
 import { connect } from 'react-redux'
-import { userLogout, userLogin, userMembership } from '../../state/reducers/user'
+import {
+  userLogout,
+  userLogin,
+  userLoading,
+  userNotMember,
+  userMembership,
+} from '../../state/reducers/user'
 import { loadMembers } from '../../state/reducers/members'
 
 class Authentication extends React.Component {
@@ -12,6 +18,7 @@ class Authentication extends React.Component {
     const { firebase } = window
     const { auth } = firebase
     this.auth = auth()
+    props.onUserLoading()
   }
 
   state = {}
@@ -19,6 +26,7 @@ class Authentication extends React.Component {
   componentDidMount() {
     const { auth, props } = this
     // firebase  auth
+    
     auth.onAuthStateChanged(user => {
       if (user) {
         // User is signed in.
@@ -50,11 +58,12 @@ class Authentication extends React.Component {
     // The firebase.auth.AuthCredential type that was used.
     // var credential = error.credential;
     // console.log('auth error', error);
+    this.props.onUserError(error)
   }
 
   static getDerivedStateFromProps(props) {
     const { members, user, onUserMembership } = props
-    if(members.length > 0 && user.membership === null) {
+    if (members.length > 0 && user.membership === null) {
       onUserMembership(!!members.find(a => a.uid === user.uid))
     }
 
@@ -103,15 +112,15 @@ function mapDispathToProps(dispatch) {
       dispatch(userLogin(data))
       dispatch(loadMembers(data.user.uid))
     },
-    onLogout: () => {
-      dispatch(userLogout())
-    },
-    onUserMembership: (data) => dispatch(userMembership(data))
+    onLogout: () => dispatch(userLogout()),
+    onUserLoading: () => dispatch(userLoading()),
+    onUserError: () => dispatch(userNotMember()),
+    onUserMembership: data => dispatch(userMembership(data)),
   }
 }
 
 const AuthenticationContainer = connect(
-  ({ user, members: {members} }) => ({ user, members }),
+  ({ user, members: { members } }) => ({ user, members }),
   mapDispathToProps
 )(Authentication)
 
