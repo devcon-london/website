@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography'
 
 import SubscriptionForm from './components/SubscriptionForm'
-import { DBCollections, Errors } from '../../constants'
+import { DBCollections } from '../../constants'
 import { showNotifications } from '../../state/reducers/ui'
 
 const { db } = window
@@ -82,17 +81,11 @@ class Subscribe extends React.Component {
   }
 
   render() {
-    const { user, showNotifications } = this.props
-    const { membership, submission, loading } = this.state
+    const { user } = this.props
+    const { submission } = this.state
     let content = null
 
     if (user.uid === null) {
-      // user not logged in
-      showNotifications(Errors.loginFirst)
-      content = <Redirect to="/" />
-    } else if (loading === true) {
-      content = <p>loading...</p>
-    } else if (membership === null) {
       // logged in but no member, check if already submitted
       if (submission === null) {
         content = <SubscriptionForm user={user} />
