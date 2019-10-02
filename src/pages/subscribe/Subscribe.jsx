@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography'
 
 import SubscriptionForm from './components/SubscriptionForm'
-import { DBCollections } from '../../constants'
+import { DBCollections, Errors } from '../../constants'
 import { showNotifications } from '../../state/reducers/ui'
 
 const { db } = window
@@ -81,11 +81,19 @@ class Subscribe extends React.Component {
   }
 
   render() {
-    const { user } = this.props
-    const { submission } = this.state
+    const { user, showNotifications } = this.props
+    const { membership, submission, loading } = this.state
     let content = null
 
     if (user.uid === null) {
+      // user not logged in
+      showNotifications(Errors.loginFirst)
+      content = (
+        <p>Please login with Github first, then head back here to subscribe</p>
+      )
+    } else if (loading === true) {
+      content = <p>loading...</p>
+    } else if (membership === null) {
       // logged in but no member, check if already submitted
       if (submission === null) {
         content = <SubscriptionForm user={user} />
