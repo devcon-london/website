@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography'
 
@@ -89,7 +88,9 @@ class Subscribe extends React.Component {
     if (user.uid === null) {
       // user not logged in
       showNotifications(Errors.loginFirst)
-      content = <Redirect to="/" />
+      content = (
+        <p>Please login with Github first, then head back here to subscribe</p>
+      )
     } else if (loading === true) {
       content = <p>loading...</p>
     } else if (membership === null) {
