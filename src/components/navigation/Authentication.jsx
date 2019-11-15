@@ -26,7 +26,7 @@ class Authentication extends React.Component {
   componentDidMount() {
     const { auth, props } = this
     // firebase  auth
-    
+
     auth.onAuthStateChanged(user => {
       if (user) {
         // User is signed in.
@@ -75,7 +75,7 @@ class Authentication extends React.Component {
     const { firebase } = window
     const provider = new firebase.auth.GithubAuthProvider()
     // https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/
-    provider.addScope('read:org')
+    // provider.addScope('read:org')
     auth
       .signInWithPopup(provider)
       .then(this.authSuccess)
