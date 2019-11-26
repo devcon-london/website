@@ -20,7 +20,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - website-deps-
 
-      - run: npm install
+      - run: npm install ci
 
       - save_cache:
           paths:
@@ -33,7 +33,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - functions-deps-
 
-      - run: cd functions && npm install
+      - run: cd functions && npm install ci
 
       - save_cache:
           paths:
