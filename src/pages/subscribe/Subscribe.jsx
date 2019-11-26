@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import Typography from '@material-ui/core/Typography'
+import { Title } from '../../components/ui'
 
 import SubscriptionForm from './components/SubscriptionForm'
 import { DBCollections, Errors } from '../../constants'
@@ -114,9 +114,7 @@ class Subscribe extends React.Component {
 
     return (
       <div>
-        <Typography variant="h3" gutterBottom>
-          Subscribe
-        </Typography>
+        <Title>Subscribe</Title>
         {content}
       </div>
     )
@@ -130,10 +128,7 @@ Subscribe.propTypes = {
 
 const mapStateToProps = state => ({ user: state.user })
 
-const SubscribeContainer = connect(
-  mapStateToProps,
-  {
-    showNotifications,
-  }
-)(Subscribe)
+const SubscribeContainer = connect(mapStateToProps, {
+  showNotifications,
+})(Subscribe)
 export default SubscribeContainer

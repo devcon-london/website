@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
+import { Title } from '../../components/ui'
 
 import { DBCollections, Errors } from '../../constants'
 import { showNotifications } from '../../state/reducers/ui'
@@ -20,7 +21,7 @@ const styles = theme => ({
     flexGrow: 1,
   },
   paper: {
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
   },
 })
 
@@ -71,7 +72,7 @@ class Advertisers extends React.Component {
     } else if (advertisers.length) {
       content = (
         <div>
-          <Grid container spacing={24}>
+          <Grid container spacing={8}>
             {advertisers.map(i => (
               <Grid item xs={12} sm={6} key={i.uid}>
                 <Paper className={classes.paper}>
@@ -96,9 +97,9 @@ class Advertisers extends React.Component {
 
     return (
       <div>
-        <Typography variant="h3" gutterBottom>
+        <Title>
           Advertisers
-        </Typography>
+        </Title>
         {content}
       </div>
     )

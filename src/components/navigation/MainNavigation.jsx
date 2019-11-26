@@ -1,18 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { withStyles } from '@material-ui/core/styles'
-import Drawer from '@material-ui/core/Drawer'
-import List from '@material-ui/core/List'
-import Divider from '@material-ui/core/Divider'
-import IconButton from '@material-ui/core/IconButton'
+import {
+  Drawer,
+  List,
+  Divider,
+  IconButton,
+  ListItem,
+  ListItemText,
+} from '@material-ui/core/'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
 
 import SnackBar from '../notification/SnackBar'
 import { Sizes, NavItems } from '../../constants'
@@ -45,24 +46,17 @@ const styles = theme => ({
     // I can't seem to change the color via mui theme, F# annoying
     color: 'white',
     paddingTop: '84px',
-    paddingLeft: theme.spacing.unit * 10,
-    paddingRight: theme.spacing.unit * 10,
+    paddingLeft: theme.spacing(10),
+    paddingRight: theme.spacing(10),
     [theme.breakpoints.down('sm')]: {
-      paddingLeft: theme.spacing.unit * 3,
-      paddingRight: theme.spacing.unit * 3,
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
     },
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: -Sizes.drawerWidth,
-  },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
   },
 })
 
@@ -88,6 +82,8 @@ class MainNavigation extends React.Component {
         <MainMenu drawerOpen={open} handleDrawer={this.handleDrawerOpen} />
         {/* TMA: tried to move all this sh#t to a dedicated component but it breaks for unknown reasons */}
         <Drawer
+          position="fixed"
+          elevation={0}
           className={classes.drawer}
           variant="persistent"
           anchor="left"
@@ -127,11 +123,7 @@ class MainNavigation extends React.Component {
             ))}
           </List>
         </Drawer>
-        <main
-          className={classNames(classes.content, {
-            [classes.contentShift]: open,
-          })}
-        >
+        <main className={classes.content}>
           <Routes />
           <SnackBar />
         </main>

@@ -3,7 +3,7 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 
 import Home from '../../pages/home/Home'
-import Terms from '../../pages/terms/Terms'
+// import Terms from '../../pages/terms/Terms'
 import Subscribe from '../../pages/subscribe/Subscribe'
 import Events from '../../pages/events/Events'
 import Members from '../../pages/members/Members'
@@ -13,7 +13,7 @@ import Submissions from '../../pages/submissions/Submissions'
 const Routes = () => (
   <>
     <Route path="/" exact component={Home} />
-    <Route path="/terms" component={Terms} />
+    {/* <Route path="/terms" component={Terms} /> */}
     {/* shown when not authenticated or authenticated and not a member */}
     <Route path="/subscribe" component={Subscribe} />
     {/* shown when authenticated and member */}

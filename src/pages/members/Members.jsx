@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { Grid, Paper, Typography, Button, Fab } from '@material-ui/core/'
 import SortByAlphaIcon from '@material-ui/icons/SortByAlpha'
 import EventNoteIcon from '@material-ui/icons/EventNote'
+import { Title } from '../../components/ui'
 
 import { Form } from 'informed'
 import MemberFields from '../../components/form/MemberFields'
@@ -37,11 +38,14 @@ const styles = theme => ({
   },
   paper: {
     position: 'relative',
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
   },
   margin: {
-    marginLeft: theme.spacing.unit,
+    marginLeft: theme.spacing(),
   },
+  nameCase: {
+    textTransform: 'capitalize'
+  }
 })
 
 class Members extends React.Component {
@@ -116,7 +120,7 @@ class Members extends React.Component {
 
   getUserCard = (member, editable, classes) => (
     <>
-      <Typography variant="h5">{`${member.name}`}</Typography>
+      <Typography className={classes.nameCase} variant="h5">{`${member.name.toLowerCase()}`}</Typography>
       <Typography variant="h6">{`${member.role}`}</Typography>
       <Typography variant="body1" gutterBottom>
         {`member since ${moment(member.adminDate).format('MMM Do, YYYY')}`}
@@ -205,7 +209,7 @@ class Members extends React.Component {
     } else if (members.length) {
       content = (
         <div className={classes.root}>
-          <Grid container spacing={24}>
+          <Grid container spacing={6}>
             {members.sort(this.getSortingFn(sorting)).map(member => {
               let memberContent = null
               if (editing === true && member.uid === user.uid) {
@@ -230,14 +234,14 @@ class Members extends React.Component {
 
     return (
       <div>
-        <Grid justify="space-between" container spacing={24}>
+        <Grid justify="space-between" container spacing={6}>
           <Grid item>
-            <Typography variant="h3" gutterBottom>
+            <Title>
               Members{' '}
               <Typography className={classes.inline} component="span" variant="h6">
                 ({members.length})
               </Typography>
-            </Typography>
+            </Title>
           </Grid>
 
           <Grid item>

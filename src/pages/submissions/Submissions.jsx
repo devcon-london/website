@@ -8,6 +8,7 @@ import { SocialIcon } from 'react-social-icons'
 import { withStyles } from '@material-ui/core/styles'
 import EmailIcon from '@material-ui/icons/Email'
 import { Input, Grid, Paper, Button, Typography, Fab } from '@material-ui/core'
+import { Title } from '../../components/ui'
 
 import { DBCollections, Errors } from '../../constants'
 import { showNotifications } from '../../state/reducers/ui'
@@ -22,7 +23,7 @@ const styles = theme => ({
     marginRight: '5px',
   },
   paper: {
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
   },
   socialButton: {
     marginRight: '10px',
@@ -238,7 +239,7 @@ class Submissions extends React.Component {
     } else if (submissions.length) {
       content = (
         <div className={classes.root}>
-          <Grid container spacing={24}>
+          <Grid container spacing={8}>
             {submissions.map(i => (
               <Grid item xs={12} sm={6} key={i.uid}>
                 <Paper className={classes.paper}>
@@ -266,16 +267,14 @@ class Submissions extends React.Component {
         </div>
       )
     } else if (error) {
-      content = <p>{error}</p>
+      content = <Typography variant="body1">{error}</Typography>
     } else {
-      content = <p>no pending submissions!</p>
+      content = <Typography variant="body1">No pending submissions!</Typography>
     }
 
     return (
       <div>
-        <Typography variant="h3" gutterBottom>
-          Submissions
-        </Typography>
+        <Title>Submissions</Title>
         {content}
       </div>
     )
