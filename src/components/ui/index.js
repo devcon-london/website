@@ -12,11 +12,11 @@ const styles = theme => ({
     margin: '0 auto',
   },
   paper: {
-    padding: theme.spacing(3),
-    margin: theme.spacing(4),
+    padding: theme.spacing(2),
+    margin: theme.spacing(1),
     marginLeft: 'auto',
     marginRight: 'auto',
-    maxWidth: '80vw',
+    maxWidth: '85vw',
     background: 'transparent'
   }, 
   paperBox: {
@@ -24,7 +24,7 @@ const styles = theme => ({
     margin: theme.spacing(4),
     marginLeft: 'auto',
     marginRight: 'auto',
-    maxWidth: '80vw',
+    maxWidth: '85vw',
   }
 })
 

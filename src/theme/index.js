@@ -9,13 +9,16 @@ export const appTheme = responsiveFontSizes(createMuiTheme({
     h2: {
       fontSize: '1.5rem',
       letterSpacing: '0.1px',
+      lineHeight: 1.5
     }, 
     h1: {
       fontFamily: "'Sulphur Point', sans-serif;",
       fontSize: '2.5rem',
+      lineHeight: 1.5
     },
     body1: {
       margin: '1.5rem 0',
+      lineHeight: 1.5
     },
     fontFamily: [
       '-apple-system',
