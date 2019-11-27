@@ -8,7 +8,7 @@ import { SocialIcon } from 'react-social-icons'
 import { withStyles } from '@material-ui/core/styles'
 import EmailIcon from '@material-ui/icons/Email'
 import { Input, Grid, Paper, Button, Typography, Fab } from '@material-ui/core'
-import { Title } from '../../components/ui'
+import { Title, Section, Container } from '../../components/ui'
 
 import { DBCollections, Errors } from '../../constants'
 import { showNotifications } from '../../state/reducers/ui'
@@ -273,10 +273,12 @@ class Submissions extends React.Component {
     }
 
     return (
-      <div>
-        <Title>Submissions</Title>
-        {content}
-      </div>
+      <Section>
+        <Container>
+          <Title>Submissions</Title>
+          {content}
+        </Container>
+      </Section>
     )
   }
 }
@@ -290,11 +292,8 @@ Submissions.propTypes = {
 const mapStateToProps = state => ({ user: state.user })
 
 const StyledSubmissions = withStyles(styles)(Submissions)
-const SubmissionsContainer = connect(
-  mapStateToProps,
-  {
-    showNotifications,
-  }
-)(StyledSubmissions)
+const SubmissionsContainer = connect(mapStateToProps, {
+  showNotifications,
+})(StyledSubmissions)
 
 export default SubmissionsContainer

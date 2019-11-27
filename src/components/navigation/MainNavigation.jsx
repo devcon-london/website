@@ -17,13 +17,13 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 
 import SnackBar from '../notification/SnackBar'
 import { Sizes, NavItems } from '../../constants'
+import Footer from '../footer/Footer'
 
 import MainMenu from './MainMenu'
 import Routes from './Routes'
 
 const styles = theme => ({
   root: {
-    display: 'flex',
   },
   drawer: {
     width: Sizes.drawerWidth,
@@ -41,22 +41,22 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    height: '100vh',
+    minHeight: '100vh',
     overflow: 'auto',
     // I can't seem to change the color via mui theme, F# annoying
     color: 'white',
     paddingTop: '84px',
-    paddingLeft: theme.spacing(10),
-    paddingRight: theme.spacing(10),
-    [theme.breakpoints.down('sm')]: {
-      paddingLeft: theme.spacing(3),
-      paddingRight: theme.spacing(3),
-    },
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: -Sizes.drawerWidth,
+    // paddingLeft: theme.spacing.unit * 10,
+    // paddingRight: theme.spacing.unit * 10,
+    // [theme.breakpoints.down('sm')]: {
+    //   paddingLeft: theme.spacing.unit * 3,
+    //   paddingRight: theme.spacing.unit * 3,
+    // },
+    // transition: theme.transitions.create('margin', {
+    //   easing: theme.transitions.easing.sharp,
+    //   duration: theme.transitions.duration.leavingScreen,
+    // }),
+    // marginLeft: -Sizes.drawerWidth,
   },
 })
 
@@ -127,6 +127,7 @@ class MainNavigation extends React.Component {
           <Routes />
           <SnackBar />
         </main>
+        <Footer />
       </div>
     )
   }

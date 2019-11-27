@@ -9,7 +9,7 @@ import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
-import { Title } from '../../components/ui'
+import { Title, Section, Container } from '../../components/ui'
 
 import { DBCollections, Errors } from '../../constants'
 import { showNotifications } from '../../state/reducers/ui'
@@ -96,12 +96,12 @@ class Advertisers extends React.Component {
     }
 
     return (
-      <div>
-        <Title>
-          Advertisers
-        </Title>
-        {content}
-      </div>
+      <Section>
+        <Container>
+          <Title>Advertisers</Title>
+          {content}
+        </Container>
+      </Section>
     )
   }
 }

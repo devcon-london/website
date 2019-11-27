@@ -11,7 +11,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import Typography from '@material-ui/core/Typography'
 // import ButtonBase from '@material-ui/core/ButtonBase'
 
-import { Sizes } from '../../constants'
+// import { Sizes } from '../../constants'
 import Authentication from './Authentication'
 
 const styles = theme => ({
@@ -19,19 +19,21 @@ const styles = theme => ({
     flexGrow: 1,
   },
   appBar: {
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
+    // transition: theme.transitions.create(['margin', 'width'], {
+    //   easing: theme.transitions.easing.sharp,
+    //   duration: theme.transitions.duration.leavingScreen,
+    // }),
+    background: '#202020',
+    zIndex: 100,
   },
-  appBarShift: {
-    width: `calc(100% - ${Sizes.drawerWidth}px)`,
-    marginLeft: Sizes.drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
+  // appBarShift: {
+  //   width: `calc(100% - ${Sizes.drawerWidth}px)`,
+  //   marginLeft: Sizes.drawerWidth,
+  //   transition: theme.transitions.create(['margin', 'width'], {
+  //     easing: theme.transitions.easing.easeOut,
+  //     duration: theme.transitions.duration.enteringScreen,
+  //   }),
+  // },
   menuButton: {
     marginLeft: 0,
     marginRight: 0,
@@ -50,7 +52,7 @@ const styles = theme => ({
 })
 
 const MainMenu = ({ classes, drawerOpen, handleDrawer }) => (
-  <AppBar position="fixed" elevation={0} color="default">
+  <AppBar position="fixed" elevation={0} className={classes.appBar} color="default">
     <ToolBar className={classes.content}>
       <Typography variant="h6" className={classes.grow}>
         <IconButton

@@ -1,28 +1,33 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import { Container, Paper, Typography } from '@material-ui/core'
+import { Container, Typography } from '@material-ui/core'
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward'
+import { Section, PaperContainer as Paper } from '../../components/ui'
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
   },
-  paper: {
-    padding: theme.spacing(3),
-    margin: theme.spacing(4),
-    // maxWidth: '400px',
-  },
-  container: {
+  containerHero: {
     position: 'relative',
-    minHeight: '100vh',
+    minHeight: theme.section.minHeight,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  hero: {
+    transform: 'translateY(-150%)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
   },
+  heroTitle: {
+    marginBottom: '0.25rem'
+  },
   arrow: {
     position: 'absolute',
-    bottom: '15vh',
+    bottom: '100px',
     left: '50%',
     transform: 'translateX(-50%)',
   },
@@ -47,7 +52,7 @@ const content = [
   {
     title: 'Is my data private?',
     content:
-      "All data is stored on Firebase, and only authenticated users can access it. Only members can see all other members' data.",
+      "All data is stored on Firebase, and only authenticated users can access it. Only members can see all other members' data. Please refer to the full <a href='/privacy'>Privacy & Policy</a> page",
   },
   {
     title: 'Cookies?',
@@ -62,17 +67,21 @@ const content = [
 
 const Home = ({ classes }) => (
   <div className={classes.root}>
-    <Container className={classes.container}>
-      <Typography variant="h1" gutterBottom>
-        devcon.rocks
-      </Typography>
-      <Typography variant="subtitle1">
-        invitation-only community of developers
-      </Typography>
+    <Section>
+      <Container className={classes.containerHero}>
+        <div className={classes.hero}>
+          <Typography variant="h1" className={classes.heroTitle}>
+            devcon.rocks
+          </Typography>
+          <Typography variant="subtitle1">
+            invitation-only community of developers
+          </Typography>
+        </div>
+      </Container>
       <ArrowDownwardIcon className={classes.arrow} />
-    </Container>
+    </Section>
 
-    <Container>
+    <Section>
       {content.map((c, index) => (
         <Paper elevation={0} className={classes.paper} key={index.toString()}>
           <Typography variant="h2" component="h4" gutterBottom>
@@ -84,7 +93,7 @@ const Home = ({ classes }) => (
           />
         </Paper>
       ))}
-    </Container>
+    </Section>
   </div>
 )
 

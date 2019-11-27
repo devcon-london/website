@@ -1,15 +1,21 @@
-import { createMuiTheme } from '@material-ui/core/styles'
+import { responsiveFontSizes, createMuiTheme } from '@material-ui/core/styles'
 
-export const appTheme = createMuiTheme({
+export const appTheme = responsiveFontSizes(createMuiTheme({
+  section: {
+    minHeight: 'calc(100vh - 64px)',
+  },
   typography: {
     htmlFontSize: 16,
     h2: {
       fontSize: '1.5rem',
-      letterSpacing: '0.1px'
+      letterSpacing: '0.1px',
     }, 
     h1: {
       fontFamily: "'Sulphur Point', sans-serif;",
-      fontSize: '2.5rem'
+      fontSize: '2.5rem',
+    },
+    body1: {
+      margin: '1.5rem 0',
     },
     fontFamily: [
       '-apple-system',
@@ -32,4 +38,4 @@ export const appTheme = createMuiTheme({
     },
     type: 'dark',
   },
-})
+}))

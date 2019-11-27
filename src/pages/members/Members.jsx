@@ -9,7 +9,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { Grid, Paper, Typography, Button, Fab } from '@material-ui/core/'
 import SortByAlphaIcon from '@material-ui/icons/SortByAlpha'
 import EventNoteIcon from '@material-ui/icons/EventNote'
-import { Title } from '../../components/ui'
+import { Title, Section, Container } from '../../components/ui'
 
 import { Form } from 'informed'
 import MemberFields from '../../components/form/MemberFields'
@@ -233,7 +233,8 @@ class Members extends React.Component {
     }
 
     return (
-      <div>
+      <Section>
+        <Container>
         <Grid justify="space-between" container spacing={6}>
           <Grid item>
             <Title>
@@ -276,7 +277,8 @@ class Members extends React.Component {
           </Grid>
         </Grid>
         {content}
-      </div>
+        </Container>
+      </Section>
     )
   }
 }

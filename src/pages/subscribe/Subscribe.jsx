@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Title } from '../../components/ui'
+import { Title, Section, Container } from '../../components/ui'
 
 import SubscriptionForm from './components/SubscriptionForm'
 import { DBCollections, Errors } from '../../constants'
@@ -113,10 +113,12 @@ class Subscribe extends React.Component {
     }
 
     return (
-      <div>
-        <Title>Subscribe</Title>
-        {content}
-      </div>
+      <Section>
+        <Container>
+          <Title>Subscribe</Title>
+          {content}
+        </Container>
+      </Section>
     )
   }
 }
