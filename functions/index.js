@@ -18,19 +18,19 @@ exports.notifySubmission = functions.firestore
     return true;
   });
 
-exports.testEmail = functions.https.onRequest(async (req, res) => {
-  if(!req.query.email || req.query.email.length < 1) {
-    res.send('please use this service with ?email=email@email.com')
-    return false
-  }
+// exports.testEmail = functions.https.onRequest(async (req, res) => {
+//   if(!req.query.email || req.query.email.length < 1) {
+//     res.send('please use this service with ?email=email@email.com')
+//     return false
+//   }
   
-  try {
-    const email = await sendMail(req.query.email)
-    console.log(email);
-    res.send(`Email sent to ${req.query.email}`)
-  } catch (e) {
-    console.log(e)
-    res.send(e.toString())
-    return false
-  }
-})
+//   try {
+//     const email = await sendMail(req.query.email)
+//     console.log(email);
+//     res.send(`Email sent to ${req.query.email}`)
+//   } catch (e) {
+//     console.log(e)
+//     res.send(e.toString())
+//     return false
+//   }
+// })
