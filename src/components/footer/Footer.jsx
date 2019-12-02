@@ -22,7 +22,7 @@ const styles = theme => ({
 const Footer = ({ classes }) => (
   <footer className={classes.footer}>
     <Typography variant="caption" className={classes.copy}>
-      <span>Copyright © 2019 Devcon.rocks</span>
+      <span>Copyright © 2019 DevCon</span>
       <Link className={classes.link} to="privacy">Privacy & Policy</Link>
     </Typography>
   </footer>

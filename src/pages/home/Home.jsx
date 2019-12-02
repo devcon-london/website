@@ -71,7 +71,7 @@ const Home = ({ classes }) => (
       <Container className={classes.containerHero}>
         <div className={classes.hero}>
           <Typography variant="h1" className={classes.heroTitle}>
-            devcon.rocks
+            DevCon
           </Typography>
           <Typography variant="subtitle1">
             invitation-only community of developers

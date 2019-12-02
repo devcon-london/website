@@ -106,7 +106,7 @@ class Subscribe extends React.Component {
       }
     } else {
       content = (
-        <p>You are already a Devcon member, do not need to subscribe again</p>
+        <p>You are already a DevCon member, do not need to subscribe again</p>
       )
       // for debug, uncomment the following to always enable submissions
       // content = (<SubscriptionForm user={user} />);
