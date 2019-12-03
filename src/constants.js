@@ -22,11 +22,6 @@ export const NavItems = [
     visibility: 0,
   },
   {
-    to: '/terms',
-    text: 'Terms',
-    visibility: 0,
-  },
-  {
     to: '/subscribe',
     text: 'Subscribe',
     visibility: 2,

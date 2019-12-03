@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import Typography from '@material-ui/core/Typography'
+import { Title, Section, Container } from '../../components/ui'
 
 import SubscriptionForm from './components/SubscriptionForm'
 import { DBCollections, Errors } from '../../constants'
@@ -106,19 +106,19 @@ class Subscribe extends React.Component {
       }
     } else {
       content = (
-        <p>You are already a Devcon member, do not need to subscribe again</p>
+        <p>You are already a DevCon member, do not need to subscribe again</p>
       )
       // for debug, uncomment the following to always enable submissions
       // content = (<SubscriptionForm user={user} />);
     }
 
     return (
-      <div>
-        <Typography variant="h3" gutterBottom>
-          Subscribe
-        </Typography>
-        {content}
-      </div>
+      <Section>
+        <Container>
+          <Title>Subscribe</Title>
+          {content}
+        </Container>
+      </Section>
     )
   }
 }
@@ -130,10 +130,7 @@ Subscribe.propTypes = {
 
 const mapStateToProps = state => ({ user: state.user })
 
-const SubscribeContainer = connect(
-  mapStateToProps,
-  {
-    showNotifications,
-  }
-)(Subscribe)
+const SubscribeContainer = connect(mapStateToProps, {
+  showNotifications,
+})(Subscribe)
 export default SubscribeContainer

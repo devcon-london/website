@@ -6,9 +6,11 @@ import moment from 'moment'
 import { SocialIcon } from 'react-social-icons'
 
 import { withStyles } from '@material-ui/core/styles'
-import { Grid, Paper, Typography, Button, Fab } from '@material-ui/core/'
+import { Grid, Paper, Typography, Button, Fab, IconButton, Tooltip } from '@material-ui/core/'
 import SortByAlphaIcon from '@material-ui/icons/SortByAlpha'
 import EventNoteIcon from '@material-ui/icons/EventNote'
+import FaceIcon from '@material-ui/icons/Face'
+import { Title, Section, Container } from '../../components/ui'
 
 import { Form } from 'informed'
 import MemberFields from '../../components/form/MemberFields'
@@ -28,6 +30,10 @@ const styles = theme => ({
   socialButton: {
     marginRight: '10px',
   },
+  iconButton: {
+    marginRight: '10px',
+    backgroundColor: '#212121',
+  },
   editButton: {
     margin: 'auto 0 auto auto',
   },
@@ -37,11 +43,14 @@ const styles = theme => ({
   },
   paper: {
     position: 'relative',
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
   },
   margin: {
-    marginLeft: theme.spacing.unit,
+    marginLeft: theme.spacing(),
   },
+  nameCase: {
+    textTransform: 'capitalize'
+  }
 })
 
 class Members extends React.Component {
@@ -116,15 +125,21 @@ class Members extends React.Component {
 
   getUserCard = (member, editable, classes) => (
     <>
-      <Typography variant="h5">{`${member.name}`}</Typography>
+      <Typography className={classes.nameCase} variant="h5">{`${member.name.toLowerCase()}`}</Typography>
       <Typography variant="h6">{`${member.role}`}</Typography>
       <Typography variant="body1" gutterBottom>
         {`member since ${moment(member.adminDate).format('MMM Do, YYYY')}`}
       </Typography>
-      <Typography variant="body1" gutterBottom>
-        {member.bio}
-      </Typography>
       <Grid className={classes.buttonsContainer}>
+        {member.bio && (
+          <Tooltip title={member.bio}>
+            <IconButton
+              className={classes.iconButton}
+            >
+              <FaceIcon />
+            </IconButton>
+          </Tooltip>
+        )}
         {member.github && (
           <SocialIcon
             className={classes.socialButton}
@@ -205,7 +220,7 @@ class Members extends React.Component {
     } else if (members.length) {
       content = (
         <div className={classes.root}>
-          <Grid container spacing={24}>
+          <Grid container spacing={6}>
             {members.sort(this.getSortingFn(sorting)).map(member => {
               let memberContent = null
               if (editing === true && member.uid === user.uid) {
@@ -229,15 +244,16 @@ class Members extends React.Component {
     }
 
     return (
-      <div>
-        <Grid justify="space-between" container spacing={24}>
+      <Section>
+        <Container>
+        <Grid justify="space-between" container spacing={6}>
           <Grid item>
-            <Typography variant="h3" gutterBottom>
+            <Title>
               Members{' '}
               <Typography className={classes.inline} component="span" variant="h6">
                 ({members.length})
               </Typography>
-            </Typography>
+            </Title>
           </Grid>
 
           <Grid item>
@@ -272,7 +288,8 @@ class Members extends React.Component {
           </Grid>
         </Grid>
         {content}
-      </div>
+        </Container>
+      </Section>
     )
   }
 }
