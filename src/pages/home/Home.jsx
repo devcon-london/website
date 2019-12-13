@@ -23,7 +23,8 @@ const styles = theme => ({
     flexDirection: 'column',
   },
   heroTitle: {
-    marginBottom: '0.25rem'
+    marginBottom: '0.25rem',
+    letterSpacing: '1.6px'
   },
   arrow: {
     position: 'absolute',
@@ -71,7 +72,7 @@ const Home = ({ classes }) => (
       <Container className={classes.containerHero}>
         <div className={classes.hero}>
           <Typography variant="h1" className={classes.heroTitle}>
-            DevCon
+            devcon.network
           </Typography>
           <Typography variant="subtitle1">
             invitation-only community of developers
