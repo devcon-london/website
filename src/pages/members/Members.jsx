@@ -2,23 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import moment from 'moment'
-import { SocialIcon } from 'react-social-icons'
 
 import { withStyles } from '@material-ui/core/styles'
-import { Grid, Paper, Typography, Button, Fab, IconButton, Tooltip } from '@material-ui/core/'
+import { Grid, Typography, Fab } from '@material-ui/core/'
 import SortByAlphaIcon from '@material-ui/icons/SortByAlpha'
 import EventNoteIcon from '@material-ui/icons/EventNote'
-import FaceIcon from '@material-ui/icons/Face'
 import { Title, Section, Container } from '../../components/ui'
 
-import { Form } from 'informed'
-import MemberFields from '../../components/form/MemberFields'
-import { DBCollections, Errors } from '../../constants'
+import { Errors } from '../../constants'
 import { showNotifications } from '../../state/reducers/ui'
 import { loadMembers } from '../../state/reducers/members'
+import { Member, MembersData } from '../../components/Member'
 
-const { db } = window
 
 const styles = theme => ({
   root: {
@@ -27,30 +22,9 @@ const styles = theme => ({
   inline: {
     display: 'inline'
   },
-  socialButton: {
-    marginRight: '10px',
-  },
-  iconButton: {
-    marginRight: '10px',
-    backgroundColor: '#212121',
-  },
-  editButton: {
-    margin: 'auto 0 auto auto',
-  },
-  buttonsContainer: {
-    marginTop: '10px',
-    display: 'flex',
-  },
-  paper: {
-    position: 'relative',
-    padding: theme.spacing(2),
-  },
   margin: {
     marginLeft: theme.spacing(),
   },
-  nameCase: {
-    textTransform: 'capitalize'
-  }
 })
 
 class Members extends React.Component {
@@ -66,121 +40,6 @@ class Members extends React.Component {
     }
   }
 
-  setFormApi = formApi => {
-    this.formApi = formApi
-  }
-
-  submitForm = () => {
-    const formState = this.formApi.getState()
-    if (!formState.invalid) {
-      db.collection(DBCollections.members)
-        .doc(formState.values.uid)
-        .get()
-        .then(doc => {
-          const updatedData = Object.assign({}, doc.data(), formState.values)
-          db.collection(DBCollections.members)
-            .doc(updatedData.uid)
-            .set(updatedData)
-            .then(() => {
-              this.setState({
-                error: null,
-                editing: false,
-              })
-            })
-            .catch(error => {
-              this.setState({
-                error: 'Error storing data',
-                editing: false,
-              })
-            })
-        })
-        .catch(error => {
-          this.setState({
-            error: 'Error fetching your personal data',
-            editing: false,
-          })
-        })
-    }
-  }
-
-  getUserForm = member => (
-    <Form
-      className="SubscriptionForm"
-      id="subscription-form"
-      getApi={this.setFormApi}
-      initialValues={member}
-      key={member.uid}
-    >
-      <MemberFields />
-      <Button onClick={this.submitForm}>Submit</Button>
-      <Button
-        onClick={() => {
-          this.setState({ editing: false })
-        }}
-      >
-        Cancel
-      </Button>
-    </Form>
-  )
-
-  getUserCard = (member, editable, classes) => (
-    <>
-      <Typography className={classes.nameCase} variant="h5">{`${member.name.toLowerCase()}`}</Typography>
-      <Typography variant="h6">{`${member.role}`}</Typography>
-      <Typography variant="body1" gutterBottom>
-        {`member since ${moment(member.adminDate).format('MMM Do, YYYY')}`}
-      </Typography>
-      <Grid className={classes.buttonsContainer}>
-        {member.bio && (
-          <Tooltip title={member.bio}>
-            <IconButton
-              className={classes.iconButton}
-            >
-              <FaceIcon />
-            </IconButton>
-          </Tooltip>
-        )}
-        {member.github && (
-          <SocialIcon
-            className={classes.socialButton}
-            url={member.github}
-            bgColor="#212121"
-            fgColor="#FFF"
-            target="_blank"
-          />
-        )}
-        {member.linkedin && (
-          <SocialIcon
-            className={classes.socialButton}
-            url={member.linkedin}
-            bgColor="#212121"
-            fgColor="#FFF"
-            target="_blank"
-          />
-        )}
-        {member.twitter && (
-          <SocialIcon
-            className={classes.socialButton}
-            url={member.twitter}
-            bgColor="#212121"
-            fgColor="#FFF"
-            target="_blank"
-          />
-        )}
-        {editable && (
-          <Button
-            className={classes.editButton}
-            variant="contained"
-            color="primary"
-            onClick={() => this.setState({ editing: true })}
-          >
-            edit
-          </Button>
-        )}
-      </Grid>
-    </>
-  )
-
   getSortingFn = sortingName => {
     const sortingParamsDict = {
       name: { field: 'name', mult: 1 },
@@ -193,6 +52,14 @@ class Members extends React.Component {
       return fun
     }
     return funGen(sortingParamsDict[sortingName])
+  }
+
+  onEdit = () => {
+    this.setState({editing: true})
+  }
+
+  onView = () => {
+    this.setState({editing: false})
   }
 
   render() {
@@ -224,17 +91,12 @@ class Members extends React.Component {
             {members.sort(this.getSortingFn(sorting)).map(member => {
               let memberContent = null
               if (editing === true && member.uid === user.uid) {
-                memberContent = this.getUserForm(member)
+                memberContent = <MembersData member={member} onAction={this.onView} />
               } else {
-                const editable = member.uid === user.uid
-                memberContent = this.getUserCard(member, editable, classes)
+                memberContent = <Member key={member.uid} onEdit={this.onEdit} member={member} editable={member.uid === user.uid} />
               }
 
-              return (
-                <Grid item xs={12} sm={6} key={member.uid}>
-                  <Paper className={classes.paper}>{memberContent}</Paper>
-                </Grid>
-              )
+              return memberContent
             })}
           </Grid>
         </div>
