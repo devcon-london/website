@@ -1,6 +1,6 @@
 const functions = require('firebase-functions');
-const { notifySlack } = require('./slack');
-const { sendMail } = require('./sendMail');
+const { notifySlack, inviteSlack } = require('./slack');
+const { sendMail } = require('./email');
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -18,12 +18,19 @@ exports.notifySubmission = functions.firestore
     return true;
   });
 
-// exports.testEmail = functions.https.onRequest(async (req, res) => {
+exports.notifyMembership = functions.firestore
+  .document('members/{userId}')
+  .onCreate((snap) => {
+    const newMember = snap.data();
+    inviteSlack(newMember.email);
+  });
+
+  // exports.testEmail = functions.https.onRequest(async (req, res) => {
 //   if(!req.query.email || req.query.email.length < 1) {
 //     res.send('please use this service with ?email=email@email.com')
 //     return false
 //   }
-  
+
 //   try {
 //     const email = await sendMail(req.query.email)
 //     console.log(email);
