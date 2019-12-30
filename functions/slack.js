@@ -23,7 +23,7 @@ exports.inviteSlack = async (email) => {
     const SLACK_TOKEN = functions.config().slack_integration.token;
     const SLACK_INVITE_ENDPOINT = 'https://slack.com/api/users.admin.invite';
     const QUERY_PARAMS = `email=${email}&token=${SLACK_TOKEN}&set_active=true`;
-    
+
     const request = await axios.get(`${SLACK_INVITE_ENDPOINT}?${QUERY_PARAMS}`)
     // TODO: return what you need after the request
     console.log(request)

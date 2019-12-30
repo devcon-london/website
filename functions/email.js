@@ -7,7 +7,7 @@ exports.welcomeEmail = (email) => {
   sgMail.setApiKey(SENDGRID.api_key)
   const msg = {
     to: email,
-    from: '"Devcon.network" <no-reply@devcon.network>',
+    from: 'Devcon.network <no-reply@devcon.network>',
     subject: 'Welcome to Devcon.network!',
     text: 'Welcome on board!\n\nPlease check your inbox, you should shortly receive an invite to join our Slack Workspace and Google group mailing list',
     html: '<strong>Welcome on board!</strong><p>Please check your inbox, you should shortly receive an invite to join our Slack Workspace and Google group mailing list</p>',
