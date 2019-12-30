@@ -4,8 +4,8 @@ const initialState = {
   notifications: null,
 }
 
-export const showNotifications = createAction('SHOW_NOTIFICATIOMS')
-export const hideNotifications = createAction('HIDE_NOTIFICATIOMS')
+export const showNotifications = createAction('SHOW_NOTIFICATIONS')
+export const hideNotifications = createAction('HIDE_NOTIFICATIONS')
 
 export default createReducer(
   {

@@ -22,11 +22,6 @@ export const NavItems = [
     visibility: 0,
   },
   {
-    to: '/terms',
-    text: 'Terms',
-    visibility: 0,
-  },
-  {
     to: '/subscribe',
     text: 'Subscribe',
     visibility: 2,
@@ -49,6 +44,8 @@ export const NavItems = [
 ]
 
 export const Errors = {
+  errorLoading: 'Error loading data from the database',
+  errorSaving: 'Error while saving data',
   loginFirst: 'You need to login to access this section',
   sectionPermission: 'You do not have enough rights to access this section',
   notAMember:

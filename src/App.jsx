@@ -3,20 +3,12 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import { MuiThemeProvider } from '@material-ui/core/styles'
+import { appTheme } from './theme'
 
 import MainNavigation from './components/navigation/MainNavigation'
 
 import store from './state/store'
-
-const appTheme = createMuiTheme({
-  typography: {
-    useNextVariants: true,
-  },
-  palette: {
-    type: 'dark',
-  },
-})
 
 const App = () => (
   <Provider store={store}>
