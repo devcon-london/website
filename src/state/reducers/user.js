@@ -12,7 +12,13 @@ const initialState = {
   error: null,
 }
 
-export const [userLogin, userLogout, userNotMember, userLoading, userMembership] = [
+export const [
+  userLogin,
+  userLogout,
+  userNotMember,
+  userLoading,
+  userMembership,
+] = [
   'USER_LOGGED_IN',
   'USER_LOGGED_OUT',
   'USER_NOT_MEMBER',
@@ -31,20 +37,20 @@ export default createReducer(
       loading: false,
       userObj: action.user,
     }),
-    [`${userNotMember}`] : (state, action) => ({
+    [`${userNotMember}`]: (state, action) => ({
       ...state,
       loading: false,
       error: action,
     }),
-    [`${userLoading}`] : (state) => ({
+    [`${userLoading}`]: state => ({
       ...state,
       loading: true,
     }),
     [`${userMembership}`]: (state, action) => ({
-        ...state,
-        membership: action,
-        loading: false,
-      }),
+      ...state,
+      membership: action,
+      loading: false,
+    }),
     [`${userLogout}`]: () => ({
       ...initialState,
     }),

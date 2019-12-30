@@ -1,4 +1,4 @@
-import { createAction, createReducer } from 'redux-act';
+import { createAction, createReducer } from 'redux-act'
 import { ActionType } from 'redux-promise-middleware'
 
 import { DBCollections, Errors } from '../../constants'
@@ -12,14 +12,14 @@ const initialState = {
   error: null,
 }
 
-export const loadMembers = createAction('LOAD_MEMBERS', (uid) => ({
+export const loadMembers = createAction('LOAD_MEMBERS', uid => ({
   promise: new Promise((resolve, reject) => {
     // TODO: check it actually reloads when the collection changes
-    db.collection(DBCollections.members).onSnapshot(({docs}) => {
+    db.collection(DBCollections.members).onSnapshot(({ docs }) => {
       const members = docs.map(d => d.data())
       resolve(members)
     }, reject)
-  })
+  }),
 }))
 
 export default createReducer(
@@ -37,8 +37,8 @@ export default createReducer(
       ...state,
       loading: false,
       members: [],
-      error: Errors.notAMember
-    })
+      error: Errors.notAMember,
+    }),
   },
   initialState
 )

@@ -116,8 +116,8 @@ const Privacy = () => (
       <Typography variant="body1">
         This Privacy Policy applies only to our online activities and is valid
         for visitors to our website with regards to the information that they
-        shared and/or collect in Devcon.network. This policy is not applicable to
-        any information collected offline or via channels other than this
+        shared and/or collect in Devcon.network. This policy is not applicable
+        to any information collected offline or via channels other than this
         website.
       </Typography>
 

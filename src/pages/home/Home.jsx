@@ -24,7 +24,7 @@ const styles = theme => ({
   },
   heroTitle: {
     marginBottom: '0.25rem',
-    letterSpacing: '1.6px'
+    letterSpacing: '1.6px',
   },
   arrow: {
     position: 'absolute',

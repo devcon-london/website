@@ -1,6 +1,6 @@
 const functions = require('firebase-functions');
 const { notifySlack, inviteSlack } = require('./slack');
-const { sendMail } = require('./email');
+const { welcomeEmail } = require('./email');
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -22,6 +22,7 @@ exports.notifyMembership = functions.firestore
   .document('members/{userId}')
   .onCreate((snap) => {
     const newMember = snap.data();
+    welcomeEmail(newMember.email);
     inviteSlack(newMember.email);
   });
 

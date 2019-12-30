@@ -1,10 +1,10 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import Member from './Member';
+import React from 'react'
+import { shallow } from 'enzyme'
+import Member from './Member'
 
 describe('<Member />', () => {
   test('renders', () => {
-    const wrapper = shallow(<Member />);
-    expect(wrapper).toMatchSnapshot();
-  });
-});
+    const wrapper = shallow(<Member />)
+    expect(wrapper).toMatchSnapshot()
+  })
+})

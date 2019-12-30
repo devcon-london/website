@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
-import { SocialIcon } from 'react-social-icons';
+import { SocialIcon } from 'react-social-icons'
 
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -80,9 +80,19 @@ class Advertisers extends React.Component {
                     {`${i.name}, ${i.role} at ${i.company}`}
                   </Typography>
                   <Typography variant="body1">
-                    {`email: ${i.email}, joined ${moment(i.adminDate).format('MMM Do, YYYY')}`}
+                    {`email: ${i.email}, joined ${moment(i.adminDate).format(
+                      'MMM Do, YYYY'
+                    )}`}
                   </Typography>
-                  {i.linkedin && <SocialIcon className={classes.socialButton} url={i.linkedin} bgColor="#212121" fgColor='#FFF' target="_blank" />}
+                  {i.linkedin && (
+                    <SocialIcon
+                      className={classes.socialButton}
+                      url={i.linkedin}
+                      bgColor="#212121"
+                      fgColor="#FFF"
+                      target="_blank"
+                    />
+                  )}
                 </Paper>
               </Grid>
             ))}
@@ -115,11 +125,8 @@ Advertisers.propTypes = {
 const mapStateToProps = state => ({ user: state.user })
 
 const StyledAdvertisers = withStyles(styles)(Advertisers)
-const AdvertisersContainer = connect(
-  mapStateToProps,
-  {
-    showNotifications,
-  }
-)(StyledAdvertisers)
+const AdvertisersContainer = connect(mapStateToProps, {
+  showNotifications,
+})(StyledAdvertisers)
 
 export default AdvertisersContainer

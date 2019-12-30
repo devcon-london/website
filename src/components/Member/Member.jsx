@@ -13,7 +13,7 @@ import {
   // Tooltip,
 } from '@material-ui/core/'
 import FaceIcon from '@material-ui/icons/Face'
-import PopupState, { bindHover, bindPopper } from 'material-ui-popup-state';
+import PopupState, { bindHover, bindPopper } from 'material-ui-popup-state'
 
 const styles = theme => ({
   socialButton: {
@@ -41,7 +41,7 @@ const styles = theme => ({
     padding: '0.25rem 1rem',
     maxWidth: '40vw',
     background: 'white',
-    color: '#222'
+    color: '#222',
   },
   popover: {
     pointerEvents: 'none',
@@ -69,8 +69,15 @@ const Member = ({ classes, member, editable, onEdit }) => {
             <PopupState variant="popper" popupId="demo-popup-popper">
               {popupState => (
                 <div>
-                  <FaceIcon className={classes.socialButton} {...bindHover(popupState)} />
-                  <Popper className={classes.popover} {...bindPopper(popupState)} transition>
+                  <FaceIcon
+                    className={classes.socialButton}
+                    {...bindHover(popupState)}
+                  />
+                  <Popper
+                    className={classes.popover}
+                    {...bindPopper(popupState)}
+                    transition
+                  >
                     {({ TransitionProps }) => (
                       <Fade {...TransitionProps} timeout={350}>
                         <Paper className={classes.paperBio}>

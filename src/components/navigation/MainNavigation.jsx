@@ -23,8 +23,7 @@ import MainMenu from './MainMenu'
 import Routes from './Routes'
 
 const styles = theme => ({
-  root: {
-  },
+  root: {},
   drawer: {
     width: Sizes.drawerWidth,
     flexShrink: 0,

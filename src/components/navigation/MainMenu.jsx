@@ -52,7 +52,12 @@ const styles = theme => ({
 })
 
 const MainMenu = ({ classes, drawerOpen, handleDrawer }) => (
-  <AppBar position="fixed" elevation={0} className={classes.appBar} color="default">
+  <AppBar
+    position="fixed"
+    elevation={0}
+    className={classes.appBar}
+    color="default"
+  >
     <ToolBar className={classes.content}>
       <Typography variant="h6" className={classes.grow}>
         <IconButton
