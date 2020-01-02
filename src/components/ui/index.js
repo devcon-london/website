@@ -17,15 +17,15 @@ const styles = theme => ({
     marginLeft: 'auto',
     marginRight: 'auto',
     maxWidth: '85vw',
-    background: 'transparent'
-  }, 
+    background: 'transparent',
+  },
   paperBox: {
     padding: theme.spacing(3),
     margin: theme.spacing(4),
     marginLeft: 'auto',
     marginRight: 'auto',
     maxWidth: '85vw',
-  }
+  },
 })
 
 export const Title = ({ children }) => (
@@ -39,7 +39,9 @@ export const Section = withStyles(styles)(({ classes, children }) => (
 ))
 
 export const Container = withStyles(styles)(({ classes, children }) => (
-  <Paper elevation={0} className={classes.paper}>{children}</Paper>
+  <Paper elevation={0} className={classes.paper}>
+    {children}
+  </Paper>
 ))
 
 export const PaperContainer = withStyles(styles)(({ classes, children }) => (

@@ -10,7 +10,7 @@ import { hideNotifications } from '../../state/reducers/ui'
 
 const styles = theme => ({
   close: {
-    padding: theme.spacing(.5),
+    padding: theme.spacing(0.5),
   },
 })
 

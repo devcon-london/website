@@ -1,8 +1,6 @@
 const functions = require('firebase-functions');
-
-const SlackWebhook = require('@slack/webhook');
-
-const { IncomingWebhook } = SlackWebhook;
+const { notifySlack, inviteSlack } = require('./slack');
+const { welcomeEmail } = require('./email');
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -10,22 +8,6 @@ const { IncomingWebhook } = SlackWebhook;
 // exports.helloWorld = functions.https.onRequest((request, response) => {
 //  response.send("Hello from Firebase!");
 // });
-
-const notifySlack = (msg) => {
-  const url = functions.config().slack_integration.webhook_url;
-  const webhook = new IncomingWebhook(url, {});
-
-  return webhook
-    .send({
-      text: msg,
-    })
-    .then(() => {
-      console.log('notification sent');
-    })
-    .catch((e) => {
-      console.log('error while posting to slack', e);
-    });
-};
 
 exports.notifySubmission = functions.firestore
   .document('submissions/{userId}')
@@ -35,3 +17,28 @@ exports.notifySubmission = functions.firestore
     notifySlack(msg);
     return true;
   });
+
+exports.notifyMembership = functions.firestore
+  .document('members/{userId}')
+  .onCreate((snap) => {
+    const newMember = snap.data();
+    welcomeEmail(newMember.email);
+    inviteSlack(newMember.email);
+  });
+
+  // exports.testEmail = functions.https.onRequest(async (req, res) => {
+//   if(!req.query.email || req.query.email.length < 1) {
+//     res.send('please use this service with ?email=email@email.com')
+//     return false
+//   }
+
+//   try {
+//     const email = await sendMail(req.query.email)
+//     console.log(email);
+//     res.send(`Email sent to ${req.query.email}`)
+//   } catch (e) {
+//     console.log(e)
+//     res.send(e.toString())
+//     return false
+//   }
+// })

@@ -14,13 +14,12 @@ import { showNotifications } from '../../state/reducers/ui'
 import { loadMembers } from '../../state/reducers/members'
 import { Member, MembersData } from '../../components/Member'
 
-
 const styles = theme => ({
   root: {
     flexGrow: 1,
   },
   inline: {
-    display: 'inline'
+    display: 'inline',
   },
   margin: {
     marginLeft: theme.spacing(),
@@ -48,18 +47,20 @@ class Members extends React.Component {
       '-date': { field: 'adminDate', mult: -1 },
     }
     const funGen = sortingParams => {
-      const fun = (a, b) => sortingParams.mult * a[sortingParams.field].localeCompare(b[sortingParams.field])
+      const fun = (a, b) =>
+        sortingParams.mult *
+        a[sortingParams.field].localeCompare(b[sortingParams.field])
       return fun
     }
     return funGen(sortingParamsDict[sortingName])
   }
 
   onEdit = () => {
-    this.setState({editing: true})
+    this.setState({ editing: true })
   }
 
   onView = () => {
-    this.setState({editing: false})
+    this.setState({ editing: false })
   }
 
   render() {
@@ -91,9 +92,18 @@ class Members extends React.Component {
             {members.sort(this.getSortingFn(sorting)).map(member => {
               let memberContent = null
               if (editing === true && member.uid === user.uid) {
-                memberContent = <MembersData member={member} onAction={this.onView} />
+                memberContent = (
+                  <MembersData member={member} onAction={this.onView} />
+                )
               } else {
-                memberContent = <Member key={member.uid} onEdit={this.onEdit} member={member} editable={member.uid === user.uid} />
+                memberContent = (
+                  <Member
+                    key={member.uid}
+                    onEdit={this.onEdit}
+                    member={member}
+                    editable={member.uid === user.uid}
+                  />
+                )
               }
 
               return memberContent
@@ -108,48 +118,52 @@ class Members extends React.Component {
     return (
       <Section>
         <Container>
-        <Grid justify="space-between" container spacing={6}>
-          <Grid item>
-            <Title>
-              Members{' '}
-              <Typography className={classes.inline} component="span" variant="h6">
-                ({members.length})
-              </Typography>
-            </Title>
-          </Grid>
+          <Grid justify="space-between" container spacing={6}>
+            <Grid item>
+              <Title>
+                Members{' '}
+                <Typography
+                  className={classes.inline}
+                  component="span"
+                  variant="h6"
+                >
+                  ({members.length})
+                </Typography>
+              </Title>
+            </Grid>
 
-          <Grid item>
-            <div>
-              <Fab
-                size="small"
-                color="secondary"
-                aria-label="sort-by-alpha"
-                className={classes.margin}
-                onClick={() =>
-                  sorting === 'name'
-                    ? this.setState({ sorting: '-name' })
-                    : this.setState({ sorting: 'name' })
-                }
-              >
-                <SortByAlphaIcon />
-              </Fab>
-              <Fab
-                size="small"
-                color="secondary"
-                aria-label="sort-by-date-joined"
-                className={classes.margin}
-                onClick={() =>
-                  sorting === 'date'
-                    ? this.setState({ sorting: '-date' })
-                    : this.setState({ sorting: 'date' })
-                }
-              >
-                <EventNoteIcon />
-              </Fab>
-            </div>
+            <Grid item>
+              <div>
+                <Fab
+                  size="small"
+                  color="secondary"
+                  aria-label="sort-by-alpha"
+                  className={classes.margin}
+                  onClick={() =>
+                    sorting === 'name'
+                      ? this.setState({ sorting: '-name' })
+                      : this.setState({ sorting: 'name' })
+                  }
+                >
+                  <SortByAlphaIcon />
+                </Fab>
+                <Fab
+                  size="small"
+                  color="secondary"
+                  aria-label="sort-by-date-joined"
+                  className={classes.margin}
+                  onClick={() =>
+                    sorting === 'date'
+                      ? this.setState({ sorting: '-date' })
+                      : this.setState({ sorting: 'date' })
+                  }
+                >
+                  <EventNoteIcon />
+                </Fab>
+              </div>
+            </Grid>
           </Grid>
-        </Grid>
-        {content}
+          {content}
         </Container>
       </Section>
     )

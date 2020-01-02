@@ -3,4 +3,4 @@ import { storiesOf } from '@storybook/react'
 
 import MemberFields from './MemberFields'
 
-storiesOf('Body', module).add('default', () => <MemberFields />)
+storiesOf('Member', module).add('default', () => <MemberFields />)
