@@ -1,5 +1,8 @@
 # ingnore slack members export
 slack-devconteam-members.csv
+# google group list of users
+devconlondon.csv
+# website members saved as csv
 devcon.members.csv
 
 # Byte-compiled / optimized / DLL files

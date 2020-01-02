@@ -28,7 +28,7 @@ exports.welcomeEmail = (email) => {
 //     })
 
 //     return transporter.sendMail({
-//       from: '"Devcon.rocks" <no-reply@devcon.rocks>', // sender address
+//       from: '"Devcon.network" <no-reply@devcon.network>', // sender address
 //       to: email,
 //       subject: subject,
 //       text: subject,
