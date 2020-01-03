@@ -18,6 +18,7 @@ sample dict as stored on firebase:
 """
 import os
 import csv
+import math
 from google.cloud import firestore
 from dotenv import load_dotenv
 
@@ -36,17 +37,17 @@ GOOGLE_GROUP_FILE = 'devconlondon.csv'
 MEMBERS_EXPORT_FILE = 'devcon.members.csv'
 MEMBERS_EXPORT_FIELDS = ['uid', 'name', 'email', 'referrer', 'date', 'linkedin', 'github', 'twitter', 'role']
 
-email_body = """<strong>A friendly poke from Devcon.network</strong>
-<p>It looks you are on our Slack, but have not registered on our website yet.</p>
-<p>Please visit <a href="https://devcon.network">Devcon.network</a> and create a new submission</p>
-<p>We'll make sure to give you access to the member's page as soon as possible</p>
+email_body = """<strong>Hey, just a friendly poke from Devcon.network!</strong>
+<p>It looks you are on our Slack, but you have not registered on our website yet.</p>
+<p>Please visit <a href="https://devcon.network">Devcon.network</a> and create a new submission,</p>
+<p>we'll make sure to give you access to the member's page as soon as possible.</p>
 """
 
 def send_invite_email(recipient_list):
     message = Mail(
         from_email='Devcon.network <no-reply@devon.network>',
         to_emails=recipient_list,
-        subject='Remember to subscribe on Devcon.network!',
+        subject='Remember to join Devcon.network website!',
         html_content=email_body)
     try:
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
@@ -129,11 +130,15 @@ def load_google_group_members(f_name=GOOGLE_GROUP_FILE):
 
 
 def filter_emails(email_list):
-    return [e for e in email_list if 'slack-bots.com' not in e]
+    return filter(
+        lambda x: x if x is not None and 'slack-bots' not in x else None,
+        email_list)
 
 
 def reconcile_members(website_members_dict, slack_members_dict, google_members_dict):
     """
+    checks who's in and out of various groups. Sends emails to people who are on slack and not on website.
+    prints a bunch of information for manual action.
 
     :param website_members_dict:
     :param slack_members_dict:
@@ -149,13 +154,13 @@ def reconcile_members(website_members_dict, slack_members_dict, google_members_d
     print(f'- slack members: {len(slack_members_emails)}')
     print(f'- google group members: {len(google_members_emails)}')
 
-    diffident = website_members_emails - slack_members_emails
-    lazy = filter_emails(list(slack_members_emails - website_members_emails))
-    lost = filter_emails(list(slack_members_emails - google_members_emails))
+    diffident = list(filter_emails(website_members_emails - slack_members_emails))
+    lazy = list(filter_emails(slack_members_emails - website_members_emails))
+    lost = list(filter_emails(slack_members_emails - google_members_emails))
 
     print(f'\n {len(diffident)} members in devcon not on slack: \n')
-    print(f'------------------------------------------\n {diffident}')
-    print('\n tip: invite them to join slack')
+    print(f'------------------------------------------\n {", ".join(diffident)}')
+    print('\n tip: manually check if they are not on slack and invite them to join')
 
     print(f'\n {len(lazy)} members in slack not on devcon: \n')
     print(f'------------------------------------------\n {", ".join(lazy)}')
@@ -167,8 +172,11 @@ def reconcile_members(website_members_dict, slack_members_dict, google_members_d
         print('emails not sent')
 
     print(f'\n {len(lost)} members in slack not on google groups: \n')
-    print(f'------------------------------------------\n {", ".join(lost)}')
-    print('\n tip: invite them to join google group')
+    print(f'------------------------------------------')
+    max_invite = 10
+    for i in range(0, math.ceil(len(lost) / max_invite)):
+        print(f'group {i}: {", ".join(lost[i:i+max_invite])}')
+    print('\n tip: invite them to join google group, 10 at a time')
 
 
 def cast_field(field, members_dict):
