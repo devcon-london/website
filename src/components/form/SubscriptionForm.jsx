@@ -7,11 +7,11 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormControl from '@material-ui/core/FormControl'
 import FormLabel from '@material-ui/core/FormLabel'
 import { Form, Text } from 'informed'
-import Validation from '../../../components/form/validation'
-import InformedTextInput from '../../../components/form/InformedTextInput'
-import MemberFields from '../../../components/form/MemberFields'
-import AdvertiserFields from '../../../components/form/AdvertiserFields'
-import { DBCollections } from '../../../constants'
+import Validation from './validation'
+import InformedTextInput from './InformedTextInput'
+import MemberFields from './MemberFields'
+import AdvertiserFields from './AdvertiserFields'
+import { DBCollections } from '../../constants'
 import './SubscriptionForm.css'
 
 const { db } = window
@@ -76,9 +76,10 @@ class SubscriptionForm extends React.Component {
           <Text field="date" id="date" hidden />
           {/* setting this value manually, informed would need workaround for radio with material-ui */}
           <Text field="applicant" id="applicant" hidden />
-          <FormControl component="fieldset" fullWidth>
+          <FormControl margin="normal" fullWidth>
             <FormLabel component="legend">Applicant Type</FormLabel>
             <RadioGroup
+              row
               aria-label="Applicant"
               name="applicant"
               value={state.applicant}
@@ -90,12 +91,14 @@ class SubscriptionForm extends React.Component {
                 label="Member"
                 labelPlacement="end"
               />
+              {/* (select this if you are a developer who wants to join a community of likeminded people and participate in conversations and events organised with your fellows) */}
               <FormControlLabel
                 value={DBCollections.advertisers}
-                control={<Radio />}
+                control={<Radio color="secondary" />}
                 label="Advertiser"
                 labelPlacement="end"
               />
+              {/* (select this if you are planning to support our community of developers with sponsorships, infrastructure, job opportunities and other kind of economical commitments) */}
             </RadioGroup>
           </FormControl>
           <InformedTextInput
@@ -107,7 +110,7 @@ class SubscriptionForm extends React.Component {
             validate={Validation.validName}
           />
           {showForm[state.applicant]}
-          <Button onClick={this.submitForm}>Submit</Button>
+          <Button onClick={this.submitForm} variant="contained" color="primary" disabled={state.applicant === 'advertisers'}>Submit</Button>
         </Form>
       )
     }
