@@ -2,14 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import moment from 'moment'
-import { SocialIcon } from 'react-social-icons'
 
 import { withStyles } from '@material-ui/core/styles'
-import EmailIcon from '@material-ui/icons/Email'
-import { Input, Grid, Paper, Button, Typography, Fab } from '@material-ui/core'
+import { Grid, Paper, Button, Typography } from '@material-ui/core'
 import { Title, Section, Container } from '../../components/ui'
-
+import Member from '../../components/submission/Member'
+import Advertiser from '../../components/submission/Advertiser'
 import { DBCollections, Errors } from '../../constants'
 import { showNotifications } from '../../state/reducers/ui'
 
@@ -24,20 +22,6 @@ const styles = theme => ({
   },
   paper: {
     padding: theme.spacing(2),
-  },
-  socialButton: {
-    marginRight: '10px',
-  },
-  buttonsContainer: {
-    marginTop: '20px',
-    display: 'flex',
-    marginBottom: '20px',
-  },
-  paperEmail: {
-    display: 'flex',
-    marginRight: '0',
-    marginLeft: 'auto',
-    alignItems: 'center',
   },
 })
 
@@ -137,91 +121,13 @@ class Submissions extends React.Component {
       })
   }
 
-  getFields = (submission, classes) => {
-    const intro = (
-      <Typography variant="body1" gutterBottom>
-        {`introduced by ${submission.referrer} on ${moment(
-          submission.date.seconds * 1000
-        ).format('MMMM Do, YYYY')}`}
-      </Typography>
-    )
+  getFields = (submission) => {
     const showFields = {
       members: (
-        <>
-          <Typography variant="h5">
-            {`Community Membership for ${submission.name}, ${submission.role}`}
-          </Typography>
-          {intro}
-          <Typography variant="body1" gutterBottom>
-            {`Bio: ${submission.bio}`}
-          </Typography>
-          <Grid className={classes.buttonsContainer}>
-            {submission.github && (
-              <SocialIcon
-                className={classes.socialButton}
-                url={submission.github}
-                bgColor="#212121"
-                fgColor="#FFF"
-                target="_blank"
-              />
-            )}
-            {submission.linkedin && (
-              <SocialIcon
-                className={classes.socialButton}
-                url={submission.linkedin}
-                bgColor="#212121"
-                fgColor="#FFF"
-                target="_blank"
-              />
-            )}
-            {submission.twitter && (
-              <SocialIcon
-                className={classes.socialButton}
-                url={submission.twitter}
-                bgColor="#212121"
-                fgColor="#FFF"
-                target="_blank"
-              />
-            )}
-            <Grid className={classes.paperEmail}>
-              <Input
-                readOnly
-                value={submission.email}
-                onClick={e => e.target.select()}
-              />
-              <Fab size="small" color="primary" aria-label="mailto">
-                <EmailIcon />
-              </Fab>
-            </Grid>
-          </Grid>
-        </>
+        <Member submission />
       ),
       advertisers: (
-        <>
-          <Typography variant="h5">
-            {`Advertising Membership for ${submission.name}`}
-          </Typography>
-          {intro}
-          <Typography variant="body1" gutterBottom>
-            {`Role ${submission.role}. Company: ${submission.company}`}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <Button
-              className={classes.linkButton}
-              variant="contained"
-              href={submission.linkedin}
-            >
-              LinkedIn
-            </Button>
-            <Button
-              className={classes.linkButton}
-              variant="contained"
-              href={`mailto:${submission.email}`}
-            >
-              Email
-            </Button>
-          </Typography>
-        </>
+        <Advertiser submission />
       ),
     }
     return showFields[submission.applicant]
@@ -243,7 +149,7 @@ class Submissions extends React.Component {
             {submissions.map(i => (
               <Grid item xs={12} sm={6} key={i.uid}>
                 <Paper className={classes.paper}>
-                  {this.getFields(i, classes)}
+                  {this.getFields(i)}
                   {/* material-ui Button doesn't like data-* attributes, hence the getClickHandler */}
                   {[
                     { label: 'Accept', approval: true },
