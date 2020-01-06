@@ -85,7 +85,11 @@ class Members extends React.Component {
               let memberContent = null
               if (editing === true && member.uid === user.uid) {
                 memberContent = (
-                  <MembersData member={member} onAction={this.onView} />
+                  <MembersData
+                    key={member.uid}
+                    member={member}
+                    onAction={this.onView}
+                  />
                 )
               } else {
                 memberContent = (

@@ -18,3 +18,7 @@ p {
 a {
   color: inherit;
 }
+
+.MuiInputLabel-formControl {
+  top: -23px !important;
+}
