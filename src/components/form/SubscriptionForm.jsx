@@ -79,6 +79,7 @@ class SubscriptionForm extends React.Component {
           <FormControl margin="normal" fullWidth>
             <FormLabel component="legend">Applicant Type</FormLabel>
             <RadioGroup
+              row
               aria-label="Applicant"
               name="applicant"
               value={state.applicant}
