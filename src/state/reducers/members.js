@@ -15,10 +15,11 @@ const initialState = {
 export const loadMembers = createAction('LOAD_MEMBERS', uid => ({
   promise: new Promise((resolve, reject) => {
     // TODO: check it actually reloads when the collection changes
-    db.collection(DBCollections.members).onSnapshot(({ docs }) => {
-      const members = docs.map(d => d.data())
-      resolve(members)
-    }, reject)
+    // db.collection(DBCollections.members).onSnapshot(({ docs }) => {
+    //   const members = docs.map(d => d.data())
+    //   resolve(members)
+    // }, reject)
+    resolve([])
   }),
 }))
 

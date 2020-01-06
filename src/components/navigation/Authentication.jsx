@@ -88,10 +88,10 @@ class Authentication extends React.Component {
 
   render() {
     const { user } = this.props
-    const { displayName } = user
+    const { uid } = user
     return (
       <>
-        {displayName ? (
+        {uid ? (
           <Button onClick={this.signOut}>SignOut</Button>
         ) : (
           <Button onClick={this.ghSignIn}>Github SignIn</Button>
