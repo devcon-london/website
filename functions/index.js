@@ -24,6 +24,8 @@ exports.notifyMembership = functions.firestore
     const newMember = snap.data();
     welcomeEmail(newMember.email);
     inviteSlack(newMember.email);
+    const msg = `A welcome email and invite to Slack have been sent to ${newMember.email}`;
+    notifySlack(msg);
   });
 
   // exports.testEmail = functions.https.onRequest(async (req, res) => {
