@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Title, Section, Container } from '../../components/ui'
 
-import SubscriptionForm from './../components/form/SubscriptionForm'
+import SubscriptionForm from '../../components/form/SubscriptionForm'
 import { DBCollections, Errors } from '../../constants'
 import { showNotifications } from '../../state/reducers/ui'
 
