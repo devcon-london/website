@@ -11,7 +11,6 @@ import { Title, Section, Container } from '../../components/ui'
 
 import { Errors } from '../../constants'
 import { showNotifications } from '../../state/reducers/ui'
-import { loadMembers } from '../../state/reducers/members'
 import { Member, MembersData } from '../../components/Member'
 
 const styles = theme => ({
@@ -30,13 +29,6 @@ class Members extends React.Component {
   state = {
     editing: false,
     sorting: 'name',
-  }
-
-  componentDidMount() {
-    const { user, loadMembers } = this.props
-    if (user.uid !== null) {
-      loadMembers(user.uid)
-    }
   }
 
   getSortingFn = sortingName => {
@@ -185,7 +177,6 @@ const MembersContainer = connect(
   }),
   {
     showNotifications,
-    loadMembers,
   }
 )(StyledMembers)
 

@@ -6,6 +6,10 @@ export const DBCollections = {
   roles: 'roles',
 }
 
+export const DBSnapshots = {
+  membersUnsubscribe: undefined,
+}
+
 export const Sizes = {
   drawerWidth: 240,
 }

@@ -10,7 +10,7 @@ import {
   userNotMember,
   userMembership,
 } from '../../state/reducers/user'
-import { loadMembers } from '../../state/reducers/members'
+import { loadMembers, membersSnapshot } from '../../state/reducers/members'
 
 class Authentication extends React.Component {
   constructor(props) {
@@ -110,7 +110,8 @@ function mapDispathToProps(dispatch) {
   return {
     onLogin: data => {
       dispatch(userLogin(data))
-      dispatch(loadMembers(data.user.uid))
+      dispatch(loadMembers())
+      dispatch(membersSnapshot())
     },
     onLogout: () => dispatch(userLogout()),
     onUserLoading: () => dispatch(userLoading()),
