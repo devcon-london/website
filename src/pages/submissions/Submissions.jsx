@@ -106,17 +106,17 @@ class Submissions extends React.Component {
                 this.setState({ error: null })
               })
               .catch(error => {
-                console.log('error deleting submission', error)
+                // console.log('error deleting submission', error)
                 this.setState({ error: 'error deleting submission' })
               })
           })
           .catch(error => {
-            console.log('error setting submission', collection, error)
+            // console.log('error setting submission', collection, error)
             this.setState({ error: 'error setting submission' })
           })
       })
       .catch(error => {
-        console.log('error retrieving submission', uid, error)
+        // console.log('error retrieving submission', uid, error)
         this.setState({ error: 'error retrieving submission' })
       })
   }
@@ -173,7 +173,7 @@ class Submissions extends React.Component {
         </div>
       )
     } else if (error) {
-      content = <Typography variant="body1">{error}</Typography>
+      content = <Typography variant="body1" color="secondary">{error}</Typography>
     } else {
       content = <Typography variant="body1">No pending submissions!</Typography>
     }
