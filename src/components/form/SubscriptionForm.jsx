@@ -19,6 +19,7 @@ const { db } = window
 class SubscriptionForm extends React.Component {
   state = {
     submitted: false,
+    error: null,
     applicant: DBCollections.members,
   }
 
@@ -48,7 +49,8 @@ class SubscriptionForm extends React.Component {
           this.setState({ submitted: true })
         })
         .catch(error => {
-          console.log('error writing submission', error)
+          // console.log('error writing submission', error)
+          this.setState({ error: error })
         })
     }
   }
@@ -110,7 +112,19 @@ class SubscriptionForm extends React.Component {
             validate={Validation.validName}
           />
           {showForm[state.applicant]}
-          <Button onClick={this.submitForm} variant="contained" color="primary" disabled={state.applicant === 'advertisers'}>Submit</Button>
+          {state.error && (
+            <FormLabel component="legend" color="secondary">
+              There was an error while submitting the form: {state.error}
+            </FormLabel>
+          )}
+          <Button
+            onClick={this.submitForm}
+            variant="contained"
+            color="primary"
+            disabled={state.applicant === 'advertisers'}
+          >
+            Submit
+          </Button>
         </Form>
       )
     }

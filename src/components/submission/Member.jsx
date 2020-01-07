@@ -24,7 +24,7 @@ const styles = theme => ({
   },
 })
 
-const Member = ({ classes, submission}) => {
+const Member = ({ classes, submission }) => {
   const intro = (
     <Typography variant="body1" gutterBottom>
       {`introduced by ${submission.referrer} on ${moment(

@@ -1,7 +1,7 @@
 import { createAction, createReducer } from 'redux-act'
-import { ActionType } from 'redux-promise-middleware'
 
-import { DBCollections, Errors } from '../../constants'
+import { DBCollections, DBSnapshots, Errors } from '../../constants'
+import { showNotifications } from './ui'
 
 const { db } = window
 
@@ -12,32 +12,42 @@ const initialState = {
   error: null,
 }
 
-export const loadMembers = createAction('LOAD_MEMBERS', uid => ({
-  promise: new Promise((resolve, reject) => {
-    // TODO: check it actually reloads when the collection changes
-    db.collection(DBCollections.members).onSnapshot(({ docs }) => {
-      const members = docs.map(d => d.data())
-      resolve(members)
-    }, reject)
-  }),
-}))
+export const loadMembers = createAction('MEMBERS_SNAPSHOT')
+export const updateMembers = createAction('MEMBERS_UPDATE', members => members)
+
+export const membersSnapshot = () => {
+  return dispatch => {
+    if (typeof (DBSnapshots.membersUnsubscribe === 'undefined')) {
+      // onSnapshot returns a function that is stored in DBSnapshots so it can be used to deregister the listener
+      DBSnapshots.membersUnsubscribe = db
+        .collection(DBCollections.members)
+        .onSnapshot(
+          ({ docs }) => {
+            // onSnapshot is "live", it will trigger everytime data is updated
+            // https://firebase.google.com/docs/firestore/query-data/listen
+            const members = docs.map(d => d.data())
+            dispatch(updateMembers(members))
+          },
+          () => {
+            // handle error here, e.g. dispatch a notification
+            dispatch(showNotifications(Errors.notAMember))
+            dispatch(updateMembers([]))
+          }
+        )
+    }
+  }
+}
 
 export default createReducer(
   {
-    [`${loadMembers}_${ActionType.Pending}`]: state => ({
+    [`${loadMembers}`]: state => ({
       ...state,
       loading: true,
     }),
-    [`${loadMembers}_${ActionType.Fulfilled}`]: (state, members) => ({
+    [`${updateMembers}`]: (state, members) => ({
       ...state,
       loading: false,
-      members,
-    }),
-    [`${loadMembers}_${ActionType.Rejected}`]: state => ({
-      ...state,
-      loading: false,
-      members: [],
-      error: Errors.notAMember,
+      members: members,
     }),
   },
   initialState
