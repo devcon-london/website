@@ -5,10 +5,7 @@ import MemberFields from './MemberFields'
 import AdvertiserFields from './AdvertiserFields'
 import SubscriptionForm from './SubscriptionForm'
 
-const user = JSON.parse(
-  '{"uid":"123456789"}'
-)
-
+const user = JSON.parse('{"uid":"123456789"}')
 
 storiesOf('User Data', module)
   .add('Member Fields', () => (

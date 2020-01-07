@@ -121,14 +121,10 @@ class Submissions extends React.Component {
       })
   }
 
-  getFields = (submission) => {
+  getFields = submission => {
     const showFields = {
-      members: (
-        <Member submission />
-      ),
-      advertisers: (
-        <Advertiser submission />
-      ),
+      members: <Member submission />,
+      advertisers: <Advertiser submission />,
     }
     return showFields[submission.applicant]
   }
@@ -173,7 +169,11 @@ class Submissions extends React.Component {
         </div>
       )
     } else if (error) {
-      content = <Typography variant="body1" color="secondary">{error}</Typography>
+      content = (
+        <Typography variant="body1" color="secondary">
+          {error}
+        </Typography>
+      )
     } else {
       content = <Typography variant="body1">No pending submissions!</Typography>
     }

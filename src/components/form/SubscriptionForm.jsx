@@ -112,11 +112,19 @@ class SubscriptionForm extends React.Component {
             validate={Validation.validName}
           />
           {showForm[state.applicant]}
-          {state.error &&
+          {state.error && (
             <FormLabel component="legend" color="secondary">
               There was an error while submitting the form: {state.error}
-            </FormLabel>}
-          <Button onClick={this.submitForm} variant="contained" color="primary" disabled={state.applicant === 'advertisers'}>Submit</Button>
+            </FormLabel>
+          )}
+          <Button
+            onClick={this.submitForm}
+            variant="contained"
+            color="primary"
+            disabled={state.applicant === 'advertisers'}
+          >
+            Submit
+          </Button>
         </Form>
       )
     }

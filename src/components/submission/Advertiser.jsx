@@ -24,7 +24,7 @@ const styles = theme => ({
   },
 })
 
-const Advertiser = ({ classes, submission}) => {
+const Advertiser = ({ classes, submission }) => {
   const intro = (
     <Typography variant="body1" gutterBottom>
       {`introduced by ${submission.referrer} on ${moment(
@@ -64,7 +64,9 @@ const Advertiser = ({ classes, submission}) => {
         </Grid>
       </Grid>
       <Typography variant="body1" gutterBottom color="secondary">
-        {`${submission.name} from ${submission.company} has submitted as an advertiser!`} Make sure you really want this submission before hitting the accept button!
+        {`${submission.name} from ${submission.company} has submitted as an advertiser!`}{' '}
+        Make sure you really want this submission before hitting the accept
+        button!
       </Typography>
     </>
   )

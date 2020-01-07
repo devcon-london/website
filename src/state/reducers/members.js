@@ -13,24 +13,27 @@ const initialState = {
 }
 
 export const loadMembers = createAction('MEMBERS_SNAPSHOT')
-export const updateMembers = createAction('MEMBERS_UPDATE', members => (members))
+export const updateMembers = createAction('MEMBERS_UPDATE', members => members)
 
 export const membersSnapshot = () => {
   return dispatch => {
-    if (typeof(DBSnapshots.membersUnsubscribe === 'undefined')) {
+    if (typeof (DBSnapshots.membersUnsubscribe === 'undefined')) {
       // onSnapshot returns a function that is stored in DBSnapshots so it can be used to deregister the listener
       DBSnapshots.membersUnsubscribe = db
         .collection(DBCollections.members)
-        .onSnapshot(({ docs }) => {
-          // onSnapshot is "live", it will trigger everytime data is updated
-          // https://firebase.google.com/docs/firestore/query-data/listen
-          const members = docs.map(d => d.data())
-          dispatch(updateMembers(members))
-        }, () => {
-          // handle error here, e.g. dispatch a notification
-          dispatch(showNotifications(Errors.notAMember))
-          dispatch(updateMembers([]))
-        })
+        .onSnapshot(
+          ({ docs }) => {
+            // onSnapshot is "live", it will trigger everytime data is updated
+            // https://firebase.google.com/docs/firestore/query-data/listen
+            const members = docs.map(d => d.data())
+            dispatch(updateMembers(members))
+          },
+          () => {
+            // handle error here, e.g. dispatch a notification
+            dispatch(showNotifications(Errors.notAMember))
+            dispatch(updateMembers([]))
+          }
+        )
     }
   }
 }
