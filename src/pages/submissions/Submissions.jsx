@@ -123,8 +123,8 @@ class Submissions extends React.Component {
 
   getFields = submission => {
     const showFields = {
-      members: <Member submission />,
-      advertisers: <Advertiser submission />,
+      members: <Member submission={submission} />,
+      advertisers: <Advertiser submission={submission} />,
     }
     return showFields[submission.applicant]
   }
@@ -143,7 +143,7 @@ class Submissions extends React.Component {
         <div className={classes.root}>
           <Grid container spacing={8}>
             {submissions.map(i => (
-              <Grid item xs={12} sm={6} key={i.uid}>
+              <Grid item xs={12} key={i.uid}>
                 <Paper className={classes.paper}>
                   {this.getFields(i)}
                   {/* material-ui Button doesn't like data-* attributes, hence the getClickHandler */}
