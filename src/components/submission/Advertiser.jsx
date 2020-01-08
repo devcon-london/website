@@ -35,8 +35,11 @@ const Advertiser = ({ classes, submission }) => {
 
   return (
     <>
-      <Typography variant="h5" color="secondary">
-        {`Advertising Membership for ${submission.name}`}
+      <Typography variant="h5">
+        Advertising Membership
+      </Typography>
+      <Typography variant="h3" color="secondary">
+        {`${submission.name}`}
       </Typography>
       {intro}
       <Typography variant="body1" gutterBottom>

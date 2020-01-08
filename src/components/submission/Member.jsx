@@ -35,8 +35,11 @@ const Member = ({ classes, submission }) => {
 
   return (
     <>
-      <Typography variant="h5" color="primary">
-        {`Community Membership for ${submission.name}, ${submission.role}`}
+      <Typography variant="h5">
+        Community Membership
+      </Typography>
+      <Typography variant="h3" color="primary">
+        {`${submission.name}, ${submission.role}`}
       </Typography>
       {intro}
       <Typography variant="body1" gutterBottom>
