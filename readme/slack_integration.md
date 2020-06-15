@@ -4,9 +4,9 @@ a webhook url has been defined to post notifications from a firebase function to
 
 ```bash
 # setting variable
-firebase functions:config:set slack_integration.webhook_url="SECRET_URL"
+./node_modules/.bin/firebase functions:config:set slack_integration.webhook_url="SECRET_URL"
 # retrieving variable
-firebase functions:config:get
+./node_modules/.bin/firebase functions:config:get
 {
   "slack_integration": {
     "webhook_url": "SECRET_URL"

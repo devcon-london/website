@@ -28,7 +28,7 @@ exports.notifyMembership = functions.firestore
     notifySlack(msg);
   });
 
-  // exports.testEmail = functions.https.onRequest(async (req, res) => {
+// exports.testEmail = functions.https.onRequest(async (req, res) => {
 //   if(!req.query.email || req.query.email.length < 1) {
 //     res.send('please use this service with ?email=email@email.com')
 //     return false

@@ -3,8 +3,8 @@ const functions = require('firebase-functions');
 const { IncomingWebhook } = require('@slack/webhook');
 
 exports.notifySlack = (msg) => {
-  const url = functions.config().slack_integration.webhook_url;
-  const webhook = new IncomingWebhook(url, {});
+  const URL = functions.config().slack_integration.webhook_url;
+  const webhook = new IncomingWebhook(URL, {});
 
   return webhook
     .send({
