@@ -9,7 +9,7 @@
     "classnames": "^2.2.6",
     "informed": "^2.11.17",
     "material-ui-popup-state": "^1.5.4",
-    "moment": "^2.26.0",
+    "moment": "^2.29.2",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
