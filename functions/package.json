@@ -14,7 +14,7 @@
   "dependencies": {
     "@sendgrid/mail": "^6.5.5",
     "@slack/webhook": "^5.0.3",
-    "firebase-admin": "^8.12.1",
+    "firebase-admin": "^11.4.1",
     "firebase-functions": "^3.7.0"
   },
   "private": true,
